@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using EasyBudget.Pages;
 
 namespace EasyBudget
 {
@@ -8,7 +9,7 @@ namespace EasyBudget
         {
             InitializeComponent();
 
-            MainPage = new EasyBudgetPage();
+            MainPage = new EasyBudgetMain();
         }
 
         protected override void OnStart()
