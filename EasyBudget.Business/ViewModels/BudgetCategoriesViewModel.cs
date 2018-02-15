@@ -26,6 +26,49 @@ namespace EasyBudget.Business.ViewModels
 
         public ICollection<BudgetCategoryViewModel> BudgetCategoryVMs { get; set; }
 
+        public string CurrentMonth {
+            get
+            {
+                return DateTime.Now.Month.ToString();
+            }
+        }
+
+        //public decimal CurrentMonthBudgetedIncome 
+        //{ 
+        //    get
+        //    {
+        //        return GetCurrentMonthBudgetedIncome();
+        //    }
+        //}
+
+        //public decimal CurrentMonthBudgetedExpense
+        //{
+        //    get
+        //    {
+        //        return GetCurrentMonthBudgetedExpense();
+        //    }
+        //}
+
+        //decimal GetCurrentMonthBudgetedIncome()
+        //{
+        //    decimal total = 0;
+        //    var tot = from inc in this.BudgetCategoryVMs
+        //              where inc.CategoryType == Models.BudgetCategoryType.Income
+        //              select inc.Amount;
+        //    total = tot.Sum();
+        //    return total;
+        //}
+
+        //decimal GetCurrentMonthBudgetedExpense()
+        //{
+        //    decimal total = 0;
+        //    var tot = from inc in this.BudgetCategoryVMs
+        //              where inc.CategoryType == Models.BudgetCategoryType.Expense
+        //              select inc.Amount;
+        //    total = tot.Sum();
+        //    return total;
+        //}
+
         public BudgetCategoriesViewModel(string dbFilePath)
             : base(dbFilePath)
         {
@@ -107,6 +150,8 @@ namespace EasyBudget.Business.ViewModels
                 CollectionChanged(sender, new NotifyCollectionChangedEventArgs(action));
             }
         }
+    
+        
     }
 
 }
