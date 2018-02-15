@@ -14,7 +14,6 @@
 //    limitations under the License.
 
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace EasyBudget.Models.DataModels
@@ -32,7 +31,6 @@ namespace EasyBudget.Models.DataModels
 
         public bool CanDelete { get; set; }
 
-        [NotMapped]
         [SQLite.Ignore]
         public bool IsNew { get; set; }
 

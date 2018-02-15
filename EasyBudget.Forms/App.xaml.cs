@@ -15,7 +15,8 @@ namespace EasyBudget.Forms
             InitializeComponent();
             var np = new NavigationPage(new MainPage());
 
-            np.On<Windows>().SetToolbarPlacement(ToolbarPlacement.Bottom);
+            // Toolbar
+            np.On<Windows>().SetToolbarPlacement(ToolbarPlacement.Default);
 
             MainPage = np;
         }

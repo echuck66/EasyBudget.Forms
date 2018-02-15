@@ -14,17 +14,16 @@
 //    limitations under the License.
 
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace EasyBudget.Models.DataModels
 {
-    [SQLite.Table("SavingsDeposit")]
+    [Table("SavingsDeposit")]
     public class SavingsDeposit : BaseObject
     {
         public int savingsAccountId { get; set; }
 
-        [SQLite.Ignore]
+        [Ignore]
         public virtual SavingsAccount savingsAccount { get; set; }
 
         public DateTime transactionDate { get; set; }
@@ -39,7 +38,7 @@ namespace EasyBudget.Models.DataModels
 
         public int? budgetIncomeId { get; set; }
 
-        [SQLite.Ignore]
+        [Ignore]
         public virtual IncomeItem budgetIncome { get; set; }
 
         public bool reconciled { get; set; }

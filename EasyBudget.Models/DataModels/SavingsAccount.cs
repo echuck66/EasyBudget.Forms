@@ -15,20 +15,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace EasyBudget.Models.DataModels
 {
-    [SQLite.Table("SavingsAccount")]
+    [Table("SavingsAccount")]
     public class SavingsAccount : BankAccount
     {
-        [NotMapped]
-        [SQLite.Ignore]
+        [Ignore]
         public ICollection<SavingsDeposit> deposits { get; set; }
 
-        [NotMapped]
-        [SQLite.Ignore]
+        [Ignore]
         public ICollection<SavingsWithdrawal> withdrawals { get; set; }
 
         public SavingsAccount()
