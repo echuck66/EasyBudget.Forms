@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 using Xamarin.Forms;
 
-namespace EasyBudget.Pages
+namespace EasyBudget.Forms.Pages
 {
-    public partial class EasyBudgetMain : ContentPage
+    public partial class MainPage : ContentPage
     {
-        public EasyBudgetMain()
+        public MainPage()
         {
             InitializeComponent();
         }
