@@ -14,24 +14,21 @@
 //    limitations under the License.
 
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace EasyBudget.Models.DataModels
 {
-    [SQLite.Table("BankAccountTransfer")]
+    [Table("BankAccountTransfer")]
     public class BankAccountFundsTransfer : BaseObject
     {
-        [NotMapped]
-        [SQLite.Ignore]
+        [Ignore]
         public BankAccount sourceAccount { get; set; }
 
         public int sourceAccountId { get; set; }
 
         public BankAccountType sourceAccountType { get; set; }
 
-        [NotMapped]
-        [SQLite.Ignore]
+        [Ignore]
         public BankAccount destinationAccount { get; set; }
 
         public int destinationAccountId { get; set; }

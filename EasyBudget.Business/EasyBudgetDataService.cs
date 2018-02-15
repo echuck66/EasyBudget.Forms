@@ -37,11 +37,17 @@ namespace EasyBudget.Business
 {
     public sealed class EasyBudgetDataService
     {
-        string dbFilePath;
+        
+        public static EasyBudgetDataService Instance { get; private set; }
 
-        public EasyBudgetDataService(string dbFilePath)
+        string dbFilePath;
+    
+        public EasyBudgetDataService(IDataServiceHelper serviceHelper)
         {
-            this.dbFilePath = dbFilePath;
+            if (Instance != null)
+                throw new Exception("Only one instance of EasyBudgetDataService is allowed!");
+            Instance = this;
+            this.dbFilePath = serviceHelper.DbFilePath;
         }
 
         private async Task EnsureSystemItemsExistAsync()

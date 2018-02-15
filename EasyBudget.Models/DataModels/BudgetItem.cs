@@ -13,7 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
-using System.ComponentModel.DataAnnotations;
+using SQLite;
 
 namespace EasyBudget.Models.DataModels
 {
@@ -21,7 +21,7 @@ namespace EasyBudget.Models.DataModels
     {
         public int budgetCategoryId { get; set; }
 
-        [SQLite.Ignore]
+        [Ignore]
         public virtual BudgetCategory budgetCategory { get; set; }
 
         public BudgetItemType ItemType { get; set; }

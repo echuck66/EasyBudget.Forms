@@ -15,12 +15,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using SQLite;
 
 namespace EasyBudget.Models.DataModels
 {
-    [SQLite.Table("BudgetCategory")]
+    [Table("BudgetCategory")]
     public class BudgetCategory : BaseObject
     {
         public BudgetCategory()
