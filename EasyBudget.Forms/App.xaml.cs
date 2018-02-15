@@ -1,15 +1,23 @@
-﻿using Xamarin.Forms;
-using EasyBudget.Pages;
+﻿using EasyBudget.Forms.Pages;
+using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
+using Xamarin.Forms.Xaml;
 
-namespace EasyBudget
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+
+namespace EasyBudget.Forms
 {
     public partial class App : Application
     {
         public App()
         {
             InitializeComponent();
+            var np = new NavigationPage(new MainPage());
 
-            MainPage = new EasyBudgetMain();
+            np.On<Windows>().SetToolbarPlacement(ToolbarPlacement.Bottom);
+
+            MainPage = np;
         }
 
         protected override void OnStart()
