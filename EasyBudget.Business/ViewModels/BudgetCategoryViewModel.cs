@@ -121,6 +121,7 @@ namespace EasyBudget.Business.ViewModels
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         internal async Task PopulateVMAsync(BudgetCategory category)
