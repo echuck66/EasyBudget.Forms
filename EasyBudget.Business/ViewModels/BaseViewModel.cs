@@ -22,35 +22,31 @@ namespace EasyBudget.Business.ViewModels
     {
         internal string dbFilePath;
 
-        public string ErrorCondition { get; set; }
+        StringBuilder sbErrorBuilder { get; set; }
+
+        public string ErrorCondition 
+        {
+            get
+            {
+                return sbErrorBuilder.ToString();
+            }
+        }
 
         internal BaseViewModel(string dbFilePath)
         {
             this.dbFilePath = dbFilePath;
+            sbErrorBuilder = new StringBuilder();
         }
 
         internal void WriteErrorCondition(string error)
         {
-            if (string.IsNullOrEmpty(this.ErrorCondition))
-                this.ErrorCondition = error;
-            else
-            {
-                StringBuilder sb = new StringBuilder(this.ErrorCondition);
-                sb.AppendLine(error);
-                this.ErrorCondition = sb.ToString();
-            }
+            sbErrorBuilder.AppendLine(error);
         }
 
         internal void WriteErrorCondition(Exception ex)
         {
-            if (string.IsNullOrEmpty(this.ErrorCondition))
-                this.ErrorCondition = ex.Message;
-            else
-            {
-                StringBuilder sb = new StringBuilder(this.ErrorCondition);
-                sb.AppendLine(ex.Message);
-                this.ErrorCondition = sb.ToString();
-            }
+            sbErrorBuilder.AppendLine(ex.Message);
+
             if (ex.InnerException != null)
             {
                 WriteErrorCondition(ex.InnerException);
