@@ -13,11 +13,18 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using EasyBudget.Models;
+
 namespace EasyBudget.Business.ViewModels
 {
 
     public abstract class WithdrawalViewModel : BaseViewModel
     {
+
+        public int accountId { get; set; }
+
+        public BankAccountType accountType { get; set; }
+
         internal WithdrawalViewModel(string dbFilePath)
             : base(dbFilePath)
         {

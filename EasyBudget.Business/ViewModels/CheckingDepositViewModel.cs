@@ -146,6 +146,7 @@ namespace EasyBudget.Business.ViewModels
         {
             this.model = deposit;
             this.accountType = Models.BankAccountType.Checking;
+            this.accountId = deposit.checkingAccountId;
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {

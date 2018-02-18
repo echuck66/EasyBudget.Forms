@@ -126,6 +126,7 @@ namespace EasyBudget.Business.ViewModels
         public void PopulateVM(SavingsDeposit deposit)
         {
             this.model = deposit;
+            this.accountId = deposit.savingsAccountId;
             this.accountType = Models.BankAccountType.Savings;
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {

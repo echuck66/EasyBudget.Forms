@@ -13,7 +13,9 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
@@ -126,13 +128,55 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public ICollection<BudgetCategory> BudgetCategories { get; set; }
+
         internal SavingsWithdrawalViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-
+            this.BudgetCategories = new List<BudgetCategory>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+        public void PopulateVM(SavingsWithdrawal withdrawal)
+        {
+            this.model = withdrawal;
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = Task.Run(() => uow.GetAllBudgetCategoriesAsync()).Result;
+                if (_results.Successful)
+                {
+                    foreach (BudgetCategory category in _results.Results)
+                    {
+                        if (category.categoryType == Models.BudgetCategoryType.Expense)
+                        {
+                            this.BudgetCategories.Add(category);
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task PopulateVMAsync(SavingsWithdrawal withdrawal)
+        {
+            this.model = withdrawal;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetAllBudgetCategoriesAsync();
+                if (_results.Successful)
+                {
+                    foreach (BudgetCategory category in _results.Results)
+                    {
+                        if (category.categoryType == Models.BudgetCategoryType.Expense)
+                        {
+                            this.BudgetCategories.Add(category);
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
@@ -169,6 +170,50 @@ namespace EasyBudget.Business.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public void PopulateVM(CheckingWithdrawal withdrawal)
+        {
+            this.model = withdrawal;
+            this.accountId = withdrawal.checkingAccountId;
+            this.accountType = Models.BankAccountType.Checking;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = Task.Run(() => uow.GetAllBudgetCategoriesAsync()).Result;
+                if (_results.Successful)
+                {
+                    foreach (BudgetCategory category in _results.Results)
+                    {
+                        if (category.categoryType == Models.BudgetCategoryType.Expense)
+                        {
+                            this.BudgetCategories.Add(category);
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task PopulateVMAsync(CheckingWithdrawal withdrawal)
+        {
+            this.model = withdrawal;
+            this.accountId = withdrawal.checkingAccountId;
+            this.accountType = Models.BankAccountType.Checking;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetAllBudgetCategoriesAsync();
+                if (_results.Successful)
+                {
+                    foreach (BudgetCategory category in _results.Results)
+                    {
+                        if (category.categoryType == Models.BudgetCategoryType.Expense)
+                        {
+                            this.BudgetCategories.Add(category);
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }
