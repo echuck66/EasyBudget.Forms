@@ -16,7 +16,12 @@ namespace EasyBudget.Forms.Pages
             InitializeComponent();
             ds = EasyBudgetDataService.Instance;
 
+        }
 
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            vm = await ds.GetStatusVM();
         }
     }
 }

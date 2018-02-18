@@ -66,21 +66,13 @@ namespace EasyBudget.Business
             return vm;
         }
 
-        //public async Task<IncomeItemViewModel> GetIncomeItemVMAsync(int itemId)
-        //{
-        //    IncomeItemViewModel vm = new IncomeItemViewModel(this.dbFilePath);
-        //    await vm.LoadIncomeItemAsync(itemId);
+        public async Task<EasyBudgetStatusViewModel> GetStatusVM()
+        {
+            EasyBudgetStatusViewModel vm = new EasyBudgetStatusViewModel(this.dbFilePath);
+            await vm.LoadStatusAsync();
 
-        //    return vm;
-        //}
-
-        //public async Task<ExpenseItemViewModel> GetExpenseItemVMAsync(int itemId)
-        //{
-        //    ExpenseItemViewModel vm = new ExpenseItemViewModel(this.dbFilePath);
-        //    await vm.LoadExpenseItemAsync(itemId);
-
-        //    return vm;
-        //}
+            return vm;
+        }
     
         public async Task<BankAccountsViewModel> GetBankAccountsViewModelAsync()
         {

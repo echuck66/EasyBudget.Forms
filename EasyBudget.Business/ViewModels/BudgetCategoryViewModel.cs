@@ -129,8 +129,6 @@ namespace EasyBudget.Business.ViewModels
             this.BudgetItemVMs = new ObservableCollection<BudgetItemViewModel>();
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         internal async Task PopulateVMAsync(BudgetCategory category)
