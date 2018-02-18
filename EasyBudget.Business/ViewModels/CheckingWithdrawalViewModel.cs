@@ -13,21 +13,212 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class CheckingWithdrawalViewModel : WithdrawalViewModel
+    public class CheckingWithdrawalViewModel : WithdrawalViewModel, INotifyPropertyChanged
     {
-        CheckingWithdrawal Withdrawal { get; set; }
+        CheckingWithdrawal model { get; set; }
+
+        public DateTime transactionDate 
+        {
+            get
+            {
+                return model.transactionDate;
+            }
+            set
+            {
+                if (model.transactionDate != value)
+                {
+                    model.transactionDate = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(transactionDate)));
+                }
+            }
+        }
+
+        public decimal transactionAmount 
+        {
+            get
+            {
+                return model.transactionAmount;
+            }
+            set
+            {
+                if (model.transactionAmount != value)
+                {
+                    model.transactionAmount = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(transactionAmount)));
+                }
+            }
+        }
+
+        public int checkNumber 
+        {
+            get
+            {
+                return model.checkNumber;
+            }
+            set
+            {
+                if (model.checkNumber != value)
+                {
+                    model.checkNumber = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(checkNumber)));
+                }
+            }
+        }
+
+        public string payToTheOrderOf 
+        {
+            get
+            {
+                return model.payToTheOrderOf;
+            }
+            set
+            {
+                if (model.payToTheOrderOf != value)
+                {
+                    model.payToTheOrderOf = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(payToTheOrderOf)));
+                }
+            }
+        }
+
+        public string memo 
+        {
+            get
+            {
+                return model.memo;
+            }
+            set
+            {
+                if (model.memo != value)
+                {
+                    model.memo = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(memo)));
+                }
+            }
+        }
+
+        public int? budgetExpenseId 
+        {
+            get
+            {
+                return model.budgetExpenseId;
+            }
+            set
+            {
+                if (model.budgetExpenseId != value)
+                {
+                    model.budgetExpenseId = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(budgetExpenseId)));
+                }
+            }
+        }
+
+        public bool reconciled 
+        {
+            get
+            {
+                return model.reconciled;
+            }
+            set
+            {
+                if (model.reconciled != value)
+                {
+                    model.reconciled = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(reconciled)));
+                }
+            }
+        }
+
+        public bool isTaxDeductable 
+        {
+            get
+            {
+                return model.isTaxDeductable;
+            }
+            set
+            {
+                if (model.isTaxDeductable != value)
+                {
+                    model.isTaxDeductable = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(isTaxDeductable)));
+                }
+            }
+        }
+
+        public ICollection<BudgetCategory> BudgetCategories { get; set; }
 
         internal CheckingWithdrawalViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-
+            this.BudgetCategories = new List<BudgetCategory>();
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void PopulateVM(CheckingWithdrawal withdrawal)
+        {
+            this.model = withdrawal;
+            this.accountId = withdrawal.checkingAccountId;
+            this.accountType = Models.BankAccountType.Checking;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = Task.Run(() => uow.GetAllBudgetCategoriesAsync()).Result;
+                if (_results.Successful)
+                {
+                    foreach (BudgetCategory category in _results.Results)
+                    {
+                        if (category.categoryType == Models.BudgetCategoryType.Expense)
+                        {
+                            this.BudgetCategories.Add(category);
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task PopulateVMAsync(CheckingWithdrawal withdrawal)
+        {
+            this.model = withdrawal;
+            this.accountId = withdrawal.checkingAccountId;
+            this.accountType = Models.BankAccountType.Checking;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetAllBudgetCategoriesAsync();
+                if (_results.Successful)
+                {
+                    foreach (BudgetCategory category in _results.Results)
+                    {
+                        if (category.categoryType == Models.BudgetCategoryType.Expense)
+                        {
+                            this.BudgetCategories.Add(category);
+                        }
+                    }
+                }
+            }
+        }
+
+        public async override Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
