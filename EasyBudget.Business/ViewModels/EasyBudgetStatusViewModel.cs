@@ -38,5 +38,20 @@ namespace EasyBudget.Business.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public async Task LoadStatusAsync()
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _resultsChecking = await uow.GetAllCheckingAccountsAsync();
+                var _resultsSavings = await uow.GetAllSavingsAccountsAsync();
+                var _resultsCategories = await uow.GetAllBudgetCategoriesAsync();
+
+                if (_resultsChecking.Successful && _resultsSavings.Successful && _resultsCategories.Successful)
+                {
+                    
+                }
+            }
+        }
     }
 }
