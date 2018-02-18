@@ -15,16 +15,54 @@
 using System;
 using System.Threading.Tasks;
 using EasyBudget.Models;
+using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
 {
 
     public abstract class WithdrawalViewModel : BaseViewModel
     {
+        internal BankAccount accountModel { get; set; }
 
-        public int accountId { get; set; }
+        public string BankName
+        {
+            get
+            {
+                return accountModel.bankName;
+            }
+        }
 
-        public BankAccountType accountType { get; set; }
+        public string RoutingNumber
+        {
+            get
+            {
+                return accountModel.routingNumber;
+            }
+        }
+
+        public string AccountNumber
+        {
+            get
+            {
+                return accountModel.accountNumber;
+            }
+        }
+
+        public int accountId
+        {
+            get
+            {
+                return accountModel.id;
+            }
+        }
+
+        public BankAccountType accountType
+        {
+            get
+            {
+                return accountModel.accountType;
+            }
+        }
 
         internal WithdrawalViewModel(string dbFilePath)
             : base(dbFilePath)

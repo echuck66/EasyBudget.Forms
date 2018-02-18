@@ -126,8 +126,7 @@ namespace EasyBudget.Business.ViewModels
         public void PopulateVM(SavingsDeposit deposit)
         {
             this.model = deposit;
-            this.accountId = deposit.savingsAccountId;
-            this.accountType = Models.BankAccountType.Savings;
+            this.accountModel = deposit.savingsAccount;
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
                 var _results = Task.Run(() => uow.GetAllBudgetCategoriesAsync()).Result;
@@ -147,7 +146,7 @@ namespace EasyBudget.Business.ViewModels
         public async Task PopulateVMAsync(SavingsDeposit deposit)
         {
             this.model = deposit;
-            this.accountType = Models.BankAccountType.Savings;
+            this.accountModel = deposit.savingsAccount;
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
