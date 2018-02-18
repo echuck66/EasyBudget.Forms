@@ -13,6 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.Threading.Tasks;
 using EasyBudget.Models;
 
 namespace EasyBudget.Business.ViewModels
@@ -30,5 +31,7 @@ namespace EasyBudget.Business.ViewModels
         {
 
         }
+
+        public abstract Task SaveChangesAsync();
     }
 }

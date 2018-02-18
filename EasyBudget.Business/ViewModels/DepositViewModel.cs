@@ -14,6 +14,7 @@
 //    limitations under the License.
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
 
@@ -33,6 +34,7 @@ namespace EasyBudget.Business.ViewModels
 
         }
 
+        public abstract Task SaveChangesAsync();
 
     }
 

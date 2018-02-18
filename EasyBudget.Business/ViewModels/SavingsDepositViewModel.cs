@@ -164,5 +164,10 @@ namespace EasyBudget.Business.ViewModels
                 }
             }
         }
+
+        public async override Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

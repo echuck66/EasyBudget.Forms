@@ -14,16 +14,18 @@
 //    limitations under the License.
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
+using Xamarin.Forms;
 
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BudgetCategoryViewModel : BaseViewModel, INotifyCollectionChanged, INotifyPropertyChanged
+    public class BudgetCategoryViewModel : BaseViewModel, INotifyPropertyChanged
     {
         BudgetCategory model { get; set; }
 
@@ -119,12 +121,12 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public ICollection<BudgetItemViewModel> BudgetItemVMs { get; set; }
+        public ObservableCollection<BudgetItemViewModel> BudgetItemVMs { get; set; }
 
         public BudgetCategoryViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.BudgetItemVMs = new List<BudgetItemViewModel>();
+            this.BudgetItemVMs = new ObservableCollection<BudgetItemViewModel>();
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -263,8 +265,6 @@ namespace EasyBudget.Business.ViewModels
         {
             bool _saveOk = true;
 
-            //BudgetCategory _category;
-
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
                 if (this.IsNew)
@@ -325,24 +325,29 @@ namespace EasyBudget.Business.ViewModels
                 }
 
             }
+
+            if (_saveOk)
+            {
+                foreach(var item in BudgetItemVMs)
+                {
+                    if (item.IsDirty)
+                    {
+                        await item.SaveChangesAsync();
+                    }
+                }
+            }
         }
 
         public BudgetItemViewModel AddBudgetItem()
         {
-            BudgetItemViewModel item = new BudgetItemViewModel(this.dbFilePath);
-            item.ItemType = this.CategoryType == BudgetCategoryType.Expense ? BudgetItemType.Expense : BudgetItemType.Income;
-            item.IsNew = true;
-            this.BudgetItemVMs.Add(item);
-            OnCollectionChanged(this, NotifyCollectionChangedAction.Add);
-            return item;
-        }
+            BudgetItemViewModel vm = new BudgetItemViewModel(this.dbFilePath);
+            vm.ItemType = this.CategoryType == BudgetCategoryType.Expense ? BudgetItemType.Expense : BudgetItemType.Income;
+            vm.IsNew = true;
+            Device.BeginInvokeOnMainThread(() => {
+                this.BudgetItemVMs.Add(vm);
+            });
 
-        public void OnCollectionChanged(object sender, NotifyCollectionChangedAction action)
-        {
-            if (CollectionChanged != null)
-            {
-                CollectionChanged(sender, new NotifyCollectionChangedEventArgs(action));
-            }
+            return vm;
         }
     }
 

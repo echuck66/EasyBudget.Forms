@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
+using Xamarin.Forms;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -145,59 +146,434 @@ namespace EasyBudget.Business.ViewModels
 
         internal async Task PopulateVMAsync(BankAccount account)
         {
-            await Task.Run(() => this.model = account);
+            this.model = account;
 
+            await LoadDepositsAsync(false);
+            await LoadWithdrawalsAsync(false);
 
-            //using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            //{
-            //    switch (Account.accountType)
-            //    {
-            //        case BankAccountType.Checking:
-            //            var _resultsChecking = await uow.GetCheckingAccountAsync(id);
-            //            if (_resultsChecking.Successful)
-            //            {
-            //                this.Account = _resultsChecking.Results;
-            //            }
-            //            else
-            //            {
-            //                if (_resultsChecking.WorkException != null)
-            //                {
-            //                    WriteErrorCondition(_resultsChecking.WorkException);
-            //                }
-            //                else if (!string.IsNullOrEmpty(_resultsChecking.Message))
-            //                {
-            //                    WriteErrorCondition(_resultsChecking.Message);
-            //                }
-            //                else
-            //                {
-            //                    WriteErrorCondition("An unknown error has occurred");
-            //                }
-            //            }
-            //            break;
-            //        case BankAccountType.Savings:
-            //            var _resultsSavings = await uow.GetSavingsAccountAsync(id);
-            //            if (_resultsSavings.Successful)
-            //            {
-            //                this.Account = _resultsSavings.Results;
-            //            }
-            //            else
-            //            {
-            //                if (_resultsSavings.WorkException != null)
-            //                {
-            //                    WriteErrorCondition(_resultsSavings.WorkException);
-            //                }
-            //                else if (!string.IsNullOrEmpty(_resultsSavings.Message))
-            //                {
-            //                    WriteErrorCondition(_resultsSavings.Message);
-            //                }
-            //                else
-            //                {
-            //                    WriteErrorCondition("An unknown error has occurred");
-            //                }
-            //            }
-            //            break;
-            //    }
-            //}
+        }
+
+        public async Task AddDepositAsync()
+        {
+            switch (this.AccountType)
+            {
+                case BankAccountType.Checking:
+                    await AddCheckingDepositAsync();
+                    break;
+                case BankAccountType.Savings:
+                    await AddSavingsDepositAsync();
+                    break;
+            }
+        }
+
+        public async Task AddWithdrawalAsync()
+        {
+            switch (this.AccountType)
+            {
+                case BankAccountType.Checking:
+                    await AddCheckingWithdrawalAsync();
+                    break;
+                case BankAccountType.Savings:
+                    await AddSavingsWithdrawalAsync();
+                    break;
+            }
+        }
+
+        async Task AddCheckingDepositAsync()
+        {
+            CheckingDepositViewModel vm = new CheckingDepositViewModel(this.dbFilePath);
+            vm.IsNew = true;
+            vm.CanEdit = true;
+            vm.CanDelete = false;
+
+            CheckingDeposit deposit = new CheckingDeposit();
+            deposit.checkingAccount = model as CheckingAccount;
+            deposit.checkingAccountId = model.id;
+
+            await vm.PopulateVMAsync(deposit);
+            
+            Device.BeginInvokeOnMainThread(() => {
+                this.Deposits.Add(vm);
+            });
+
+        }
+
+        async Task AddSavingsDepositAsync()
+        {
+            SavingsDepositViewModel vm = new SavingsDepositViewModel(this.dbFilePath);
+            vm.IsNew = true;
+            vm.CanEdit = true;
+            vm.CanDelete = false;
+
+            SavingsDeposit deposit = new SavingsDeposit();
+            deposit.savingsAccount = model as SavingsAccount;
+            deposit.savingsAccountId = model.id;
+
+            await vm.PopulateVMAsync(deposit);
+
+            Device.BeginInvokeOnMainThread(() => {
+                this.Deposits.Add(vm);
+            });
+        }
+
+        async Task AddCheckingWithdrawalAsync()
+        {
+            CheckingWithdrawalViewModel vm = new CheckingWithdrawalViewModel(this.dbFilePath);
+            vm.IsNew = true;
+            vm.CanEdit = true;
+            vm.CanDelete = false;
+
+            CheckingWithdrawal withdrawal = new CheckingWithdrawal();
+            withdrawal.checkingAccount = model as CheckingAccount;
+            withdrawal.checkingAccountId = model.id;
+
+            await vm.PopulateVMAsync(withdrawal);
+
+            Device.BeginInvokeOnMainThread(() => {
+                this.Withdrawals.Add(vm);
+            });
+        }
+
+        async Task AddSavingsWithdrawalAsync()
+        {
+            SavingsWithdrawalViewModel vm = new SavingsWithdrawalViewModel(this.dbFilePath);
+            vm.IsNew = true;
+            vm.CanEdit = true;
+            vm.CanDelete = false;
+
+            SavingsWithdrawal withdrawal = new SavingsWithdrawal();
+            withdrawal.savingsAccount = model as SavingsAccount;
+            withdrawal.savingsAccountId = model.id;
+
+            await vm.PopulateVMAsync(withdrawal);
+
+            Device.BeginInvokeOnMainThread(() => {
+                this.Withdrawals.Add(vm);
+            });
+        }
+
+        public async Task LoadDepositsAsync(bool getReconciled = false)
+        {
+            switch (this.AccountType)
+            {
+                case BankAccountType.Checking:
+                    await LoadCheckingDeposits(getReconciled);
+                    break;
+                case BankAccountType.Savings:
+                    await LoadSavingsDeposits(getReconciled);
+                    break;
+            }
+        }
+
+        public async Task LoadWithdrawalsAsync(bool getReconciled = false)
+        {
+            switch (this.AccountType)
+            {
+                case BankAccountType.Checking:
+                    await LoadCheckingWithdrawals(getReconciled);
+                    break;
+                case BankAccountType.Savings:
+                    await LoadSavingsWithdrawals(getReconciled);
+                    break;
+            }
+        }
+
+        async Task LoadCheckingDeposits(bool getReconciled = false)
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetCheckingDepositsAsync(model.id, getReconciled);
+                if (_results.Successful)
+                {
+                    foreach(var deposit in _results.Results)
+                    {
+                        deposit.checkingAccount = model as CheckingAccount;
+
+                        CheckingDepositViewModel vm = new CheckingDepositViewModel(this.dbFilePath);
+                        vm.IsNew = false;
+                        vm.CanEdit = true;
+                        vm.CanDelete = true;
+                        await vm.PopulateVMAsync(deposit);
+
+                        this.Deposits.Add(vm);
+                    }
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred loading deposit records");
+                    }
+                }
+            }
+        }
+
+        async Task LoadCheckingWithdrawals(bool getReconciled = false)
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetCheckingWithdrawalsAsync(model.id, getReconciled);
+                if (_results.Successful)
+                {
+                    foreach (var withdrawal in _results.Results)
+                    {
+                        withdrawal.checkingAccount = model as CheckingAccount;
+
+                        CheckingWithdrawalViewModel vm = new CheckingWithdrawalViewModel(this.dbFilePath);
+                        vm.IsNew = false;
+                        vm.CanEdit = true;
+                        vm.CanDelete = true;
+                        await vm.PopulateVMAsync(withdrawal);
+
+                        this.Withdrawals.Add(vm);
+                    }
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred loading withdrawal records");
+                    }
+                }
+            }
+        }
+
+        async Task LoadSavingsDeposits(bool getReconciled = false)
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetSavingsDepositsAsync(model.id, getReconciled);
+                if (_results.Successful)
+                {
+                    foreach (var deposit in _results.Results)
+                    {
+                        deposit.savingsAccount = model as SavingsAccount;
+
+                        SavingsDepositViewModel vm = new SavingsDepositViewModel(this.dbFilePath);
+                        vm.IsNew = false;
+                        vm.CanEdit = true;
+                        vm.CanDelete = true;
+                        await vm.PopulateVMAsync(deposit);
+
+                        this.Deposits.Add(vm);
+                    }
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred loading deposit records");
+                    }
+                }
+            }
+        }
+
+        async Task LoadSavingsWithdrawals(bool getReconciled = false)
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetSavingsWithdrawalsAsync(model.id, getReconciled);
+                if (_results.Successful)
+                {
+                    foreach (var withdrawal in _results.Results)
+                    {
+                        withdrawal.savingsAccount = model as SavingsAccount;
+
+                        SavingsWithdrawalViewModel vm = new SavingsWithdrawalViewModel(this.dbFilePath);
+                        vm.IsNew = false;
+                        vm.CanEdit = true;
+                        vm.CanDelete = true;
+                        await vm.PopulateVMAsync(withdrawal);
+
+                        this.Withdrawals.Add(vm);
+                    }
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred loading withdrawal records");
+                    }
+                }
+            }
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            bool _saveOk = true;
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                switch (this.AccountType)
+                {
+                    case BankAccountType.Checking:
+                        if (this.IsNew)
+                        {
+                            var _resultsAddChecking = await uow.AddCheckingAccountAsync(model as CheckingAccount);
+                            _saveOk = _resultsAddChecking.Successful;
+                            if (_saveOk)
+                            {
+                                this.IsDirty = false;
+                                this.IsNew = false;
+                                this.CanEdit = true;
+                                this.CanDelete = true;
+                                model = _resultsAddChecking.Results;
+                            }
+                            else
+                            {
+                                if (_resultsAddChecking.WorkException != null)
+                                {
+                                    WriteErrorCondition(_resultsAddChecking.WorkException);
+                                }
+                                else if (!string.IsNullOrEmpty(_resultsAddChecking.Message))
+                                {
+                                    WriteErrorCondition(_resultsAddChecking.Message);
+                                }
+                                else
+                                {
+                                    WriteErrorCondition("An unknown error has occurred saving account record");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var _resultsUpdateChecking = await uow.UpdateCheckingAccountAsync(model as CheckingAccount);
+                            _saveOk = _resultsUpdateChecking.Successful;
+                            if (_saveOk)
+                            {
+                                this.IsDirty = false;
+                                this.IsNew = false;
+                                this.CanEdit = true;
+                                this.CanDelete = true;
+                                model = _resultsUpdateChecking.Results;
+                            }
+                            else
+                            {
+                                if (_resultsUpdateChecking.WorkException != null)
+                                {
+                                    WriteErrorCondition(_resultsUpdateChecking.WorkException);
+                                }
+                                else if (!string.IsNullOrEmpty(_resultsUpdateChecking.Message))
+                                {
+                                    WriteErrorCondition(_resultsUpdateChecking.Message);
+                                }
+                                else
+                                {
+                                    WriteErrorCondition("An unknown error has occurred saving account record");
+                                }
+                            }
+                        }
+                        break;
+                    case BankAccountType.Savings:
+                        if (this.IsNew)
+                        {
+                            var _resultsAddSavings = await uow.AddSavingsAccountAsync(model as SavingsAccount);
+                            _saveOk = _resultsAddSavings.Successful;
+                            if (_saveOk)
+                            {
+                                this.IsDirty = false;
+                                this.IsNew = false;
+                                this.CanEdit = true;
+                                this.CanDelete = true;
+                                model = _resultsAddSavings.Results;
+                            }
+                            else
+                            {
+                                if (_resultsAddSavings.WorkException != null)
+                                {
+                                    WriteErrorCondition(_resultsAddSavings.WorkException);
+                                }
+                                else if (!string.IsNullOrEmpty(_resultsAddSavings.Message))
+                                {
+                                    WriteErrorCondition(_resultsAddSavings.Message);
+                                }
+                                else
+                                {
+                                    WriteErrorCondition("An unknown error has occurred saving account record");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var _resultsUpdateSavings = await uow.UpdateSavingsAccountAsync(model as SavingsAccount);
+                            _saveOk = _resultsUpdateSavings.Successful;
+                            if (_saveOk)
+                            {
+                                this.IsDirty = false;
+                                this.IsNew = false;
+                                this.CanEdit = true;
+                                this.CanDelete = true;
+                                model = _resultsUpdateSavings.Results;
+                            }
+                            else
+                            {
+                                if (_resultsUpdateSavings.WorkException != null)
+                                {
+                                    WriteErrorCondition(_resultsUpdateSavings.WorkException);
+                                }
+                                else if (!string.IsNullOrEmpty(_resultsUpdateSavings.Message))
+                                {
+                                    WriteErrorCondition(_resultsUpdateSavings.Message);
+                                }
+                                else
+                                {
+                                    WriteErrorCondition("An unknown error has occurred saving account record");
+                                }
+                            }
+                        }
+                        break;
+                }
+
+                if (_saveOk)
+                {
+                    foreach (var withdrawal in this.Withdrawals)
+                    {
+                        if (withdrawal.IsDirty)
+                        {
+                            await withdrawal.SaveChangesAsync();
+                        }
+                    }
+
+                    foreach (var deposit in this.Deposits)
+                    {
+                        if (deposit.IsDirty)
+                        {
+                            await deposit.SaveChangesAsync();
+                        }
+                    }
+                }
+            }
         }
     }
 }
