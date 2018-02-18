@@ -13,6 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
@@ -64,10 +65,15 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public ICollection<BudgetCategory> BudgetCategories { get; set; }
+
+        public ICollection<BudgetItem> BudgetItems { get; set; }
+
         internal WithdrawalViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-
+            this.BudgetItems = new List<BudgetItem>();
+            this.BudgetCategories = new List<BudgetCategory>();
         }
 
         public abstract Task SaveChangesAsync();

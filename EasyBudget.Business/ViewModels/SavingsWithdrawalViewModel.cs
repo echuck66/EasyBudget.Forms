@@ -128,12 +128,10 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public ICollection<BudgetCategory> BudgetCategories { get; set; }
-
         internal SavingsWithdrawalViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.BudgetCategories = new List<BudgetCategory>();
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
