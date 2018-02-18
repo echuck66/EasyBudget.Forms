@@ -33,10 +33,6 @@ namespace EasyBudget.Models.DataModels
 
         public decimal budgetAmount { get; set; }
 
-        public bool systemCategory { get; set; }
-
-        public bool userSelected { get; set; }
-
         public AppIcon categoryIcon { get; set; }
 
         public BudgetCategoryType categoryType { get; set; }

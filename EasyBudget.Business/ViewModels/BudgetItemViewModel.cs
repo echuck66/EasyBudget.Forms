@@ -23,145 +23,151 @@ namespace EasyBudget.Business.ViewModels
 
     public class BudgetItemViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        public int CategoryId { get; set; }
+        BudgetItem BudgetItem { get; set; }
 
-        public int BudgetItemId { get; set; }
+        public string CategoryName 
+        {
+            get 
+            {
+                return BudgetItem.budgetCategory?.categoryName;
+            }
+        }
 
-        public string CategoryName { get; set; }
+        public BudgetItemType ItemType 
+        {
+            get
+            {
+                return BudgetItem.ItemType;
+            }
+            set
+            {
+                if (BudgetItem.ItemType != value)
+                {
+                    BudgetItem.ItemType = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemType)));
+                }
+            }
+        }
 
-        public BudgetItemType ItemType { get; set; }
-
-        decimal _BudgetedAmount;
         public decimal BudgetedAmount 
         {
             get
             {
-                return _BudgetedAmount;
+                return BudgetItem.BudgetedAmount;
             }
             set
             {
-                if (_BudgetedAmount != value) 
+                if (BudgetItem.BudgetedAmount != value) 
                 {
-                    _BudgetedAmount = value;
+                    BudgetItem.BudgetedAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetedAmount)));
                 }
             }
         }
 
-        string _ItemDescription;
         public string ItemDescription 
         {
             get
             {
-                return _ItemDescription;
+                return BudgetItem.description;
             }
             set
             {
-                if (_ItemDescription != value)
+                if (BudgetItem.description != value)
                 {
-                    _ItemDescription = value;
+                    BudgetItem.description = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemDescription)));
                 }
             }
         }
 
-        string _ItemNotation;
         public string ItemNotation 
         {
             get
             {
-                return _ItemNotation;
+                return BudgetItem.notation;
             }
             set 
             {
-                if (_ItemNotation != value) 
+                if (BudgetItem.notation != value) 
                 {
-                    _ItemNotation = value;
+                    BudgetItem.notation = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemNotation)));
                 }
             }
         }
 
-        bool _IsRecurring;
         public bool IsRecurring 
         {
             get
             {
-                return _IsRecurring;
+                return BudgetItem.recurring;
             }
             set 
             {
-                if (_IsRecurring != value) 
+                if (BudgetItem.recurring != value) 
                 {
-                    _IsRecurring = value;
+                    BudgetItem.recurring = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRecurring)));
                 }
             }
         }
 
-        Frequency _ItemFrequency;
         public Frequency ItemFrequency 
         {
             get 
             {
-                return _ItemFrequency;
+                return BudgetItem.frequency;
             }
             set 
             {
-                if (_ItemFrequency != value) 
+                if (BudgetItem.frequency != value) 
                 {
-                    _ItemFrequency = value;
+                    BudgetItem.frequency = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemFrequency)));
                 }
             }
         }
 
-        DateTime _StartDate;
         public DateTime StartDate 
         {
             get 
             {
-                return _StartDate;
+                return BudgetItem.StartDate;
             }
             set
             {
-                if (_StartDate != value) 
+                if (BudgetItem.StartDate != value) 
                 {
-                    _StartDate = value;
+                    BudgetItem.StartDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
                 }
             }
         }
 
-        DateTime? _EndDate;
         public DateTime? EndDate 
         {
             get
             {
-                return _EndDate;
+                return BudgetItem.EndDate;
             }
             set
             {
-                if (_EndDate != value) 
+                if (BudgetItem.EndDate != value) 
                 {
-                    _EndDate = value;
+                    BudgetItem.EndDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
                 }
             }
         }
-
-        public bool CanEdit { get; set; }
-
-        public bool CanDelete { get; set; }
-
-        public bool IsNew { get; set; }
 
         public bool IsDirty { get; set; }
 
@@ -213,23 +219,7 @@ namespace EasyBudget.Business.ViewModels
                 {
                     item.budgetCategory = await GetBudgetCategoryAsync(item.budgetCategoryId);
                 }
-                if (item.budgetCategory != null)
-                {
-                    this.CategoryId = item.budgetCategoryId;
-                    this.BudgetItemId = item.id;
-                    this.CategoryName = item.budgetCategory.categoryName;
-                    this.ItemType = item.ItemType;
-                    _BudgetedAmount = item.BudgetedAmount;
-                    _ItemDescription = item.description;
-                    _ItemNotation = item.notation;
-                    _StartDate = item.StartDate;
-                    _EndDate = item.EndDate;
-                    _IsRecurring = item.recurring;
-                    _ItemFrequency = item.frequency;
-                    this.CanEdit = item.CanEdit;
-                    this.CanDelete = item.CanDelete;
-                    this.IsNew = item.IsNew;
-                }
+                this.BudgetItem = item;
             }
         }
 
@@ -242,75 +232,37 @@ namespace EasyBudget.Business.ViewModels
                 switch (this.ItemType)
                 {
                     case BudgetItemType.Expense:
-                        var _resultsGetExpenseItem = await uow.GetExpenseItemAsync(this.BudgetItemId);
-                        if (_resultsGetExpenseItem.Successful)
+
+                        var _resultsDeleteExpense = await uow.DeleteExpenseItemAsync(this.BudgetItem as ExpenseItem);
+                        deleted = _resultsDeleteExpense.Successful;
+                        if (!_resultsDeleteExpense.Successful)
                         {
-                            var _resultsDeleteExpense = await uow.DeleteExpenseItemAsync(_resultsGetExpenseItem.Results);
-                            deleted = _resultsDeleteExpense.Successful;
-                            if (!_resultsDeleteExpense.Successful)
+                            if (_resultsDeleteExpense.WorkException != null)
                             {
-                                if (_resultsDeleteExpense.WorkException != null)
-                                {
-                                    WriteErrorCondition(_resultsDeleteExpense.WorkException);
-                                }
-                                else if (!string.IsNullOrEmpty(_resultsDeleteExpense.Message))
-                                {
-                                    WriteErrorCondition(_resultsDeleteExpense.Message);
-                                }
-                                else
-                                {
-                                    WriteErrorCondition("An unknown error has occurred loading item's BudgetCategory object");
-                                }
+                                WriteErrorCondition(_resultsDeleteExpense.WorkException);
                             }
-                        }
-                        else
-                        {
-                            if (_resultsGetExpenseItem.WorkException != null)
+                            else if (!string.IsNullOrEmpty(_resultsDeleteExpense.Message))
                             {
-                                WriteErrorCondition(_resultsGetExpenseItem.WorkException);
-                            }
-                            else if (!string.IsNullOrEmpty(_resultsGetExpenseItem.Message))
-                            {
-                                WriteErrorCondition(_resultsGetExpenseItem.Message);
+                                WriteErrorCondition(_resultsDeleteExpense.Message);
                             }
                             else
                             {
                                 WriteErrorCondition("An unknown error has occurred loading item's BudgetCategory object");
                             }
                         }
-
                         break;
                     case BudgetItemType.Income:
-                        var _resultsGetIncomeItem = await uow.GetIncomeItemAsync(this.BudgetItemId);
-                        if (_resultsGetIncomeItem.Successful)
+                        var _resultsDeleteIncome = await uow.DeleteIncomeItemAsync(this.BudgetItem as IncomeItem);
+                        deleted = _resultsDeleteIncome.Successful;
+                        if (!_resultsDeleteIncome.Successful)
                         {
-                            var _resultsDeleteIncome = await uow.DeleteIncomeItemAsync(_resultsGetIncomeItem.Results);
-                            deleted = _resultsDeleteIncome.Successful;
-                            if (!_resultsDeleteIncome.Successful)
+                            if (_resultsDeleteIncome.WorkException != null)
                             {
-                                if (_resultsDeleteIncome.WorkException != null)
-                                {
-                                    WriteErrorCondition(_resultsDeleteIncome.WorkException);
-                                }
-                                else if (!string.IsNullOrEmpty(_resultsDeleteIncome.Message))
-                                {
-                                    WriteErrorCondition(_resultsDeleteIncome.Message);
-                                }
-                                else
-                                {
-                                    WriteErrorCondition("An unknown error has occurred loading item's BudgetCategory object");
-                                }
+                                WriteErrorCondition(_resultsDeleteIncome.WorkException);
                             }
-                        }
-                        else
-                        {
-                            if (_resultsGetIncomeItem.WorkException != null)
+                            else if (!string.IsNullOrEmpty(_resultsDeleteIncome.Message))
                             {
-                                WriteErrorCondition(_resultsGetIncomeItem.WorkException);
-                            }
-                            else if (!string.IsNullOrEmpty(_resultsGetIncomeItem.Message))
-                            {
-                                WriteErrorCondition(_resultsGetIncomeItem.Message);
+                                WriteErrorCondition(_resultsDeleteIncome.Message);
                             }
                             else
                             {
@@ -327,7 +279,6 @@ namespace EasyBudget.Business.ViewModels
         public async Task SaveChangesAsync()
         {
             bool _saveOk = true;
-            BudgetItem item;
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
                 if (this.IsNew)
@@ -335,22 +286,16 @@ namespace EasyBudget.Business.ViewModels
                     switch (this.ItemType)
                     {
                         case BudgetItemType.Expense:
-                            item = new ExpenseItem();
-                            item.budgetCategoryId = this.CategoryId;
-                            item.BudgetedAmount = this.BudgetedAmount;
-                            item.CanDelete = this.CanDelete;
-                            item.CanEdit = this.CanEdit;
-                            item.description = this.ItemDescription;
-                            item.EndDate = this.EndDate;
-                            item.StartDate = this.StartDate;
-                            item.frequency = this.ItemFrequency;
-                            item.IsNew = this.IsNew;
-                            item.ItemType = this.ItemType;
-                            item.notation = this.ItemNotation;
-                            item.recurring = this.IsRecurring;
-                            var _resultsAddExpense = await uow.AddExpenseItemAsync(item as ExpenseItem);
+                            var _resultsAddExpense = await uow.AddExpenseItemAsync(this.BudgetItem as ExpenseItem);
                             _saveOk = _resultsAddExpense.Successful;
-                            if (!_saveOk)
+                            if (_saveOk)
+                            {
+                                this.BudgetItem = _resultsAddExpense.Results;
+                                this.IsNew = false;
+                                this.CanEdit = true;
+                                this.CanDelete = true;
+                            }
+                            else
                             {
                                 if (_resultsAddExpense.WorkException != null)
                                 {
@@ -367,22 +312,16 @@ namespace EasyBudget.Business.ViewModels
                             }
                             break;
                         case BudgetItemType.Income:
-                            item = new IncomeItem();
-                            item.budgetCategoryId = this.CategoryId;
-                            item.BudgetedAmount = this.BudgetedAmount;
-                            item.CanDelete = this.CanDelete;
-                            item.CanEdit = this.CanEdit;
-                            item.description = this.ItemDescription;
-                            item.EndDate = this.EndDate;
-                            item.StartDate = this.StartDate;
-                            item.frequency = this.ItemFrequency;
-                            item.IsNew = this.IsNew;
-                            item.ItemType = this.ItemType;
-                            item.notation = this.ItemNotation;
-                            item.recurring = this.IsRecurring;
-                            var _resultsAddIncome = await uow.AddIncomeItemAsync(item as IncomeItem);
+                            var _resultsAddIncome = await uow.AddIncomeItemAsync(this.BudgetItem as IncomeItem);
                             _saveOk = _resultsAddIncome.Successful;
-                            if (!_saveOk)
+                            if (_saveOk)
+                            {
+                                this.BudgetItem = _resultsAddIncome.Results;
+                                this.IsNew = false;
+                                this.CanEdit = true;
+                                this.CanDelete = true;
+                            }
+                            else
                             {
                                 if (_resultsAddIncome.WorkException != null)
                                 {
@@ -405,117 +344,64 @@ namespace EasyBudget.Business.ViewModels
                     switch (this.ItemType)
                     {
                         case BudgetItemType.Expense:
-                            var _resultsGetExpense = await uow.GetExpenseItemAsync(this.BudgetItemId);
-                            if (_resultsGetExpense.Successful)
+                            var _resultsUpdateExpense = await uow.UpdateExpenseItemAsync(this.BudgetItem as ExpenseItem);
+                            _saveOk = _resultsUpdateExpense.Successful;
+                            if (_saveOk)
                             {
-                                item = _resultsGetExpense.Results;
-                                item.budgetCategoryId = this.CategoryId;
-                                item.BudgetedAmount = this.BudgetedAmount;
-                                item.CanDelete = this.CanDelete;
-                                item.CanEdit = this.CanEdit;
-                                item.description = this.ItemDescription;
-                                item.EndDate = this.EndDate;
-                                item.StartDate = this.StartDate;
-                                item.frequency = this.ItemFrequency;
-                                item.IsNew = this.IsNew;
-                                item.ItemType = this.ItemType;
-                                item.notation = this.ItemNotation;
-                                item.recurring = this.IsRecurring;
-                                var _resultsUpdateExpense = await uow.UpdateExpenseItemAsync(item as ExpenseItem);
-                                _saveOk = _resultsUpdateExpense.Successful;
-                                if (!_saveOk)
-                                {
-                                    if (_resultsUpdateExpense.WorkException != null)
-                                    {
-                                        WriteErrorCondition(_resultsUpdateExpense.WorkException);
-                                    }
-                                    else if (!string.IsNullOrEmpty(_resultsUpdateExpense.Message))
-                                    {
-                                        WriteErrorCondition(_resultsUpdateExpense.Message);
-                                    }
-                                    else
-                                    {
-                                        WriteErrorCondition("An unknown error has occurred updating budget item object");
-                                    }
-                                }
+                                this.BudgetItem = _resultsUpdateExpense.Results;
+                                this.IsNew = false;
+                                this.CanEdit = true;
+                                this.CanDelete = true;
                             }
                             else
                             {
-                                if (_resultsGetExpense.WorkException != null)
+                                if (_resultsUpdateExpense.WorkException != null)
                                 {
-                                    WriteErrorCondition(_resultsGetExpense.WorkException);
+                                    WriteErrorCondition(_resultsUpdateExpense.WorkException);
                                 }
-                                else if (!string.IsNullOrEmpty(_resultsGetExpense.Message))
+                                else if (!string.IsNullOrEmpty(_resultsUpdateExpense.Message))
                                 {
-                                    WriteErrorCondition(_resultsGetExpense.Message);
+                                    WriteErrorCondition(_resultsUpdateExpense.Message);
                                 }
                                 else
                                 {
-                                    WriteErrorCondition("An unknown error has occurred locating original budget item object");
+                                    WriteErrorCondition("An unknown error has occurred updating budget item object");
                                 }
                             }
+
+
                             break;
                         case BudgetItemType.Income:
-                            var _resultsGetIncome = await uow.GetIncomeItemAsync(this.BudgetItemId);
-                            if (_resultsGetIncome.Successful)
+
+                            var _resultsUpdateIncome = await uow.UpdateIncomeItemAsync(this.BudgetItem as IncomeItem);
+                            _saveOk = _resultsUpdateIncome.Successful;
+                            if (_saveOk)
                             {
-                                item = _resultsGetIncome.Results;
-                                item.budgetCategoryId = this.CategoryId;
-                                item.BudgetedAmount = this.BudgetedAmount;
-                                item.CanDelete = this.CanDelete;
-                                item.CanEdit = this.CanEdit;
-                                item.description = this.ItemDescription;
-                                item.EndDate = this.EndDate;
-                                item.StartDate = this.StartDate;
-                                item.frequency = this.ItemFrequency;
-                                item.IsNew = this.IsNew;
-                                item.ItemType = this.ItemType;
-                                item.notation = this.ItemNotation;
-                                item.recurring = this.IsRecurring;
-                                var _resultsUpdateIncome = await uow.UpdateIncomeItemAsync(item as IncomeItem);
-                                _saveOk = _resultsUpdateIncome.Successful;
-                                if (!_saveOk)
-                                {
-                                    if (_resultsUpdateIncome.WorkException != null)
-                                    {
-                                        WriteErrorCondition(_resultsUpdateIncome.WorkException);
-                                    }
-                                    else if (!string.IsNullOrEmpty(_resultsUpdateIncome.Message))
-                                    {
-                                        WriteErrorCondition(_resultsUpdateIncome.Message);
-                                    }
-                                    else
-                                    {
-                                        WriteErrorCondition("An unknown error has occurred updating budget item object");
-                                    }
-                                }
+                                this.BudgetItem = _resultsUpdateIncome.Results;
+                                this.IsNew = false;
+                                this.CanEdit = true;
+                                this.CanDelete = true;
                             }
-                            else
+                            if (!_saveOk)
                             {
-                                if (_resultsGetIncome.WorkException != null)
+                                if (_resultsUpdateIncome.WorkException != null)
                                 {
-                                    WriteErrorCondition(_resultsGetIncome.WorkException);
+                                    WriteErrorCondition(_resultsUpdateIncome.WorkException);
                                 }
-                                else if (!string.IsNullOrEmpty(_resultsGetIncome.Message))
+                                else if (!string.IsNullOrEmpty(_resultsUpdateIncome.Message))
                                 {
-                                    WriteErrorCondition(_resultsGetIncome.Message);
+                                    WriteErrorCondition(_resultsUpdateIncome.Message);
                                 }
                                 else
                                 {
-                                    WriteErrorCondition("An unknown error has occurred locating original budget item object");
+                                    WriteErrorCondition("An unknown error has occurred updating budget item object");
                                 }
                             }
+
                             break;
                     }
                 }
             }
-
-            if (_saveOk)
-            {
-                this.IsNew = false;
-                this.IsDirty = false;
-            }
         }
     }
-
 }

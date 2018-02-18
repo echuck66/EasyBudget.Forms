@@ -359,7 +359,7 @@ namespace EasyBudget.UnitTests
             {
                 categoryIcon = AppIcon.None,
                 categoryName = "Category",
-                systemCategory = false,
+                //systemCategory = false,
                 budgetAmount = 0
             };
 
@@ -413,7 +413,7 @@ namespace EasyBudget.UnitTests
             {
                 categoryIcon = AppIcon.None,
                 categoryName = "Category",
-                systemCategory = false,
+                //systemCategory = false,
                 budgetAmount = 0
             };
 
@@ -467,7 +467,7 @@ namespace EasyBudget.UnitTests
             {
                 categoryIcon = AppIcon.None,
                 categoryName = "Category",
-                systemCategory = false,
+                //systemCategory = false,
                 budgetAmount = 0
             };
 
@@ -538,7 +538,7 @@ namespace EasyBudget.UnitTests
             {
                 categoryIcon = AppIcon.None,
                 categoryName = "Category",
-                systemCategory = false,
+                //systemCategory = false,
                 budgetAmount = 0
             };
 
@@ -609,7 +609,7 @@ namespace EasyBudget.UnitTests
             {
                 categoryIcon = AppIcon.None,
                 categoryName = "Category",
-                systemCategory = false,
+                //systemCategory = false,
                 budgetAmount = 0
             };
 
@@ -671,7 +671,7 @@ namespace EasyBudget.UnitTests
             {
                 categoryIcon = AppIcon.None,
                 categoryName = "Category",
-                systemCategory = false,
+                //systemCategory = false,
                 budgetAmount = 0
             };
 
@@ -730,7 +730,7 @@ namespace EasyBudget.UnitTests
             {
                 categoryIcon = AppIcon.None,
                 categoryName = "Category",
-                systemCategory = false,
+                //systemCategory = false,
                 budgetAmount = 200
             };
 
@@ -803,7 +803,7 @@ namespace EasyBudget.UnitTests
             {
                 categoryIcon = AppIcon.None,
                 categoryName = "Category",
-                systemCategory = false,
+                //systemCategory = false,
                 budgetAmount = 200
             };
 

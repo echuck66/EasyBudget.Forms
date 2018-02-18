@@ -65,8 +65,8 @@ namespace EasyBudget.Business
                 if (!_budgetCategories.Any(c => c.categoryType == BudgetCategoryType.Income))
                 {
                     BudgetCategory _defaultIncomeCategory = new BudgetCategory();
-                    _defaultIncomeCategory.CanEdit = true;
-                    _defaultIncomeCategory.CanDelete = false;
+                    //_defaultIncomeCategory.CanEdit = true;
+                    //_defaultIncomeCategory.CanDelete = false;
                     _defaultIncomeCategory.categoryName = "Default Income Category";
                     _defaultIncomeCategory.categoryType = BudgetCategoryType.Income;
                     _defaultIncomeCategory.dateCreated = DateTime.Now;
@@ -79,8 +79,8 @@ namespace EasyBudget.Business
                     await repository.SaveChangesAsync();
 
                     IncomeItem _defaultIncomeItem = new IncomeItem();
-                    _defaultIncomeItem.CanEdit = true;
-                    _defaultIncomeItem.CanDelete = false;
+                    //_defaultIncomeItem.CanEdit = true;
+                    //_defaultIncomeItem.CanDelete = false;
                     _defaultIncomeItem.description = "Default Item";
                     _defaultIncomeItem.notation = string.Empty;
                     _defaultIncomeItem.budgetCategory = _defaultIncomeCategory;
@@ -102,8 +102,8 @@ namespace EasyBudget.Business
                         if (_incomeItems.Count == 0)
                         {
                             IncomeItem _defaultIncomeItem = new IncomeItem();
-                            _defaultIncomeItem.CanEdit = true;
-                            _defaultIncomeItem.CanDelete = false;
+                            //_defaultIncomeItem.CanEdit = true;
+                            //_defaultIncomeItem.CanDelete = false;
                             _defaultIncomeItem.description = "Default Item";
                             _defaultIncomeItem.notation = string.Empty;
                             _defaultIncomeItem.budgetCategory = _category;
@@ -123,8 +123,8 @@ namespace EasyBudget.Business
                 if (!_budgetCategories.Any(c => c.categoryType == BudgetCategoryType.Expense))
                 {
                     BudgetCategory _defaultExpenseCategory = new BudgetCategory();
-                    _defaultExpenseCategory.CanEdit = true;
-                    _defaultExpenseCategory.CanDelete = false;
+                    //_defaultExpenseCategory.CanEdit = true;
+                    //_defaultExpenseCategory.CanDelete = false;
                     _defaultExpenseCategory.categoryName = "Default Expense Category";
                     _defaultExpenseCategory.categoryType = BudgetCategoryType.Expense;
                     _defaultExpenseCategory.dateCreated = DateTime.Now;
@@ -137,8 +137,8 @@ namespace EasyBudget.Business
                     await repository.SaveChangesAsync();
 
                     ExpenseItem _defaultExpenseItem = new ExpenseItem();
-                    _defaultExpenseItem.CanEdit = true;
-                    _defaultExpenseItem.CanDelete = false;
+                    //_defaultExpenseItem.CanEdit = true;
+                    //_defaultExpenseItem.CanDelete = false;
                     _defaultExpenseItem.description = "Default Item";
                     _defaultExpenseItem.notation = string.Empty;
                     _defaultExpenseItem.budgetCategory = _defaultExpenseCategory;
@@ -160,8 +160,8 @@ namespace EasyBudget.Business
                         if (_incomeItems.Count == 0)
                         {
                             ExpenseItem _defaultExpenseItem = new ExpenseItem();
-                            _defaultExpenseItem.CanEdit = true;
-                            _defaultExpenseItem.CanDelete = false;
+                            //_defaultExpenseItem.CanEdit = true;
+                            //_defaultExpenseItem.CanDelete = false;
                             _defaultExpenseItem.description = "Default Item";
                             _defaultExpenseItem.notation = string.Empty;
                             _defaultExpenseItem.budgetCategory = _category;
@@ -186,8 +186,8 @@ namespace EasyBudget.Business
                 if (_checkingAccountCount == 0)
                 {
                     CheckingAccount _defaultCheckingAccount = new CheckingAccount();
-                    _defaultCheckingAccount.CanEdit = true;
-                    _defaultCheckingAccount.CanDelete = false;
+                    //_defaultCheckingAccount.CanEdit = true;
+                    //_defaultCheckingAccount.CanDelete = false;
                     _defaultCheckingAccount.accountType = BankAccountType.Checking;
                     _defaultCheckingAccount.bankName = "Default Account";
                     _defaultCheckingAccount.accountNickname = string.Empty;
@@ -209,8 +209,8 @@ namespace EasyBudget.Business
                 if (_savingsAccountCount == 0)
                 {
                     SavingsAccount _defaultSavingsAccount = new SavingsAccount();
-                    _defaultSavingsAccount.CanEdit = true;
-                    _defaultSavingsAccount.CanDelete = false;
+                    //_defaultSavingsAccount.CanEdit = true;
+                    //_defaultSavingsAccount.CanDelete = false;
                     _defaultSavingsAccount.accountType = BankAccountType.Savings;
                     _defaultSavingsAccount.bankName = "Default Account";
                     _defaultSavingsAccount.accountNickname = string.Empty;
@@ -962,6 +962,89 @@ namespace EasyBudget.Business
 
         //***********
 
+        public async Task<CheckingDepositsResults> GetCheckingDepositsAsync(int accountId, bool getReconciled = false)
+        {
+            CheckingDepositsResults _results = new CheckingDepositsResults();
+
+            try
+            {
+                var _deposits = await repository.GetCheckingDepositsAsync(accountId, getReconciled);
+                _results.Results = _deposits;
+                _results.Successful = true;
+
+            }
+            catch (Exception ex)
+            {
+                _results.Results = null;
+                _results.Successful = false;
+                _results.WorkException = ex;
+            }
+
+            return _results;
+        }
+
+        public async Task<CheckingWithdrawalsResults> GetCheckingWithdrawalsAsync(int accountId, bool getReconciled = false)
+        {
+            CheckingWithdrawalsResults _results = new CheckingWithdrawalsResults();
+
+            try
+            {
+                var _withdrawals = await repository.GetCheckingWithdrawalsAsync(accountId, getReconciled);
+                _results.Results = _withdrawals;
+                _results.Successful = true;
+
+            }
+            catch (Exception ex)
+            {
+                _results.Results = null;
+                _results.Successful = false;
+                _results.WorkException = ex;
+            }
+
+            return _results;
+        }
+
+        public async Task<SavingsDepositsResults> GetSavingsDepositsAsync(int accountId, bool getReconciled = false)
+        {
+            SavingsDepositsResults _results = new SavingsDepositsResults();
+
+            try
+            {
+                var _deposits = await repository.GetSavingsDepositsAsync(accountId, getReconciled);
+                _results.Results = _deposits;
+                _results.Successful = true;
+
+            }
+            catch (Exception ex)
+            {
+                _results.Results = null;
+                _results.Successful = false;
+                _results.WorkException = ex;
+            }
+
+            return _results;
+        }
+
+        public async Task<SavingsWithdrawalsResults> GetSavingsWithdrawalsAsync(int accountId, bool getReconciled = false)
+        {
+            SavingsWithdrawalsResults _results = new SavingsWithdrawalsResults();
+
+            try
+            {
+                var _withdrawals = await repository.GetSavingsWithdrawalsAsync(accountId, getReconciled);
+                _results.Results = _withdrawals;
+                _results.Successful = true;
+
+            }
+            catch (Exception ex)
+            {
+                _results.Results = null;
+                _results.Successful = false;
+                _results.WorkException = ex;
+            }
+
+            return _results;
+        }
 
         public async Task<CheckingDepositResults> UpdateCheckingDepositAsync(CheckingDeposit deposit)
         {
