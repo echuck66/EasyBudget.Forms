@@ -112,13 +112,10 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public ICollection<BudgetCategory> BudgetCategories { get; set; }
-
-
         public SavingsDepositViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.BudgetCategories = new List<BudgetCategory>();
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
