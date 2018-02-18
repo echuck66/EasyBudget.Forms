@@ -14,6 +14,9 @@
 //    limitations under the License.
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
@@ -21,103 +24,182 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BankAccountViewModel : BaseViewModel
+    public class BankAccountViewModel : BaseViewModel, INotifyPropertyChanged
     {
         BankAccount Account { get; set; }
 
-        public string BankName { get; set; }
+        public string BankName 
+        {
+            get
+            {
+                return Account.bankName;
+            }
+            set
+            {
+                if (Account.bankName != value)
+                {
+                    Account.bankName = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BankName)));
+                }
+            }
+        }
 
-        public BankAccountType AccountType { get; set; }
+        public BankAccountType AccountType 
+        {
+            get
+            {
+                return Account.accountType;
+            }
+            set
+            {
+                if (Account.accountType != value)
+                {
+                    Account.accountType = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccountType)));
+                }
+            }
+        }
 
-        public decimal CurrentBalance { get; set; }
+        public decimal CurrentBalance 
+        {
+            get
+            {
+                return Account.currentBalance;
+            }
+            set
+            {
+                if (Account.currentBalance != value)
+                {
+                    Account.currentBalance = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBalance)));
+                }
+            }
+        }
 
-        public string RoutingNumber { get; set; }
+        public string RoutingNumber 
+        {
+            get 
+            {
+                return Account.routingNumber;
+            }
+            set
+            {
+                if (Account.routingNumber != value)
+                {
+                    Account.routingNumber = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RoutingNumber)));
+                }
+            }
+        }
 
-        public string AccountNumber { get; set; }
+        public string AccountNumber 
+        {
+            get
+            {
+                return Account.accountNumber;
+            }
+            set
+            {
+                if (Account.accountNumber != value)
+                {
+                    Account.accountNumber = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccountNumber)));
+                }
+            }
+        }
 
-        public string Nickname { get; set; }
+        public string Nickname 
+        {
+            get
+            {
+                return Account.accountNickname;
+            }
+            set
+            {
+                if (Account.accountNickname != value)
+                {
+                    Account.accountNickname = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Nickname)));
+                }
+            }
+        }
 
-        public ICollection<DepositViewModel> Deposits { get; set; }
+        public bool IsDirty { get; set; }
 
-        public ICollection<WithdrawalViewModel> Withdrawals { get; set; }
+        public ObservableCollection<DepositViewModel> Deposits { get; set; }
 
-        public bool CanEdit { get; set; }
-
-        public bool CanDelete { get; set; }
-
-        public bool IsNew { get; set; }
+        public ObservableCollection<WithdrawalViewModel> Withdrawals { get; set; }
 
         internal BankAccountViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.Deposits = new List<DepositViewModel>();
-            this.Withdrawals = new List<WithdrawalViewModel>();
+            this.Deposits = new ObservableCollection<DepositViewModel>();
+            this.Withdrawals = new ObservableCollection<WithdrawalViewModel>();
         }
 
-        internal async Task PopulateVMAsync(int id, BankAccountType accountType)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        internal async Task PopulateVMAsync(BankAccount account)
         {
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            {
-                switch (accountType)
-                {
-                    case BankAccountType.Checking:
-                        var _resultsChecking = await uow.GetCheckingAccountAsync(id);
-                        if (_resultsChecking.Successful)
-                        {
-                            this.Account = _resultsChecking.Results;
-                        }
-                        else
-                        {
-                            if (_resultsChecking.WorkException != null)
-                            {
-                                WriteErrorCondition(_resultsChecking.WorkException);
-                            }
-                            else if (!string.IsNullOrEmpty(_resultsChecking.Message))
-                            {
-                                WriteErrorCondition(_resultsChecking.Message);
-                            }
-                            else
-                            {
-                                WriteErrorCondition("An unknown error has occurred");
-                            }
-                        }
-                        break;
-                    case BankAccountType.Savings:
-                        var _resultsSavings = await uow.GetSavingsAccountAsync(id);
-                        if (_resultsSavings.Successful)
-                        {
-                            this.Account = _resultsSavings.Results;
-                        }
-                        else
-                        {
-                            if (_resultsSavings.WorkException != null)
-                            {
-                                WriteErrorCondition(_resultsSavings.WorkException);
-                            }
-                            else if (!string.IsNullOrEmpty(_resultsSavings.Message))
-                            {
-                                WriteErrorCondition(_resultsSavings.Message);
-                            }
-                            else
-                            {
-                                WriteErrorCondition("An unknown error has occurred");
-                            }
-                        }
-                        break;
-                }
-            }
+            await Task.Run(() => this.Account = account);
 
-            if (this.Account != null)
-            {
-                this.BankName = this.Account.bankName;
-                this.AccountNumber = this.Account.accountNumber;
-                this.RoutingNumber = this.Account.routingNumber;
-                this.AccountType = this.Account.accountType;
-                this.CurrentBalance = this.Account.currentBalance;
 
-            }
+            //using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            //{
+            //    switch (Account.accountType)
+            //    {
+            //        case BankAccountType.Checking:
+            //            var _resultsChecking = await uow.GetCheckingAccountAsync(id);
+            //            if (_resultsChecking.Successful)
+            //            {
+            //                this.Account = _resultsChecking.Results;
+            //            }
+            //            else
+            //            {
+            //                if (_resultsChecking.WorkException != null)
+            //                {
+            //                    WriteErrorCondition(_resultsChecking.WorkException);
+            //                }
+            //                else if (!string.IsNullOrEmpty(_resultsChecking.Message))
+            //                {
+            //                    WriteErrorCondition(_resultsChecking.Message);
+            //                }
+            //                else
+            //                {
+            //                    WriteErrorCondition("An unknown error has occurred");
+            //                }
+            //            }
+            //            break;
+            //        case BankAccountType.Savings:
+            //            var _resultsSavings = await uow.GetSavingsAccountAsync(id);
+            //            if (_resultsSavings.Successful)
+            //            {
+            //                this.Account = _resultsSavings.Results;
+            //            }
+            //            else
+            //            {
+            //                if (_resultsSavings.WorkException != null)
+            //                {
+            //                    WriteErrorCondition(_resultsSavings.WorkException);
+            //                }
+            //                else if (!string.IsNullOrEmpty(_resultsSavings.Message))
+            //                {
+            //                    WriteErrorCondition(_resultsSavings.Message);
+            //                }
+            //                else
+            //                {
+            //                    WriteErrorCondition("An unknown error has occurred");
+            //                }
+            //            }
+            //            break;
+            //    }
+            //}
         }
-    
     }
-
 }

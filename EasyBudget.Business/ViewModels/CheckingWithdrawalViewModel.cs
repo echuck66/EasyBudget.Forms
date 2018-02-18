@@ -13,11 +13,15 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using EasyBudget.Models.DataModels;
+
 namespace EasyBudget.Business.ViewModels
 {
 
     public class CheckingWithdrawalViewModel : WithdrawalViewModel
     {
+        CheckingWithdrawal Withdrawal { get; set; }
+
         internal CheckingWithdrawalViewModel(string dbFilePath)
             : base(dbFilePath)
         {

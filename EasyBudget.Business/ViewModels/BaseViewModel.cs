@@ -32,6 +32,16 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        // Transitional Properties ****************
+
+        public bool CanEdit { get; set; }
+
+        public bool CanDelete { get; set; }
+
+        public bool IsNew { get; set; }
+
+        //*****************************************
+
         internal BaseViewModel(string dbFilePath)
         {
             this.dbFilePath = dbFilePath;

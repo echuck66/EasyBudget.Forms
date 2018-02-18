@@ -67,63 +67,63 @@ namespace EasyBudget.Data
         public async Task<BudgetCategory> AddBudgetCategoryAsync(BudgetCategory category)
         {
             var inserted = await connection.InsertAsync(category);
-            category.IsNew = false;
+            //category.IsNew = false;
             return category;
         }
 
         public async Task<CheckingAccount> AddCheckingAccountAsync(CheckingAccount account)
         {
             var inserted = await connection.InsertAsync(account);
-            account.IsNew = false;
+            //account.IsNew = false;
             return account;
         }
 
         public async Task<CheckingDeposit> AddCheckingDepositAsync(CheckingDeposit deposit)
         {
             var inserted = await connection.InsertAsync(deposit);
-            deposit.IsNew = false;
+            //deposit.IsNew = false;
             return deposit;
         }
 
         public async Task<CheckingWithdrawal> AddCheckingWithdrawalAsync(CheckingWithdrawal withdrawal)
         {
             var inserted = await connection.InsertAsync(withdrawal);
-            withdrawal.IsNew = false;
+            //withdrawal.IsNew = false;
             return withdrawal;
         }
 
         public async Task<ExpenseItem> AddExpenseItemAsync(ExpenseItem expense)
         {
             var inserted = await connection.InsertAsync(expense);
-            expense.IsNew = false;
+            //expense.IsNew = false;
             return expense;
         }
 
         public async Task<IncomeItem> AddIncomeItemAsync(IncomeItem income)
         {
             var inserted = await connection.InsertAsync(income);
-            income.IsNew = false;
+            //income.IsNew = false;
             return income;
         }
 
         public async Task<SavingsAccount> AddSavingsAccountAsync(SavingsAccount account)
         {
             var inserted = await connection.InsertAsync(account);
-            account.IsNew = false;
+            //account.IsNew = false;
             return account;
         }
 
         public async Task<SavingsDeposit> AddSavingsDepositAsync(SavingsDeposit deposit)
         {
             var inserted = await connection.InsertAsync(deposit);
-            deposit.IsNew = false;
+            //deposit.IsNew = false;
             return deposit;
         }
 
         public async Task<SavingsWithdrawal> AddSavingsWithdrawalAsync(SavingsWithdrawal withdrawal)
         {
             var inserted = await connection.InsertAsync(withdrawal);
-            withdrawal.IsNew = false;
+            //withdrawal.IsNew = false;
             return withdrawal;
         }
 
@@ -370,6 +370,98 @@ namespace EasyBudget.Data
         public async Task UpdateSavingsWithdrawalAsync(SavingsWithdrawal withdrawal)
         {
             var updated = await connection.UpdateAsync(withdrawal);
+        }
+
+        public async Task<ICollection<CheckingDeposit>> GetCheckingDepositsAsync(int accountId, bool getReconciled)
+        {
+            List<CheckingDeposit> deposits = new List<CheckingDeposit>();
+
+            if (getReconciled)
+            {
+                var deps = from w in connection.Table<CheckingDeposit>()
+                           where w.checkingAccountId == accountId
+                           select w;
+                deposits = await deps?.ToListAsync();
+            }
+            else
+            {
+                var deps = from w in connection.Table<CheckingDeposit>()
+                           where w.checkingAccountId == accountId &&
+                                 w.reconciled == false
+                           select w;
+                deposits = await deps?.ToListAsync();
+            }
+
+            return deposits as ICollection<CheckingDeposit>;
+        }
+
+        public async Task<ICollection<CheckingWithdrawal>> GetCheckingWithdrawalsAsync(int accountId, bool getReconciled)
+        {
+            List<CheckingWithdrawal> withdrawals = new List<CheckingWithdrawal>();
+
+            if (getReconciled)
+            {
+                var wids = from w in connection.Table<CheckingWithdrawal>()
+                           where w.checkingAccountId == accountId
+                           select w;
+                withdrawals = await wids?.ToListAsync();
+            }
+            else
+            {
+                var wids = from w in connection.Table<CheckingWithdrawal>()
+                           where w.checkingAccountId == accountId &&
+                                 w.reconciled == false
+                           select w;
+                withdrawals = await wids?.ToListAsync();
+            }
+
+            return withdrawals as ICollection<CheckingWithdrawal>;
+        }
+
+        public async Task<ICollection<SavingsDeposit>> GetSavingsDepositsAsync(int accountId, bool getReconciled)
+        {
+            List<SavingsDeposit> deposits = new List<SavingsDeposit>();
+
+            if (getReconciled)
+            {
+                var deps = from w in connection.Table<SavingsDeposit>()
+                           where w.savingsAccountId == accountId
+                           select w;
+                deposits = await deps?.ToListAsync();
+            }
+            else
+            {
+                var deps = from w in connection.Table<SavingsDeposit>()
+                           where w.savingsAccountId == accountId &&
+                                 w.reconciled == false
+                           select w;
+                deposits = await deps?.ToListAsync();
+            }
+
+            return deposits as ICollection<SavingsDeposit>;
+        }
+
+        public async Task<ICollection<SavingsWithdrawal>> GetSavingsWithdrawalsAsync(int accountId, bool getReconciled)
+        {
+            List<SavingsWithdrawal> withdrawals = new List<SavingsWithdrawal>();
+
+            if (getReconciled)
+            {
+                var wids = from w in connection.Table<SavingsWithdrawal>()
+                           where w.savingsAccountId == accountId
+                           select w;
+                withdrawals = await wids?.ToListAsync();
+            } 
+            else
+            {
+                var wids = from w in connection.Table<SavingsWithdrawal>()
+                           where w.savingsAccountId == accountId &&
+                                 w.reconciled == false
+                           select w;
+                withdrawals = await wids?.ToListAsync();
+            }
+
+            return withdrawals as ICollection<SavingsWithdrawal>;
         }
     }
 }

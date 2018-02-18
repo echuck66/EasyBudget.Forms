@@ -13,14 +13,16 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.ComponentModel;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class DepositViewModel : BaseViewModel
+    public abstract class DepositViewModel : BaseViewModel, INotifyPropertyChanged
     {
+        
         public int accountId { get; set; }
 
         public BankAccountType accountType { get; set; }
@@ -42,6 +44,8 @@ namespace EasyBudget.Business.ViewModels
         {
 
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         internal void PopulateVM(CheckingDeposit deposit)
         {

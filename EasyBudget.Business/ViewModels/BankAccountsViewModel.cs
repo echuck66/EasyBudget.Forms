@@ -14,7 +14,11 @@
 //    limitations under the License.
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
+using EasyBudget.Models.DataModels;
+using Xamarin.Forms;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -22,12 +26,12 @@ namespace EasyBudget.Business.ViewModels
     public class BankAccountsViewModel : BaseViewModel
     {
 
-        public ICollection<BankAccountViewModel> BankAccountVMs { get; set; }
+        public ObservableCollection<BankAccountViewModel> BankAccountVMs { get; set; }
 
         internal BankAccountsViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            BankAccountVMs = new List<BankAccountViewModel>();
+            BankAccountVMs = new ObservableCollection<BankAccountViewModel>();
         }
 
         internal async Task LoadBankAccountsAsync()
@@ -46,7 +50,9 @@ namespace EasyBudget.Business.ViewModels
                 {
                     foreach (var account in _results.Results)
                     {
-                        //this.BankAccountVMs.Add(account);
+                        BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
+                        await vm.PopulateVMAsync(account);
+                        this.BankAccountVMs.Add(vm);
                     }
                 }
                 else
@@ -97,6 +103,31 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public async Task AddCheckingAccountAsync()
+        {
+            BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
+            CheckingAccount account = new CheckingAccount();
+            await vm.PopulateVMAsync(account);
+            vm.IsNew = true;
+            vm.CanEdit = true;
+            vm.CanDelete = false;
+            Device.BeginInvokeOnMainThread(() => {
+                this.BankAccountVMs.Add(vm);
+            });
+        }
+
+        public async Task AddsavingsAccountAsync()
+        {
+            BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
+            SavingsAccount account = new SavingsAccount();
+            await vm.PopulateVMAsync(account);
+            vm.IsNew = true;
+            vm.CanEdit = true;
+            vm.CanDelete = false;
+            Device.BeginInvokeOnMainThread(() => {
+                this.BankAccountVMs.Add(vm);
+            });
+        }
     }
 
 }

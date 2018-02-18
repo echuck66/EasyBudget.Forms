@@ -25,92 +25,101 @@ namespace EasyBudget.Business.ViewModels
 
     public class BudgetCategoryViewModel : BaseViewModel, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        public int CategoryId { get; set; }
+        BudgetCategory Category { get; set; }
 
-        string _Name;
+        public int CategoryId 
+        {
+            get
+            {
+                return Category.id;
+            }
+        }
+
         public string Name 
         {
             get
             {
-                return _Name;
+                return Category.categoryName;
             }
             set
             {
-                if (_Name != value)
+                if (Category.categoryName != value)
                 {
-                    _Name = value;
+                    Category.categoryName = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
                 }
             }
         }
 
-        string _Description;
         public string Description 
         {
             get
             {
-                return _Description;
+                return Category.description;
             }
             set
             {
-                if (_Description != value)
+                if (Category.description != value)
                 {
-                    _Description = value;
+                    Category.description = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
                 }
             }
         }
 
-        decimal _Amount;
         public decimal Amount 
         {
             get{
-                return _Amount;
+                return Category.budgetAmount;
             }
             set
             {
-                if (_Amount != value)
+                if (Category.budgetAmount != value)
                 {
-                    _Amount = value;
+                    Category.budgetAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Amount)));
                 }
             }
         }
 
-        public bool IsSystemCategory { get; set; }
-
-        public bool IsUserSelected { get; set; }
-
-        AppIcon _CategoryIcon;
         public AppIcon CategoryIcon 
         {
             get
             {
-                return _CategoryIcon;
+                return Category.categoryIcon;
             }
             set
             {
-                if (_CategoryIcon != value)
+                if (Category.categoryIcon != value)
                 {
-                    _CategoryIcon = value;
+                    Category.categoryIcon = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategoryId)));
                 }
             }
         }
 
-        public BudgetCategoryType CategoryType { get; set; }
+        public BudgetCategoryType CategoryType 
+        {
+            get 
+            {
+                return Category.categoryType;
+            }
+            set
+            {
+                if (Category.categoryType != value)
+                {
+                    Category.categoryType = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategoryType)));
+                }
+            }
+        }
 
         public ICollection<BudgetItemViewModel> BudgetItemVMs { get; set; }
-
-        public bool CanEdit { get; set; }
-
-        public bool CanDelete { get; set; }
-
-        public bool IsNew { get; set; }
 
         public bool IsDirty { get; set; }
 
@@ -126,18 +135,7 @@ namespace EasyBudget.Business.ViewModels
 
         internal async Task PopulateVMAsync(BudgetCategory category)
         {
-
-            this.CategoryId = category.id;
-            _Name = category.categoryName;
-            _Description = category.description;
-            _Amount = category.budgetAmount;
-            _CategoryIcon = category.categoryIcon;
-            this.IsSystemCategory = category.systemCategory;
-            this.IsUserSelected = category.userSelected;
-            this.CategoryType = category.categoryType;
-            this.IsNew = category.IsNew;
-            this.CanEdit = category.CanEdit;
-            this.CanDelete = category.CanDelete;
+            Category = category;
 
             using (UnitOfWork uow = new UnitOfWork(dbFilePath))
             {
@@ -267,27 +265,22 @@ namespace EasyBudget.Business.ViewModels
         {
             bool _saveOk = true;
 
-            BudgetCategory _category;
+            //BudgetCategory _category;
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
                 if (this.IsNew)
                 {
-                    _category = new BudgetCategory();
-                    _category.categoryName = this.Name;
-                    _category.description = this.Description;
-                    _category.categoryType = this.CategoryType;
-                    _category.budgetAmount = this.Amount;
-                    _category.CanDelete = this.CanDelete;
-                    _category.CanEdit = this.CanEdit;
-                    _category.categoryIcon = this.CategoryIcon;
-                    _category.IsNew = this.IsNew;
-                    _category.systemCategory = this.IsSystemCategory;
-                    _category.userSelected = this.IsUserSelected;
-
-                    var _resultsSaveNew = await uow.AddBudgetCategoryAsync(_category);
+                    var _resultsSaveNew = await uow.AddBudgetCategoryAsync(Category);
                     _saveOk = _resultsSaveNew.Successful;
-                    if (!_saveOk)
+                    if (_saveOk)
+                    {
+                        this.IsDirty = false;
+                        this.IsNew = false;
+                        this.CanEdit = true;
+                        this.CanDelete = true;
+                    }
+                    else
                     {
                         if (_resultsSaveNew.WorkException != null)
                         {
@@ -305,53 +298,40 @@ namespace EasyBudget.Business.ViewModels
                 }
                 else
                 {
-                    var _resultsGetExisting = await uow.GetBudgetCategoryAsync(this.CategoryId);
-                    if (_resultsGetExisting.Successful)
-                    {
-                        _category = _resultsGetExisting.Results;
-                        _category.categoryName = this.Name;
-                        _category.description = this.Description;
-                        _category.categoryType = this.CategoryType;
-                        _category.budgetAmount = this.Amount;
-                        _category.CanDelete = this.CanDelete;
-                        _category.CanEdit = this.CanEdit;
-                        _category.categoryIcon = this.CategoryIcon;
-                        _category.IsNew = this.IsNew;
-                        _category.systemCategory = this.IsSystemCategory;
-                        _category.userSelected = this.IsUserSelected;
 
-                        var _resultsUpdate = await uow.UpdateBudgetCategoryAsync(_category);
-                        _saveOk = _resultsUpdate.Successful;
-                        if (!_saveOk)
+                    var _resultsUpdate = await uow.UpdateBudgetCategoryAsync(Category);
+                    _saveOk = _resultsUpdate.Successful;
+                    if (_saveOk)
+                    {
+                        this.IsDirty = false;
+                        this.IsNew = false;
+                        this.CanEdit = true;
+                        this.CanDelete = true;
+                    }
+                    else
+                    {
+                        if (_resultsUpdate.WorkException != null)
                         {
-                            if (_resultsUpdate.WorkException != null)
-                            {
-                                WriteErrorCondition(_resultsUpdate.WorkException);
-                            }
-                            else if (!string.IsNullOrEmpty(_resultsUpdate.Message))
-                            {
-                                WriteErrorCondition(_resultsUpdate.Message);
-                            }
-                            else
-                            {
-                                WriteErrorCondition("An unknown error has occurred saving the Budget Category");
-                            }
+                            WriteErrorCondition(_resultsUpdate.WorkException);
+                        }
+                        else if (!string.IsNullOrEmpty(_resultsUpdate.Message))
+                        {
+                            WriteErrorCondition(_resultsUpdate.Message);
+                        }
+                        else
+                        {
+                            WriteErrorCondition("An unknown error has occurred saving the Budget Category");
                         }
                     }
+
                 }
 
-                if (_saveOk)
-                {
-                    this.IsNew = false;
-                    this.IsDirty = false;
-                }
             }
         }
 
         public BudgetItemViewModel AddBudgetItem()
         {
             BudgetItemViewModel item = new BudgetItemViewModel(this.dbFilePath);
-            item.CategoryId = this.CategoryId;
             item.ItemType = this.CategoryType == BudgetCategoryType.Expense ? BudgetItemType.Expense : BudgetItemType.Income;
             item.IsNew = true;
             this.BudgetItemVMs.Add(item);

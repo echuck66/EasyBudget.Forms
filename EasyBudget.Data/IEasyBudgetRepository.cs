@@ -41,6 +41,14 @@ namespace EasyBudget.Data
 
         Task<ICollection<CheckingWithdrawal>> GetCheckingWithdrawalsByDateRangeAsync(int accountId, DateTime fromDate, DateTime toDate);
 
+        Task<ICollection<CheckingDeposit>> GetCheckingDepositsAsync(int accountId, bool getReconciled);
+
+        Task<ICollection<CheckingWithdrawal>> GetCheckingWithdrawalsAsync(int accountId, bool getReconciled);
+
+        Task<ICollection<SavingsDeposit>> GetSavingsDepositsAsync(int accountId, bool getReconciled);
+
+        Task<ICollection<SavingsWithdrawal>> GetSavingsWithdrawalsAsync(int accountId, bool getReconciled);
+
         Task<SavingsAccount> GetSavingsAccountAsync(int id);
 
         Task<ICollection<SavingsAccount>> GetAllSavingsAccountsAsync();

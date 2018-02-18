@@ -14,68 +14,46 @@
 //    limitations under the License.
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyBudget.Models.DataModels;
+using Xamarin.Forms;
 
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BudgetCategoriesViewModel : BaseViewModel, INotifyCollectionChanged
+    public class BudgetCategoriesViewModel : BaseViewModel, INotifyPropertyChanged
     {
 
-        public ICollection<BudgetCategoryViewModel> BudgetCategoryVMs { get; set; }
+        public ObservableCollection<BudgetCategoryViewModel> BudgetCategoryVMs { get; set; }
 
-        public string CurrentMonth {
+        int _CurrentMonth;
+        public int CurrentMonth {
             get
             {
-                return DateTime.Now.Month.ToString();
+                return _CurrentMonth;
+            }
+            set
+            {
+                if (_CurrentMonth != value && value > 0 && value < 13)
+                {
+                    _CurrentMonth = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentMonth)));
+                }
             }
         }
-
-        //public decimal CurrentMonthBudgetedIncome 
-        //{ 
-        //    get
-        //    {
-        //        return GetCurrentMonthBudgetedIncome();
-        //    }
-        //}
-
-        //public decimal CurrentMonthBudgetedExpense
-        //{
-        //    get
-        //    {
-        //        return GetCurrentMonthBudgetedExpense();
-        //    }
-        //}
-
-        //decimal GetCurrentMonthBudgetedIncome()
-        //{
-        //    decimal total = 0;
-        //    var tot = from inc in this.BudgetCategoryVMs
-        //              where inc.CategoryType == Models.BudgetCategoryType.Income
-        //              select inc.Amount;
-        //    total = tot.Sum();
-        //    return total;
-        //}
-
-        //decimal GetCurrentMonthBudgetedExpense()
-        //{
-        //    decimal total = 0;
-        //    var tot = from inc in this.BudgetCategoryVMs
-        //              where inc.CategoryType == Models.BudgetCategoryType.Expense
-        //              select inc.Amount;
-        //    total = tot.Sum();
-        //    return total;
-        //}
 
         public BudgetCategoriesViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.BudgetCategoryVMs = new List<BudgetCategoryViewModel>();
+            this.BudgetCategoryVMs = new ObservableCollection<BudgetCategoryViewModel>();
+            this.CurrentMonth = DateTime.Now.Month;
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         internal async Task LoadBudgetCategoriesAsync()
         {
@@ -112,18 +90,29 @@ namespace EasyBudget.Business.ViewModels
         public void AddNewBudgetCategory()
         {
             BudgetCategoryViewModel vm = new BudgetCategoryViewModel(this.dbFilePath);
+            BudgetCategory category = new BudgetCategory();
+            Task.Run(() => vm.PopulateVMAsync(category));
+            vm.CanDelete = false;
+            vm.CanEdit = true;
             vm.IsNew = true;
-
-            this.BudgetCategoryVMs.Add(vm);
-            OnCollectionChanged(this, NotifyCollectionChangedAction.Add);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                this.BudgetCategoryVMs.Add(vm);
+            });
         }
 
         public async Task AddNewBudgetCategoryAsync()
         {
             BudgetCategoryViewModel vm = new BudgetCategoryViewModel(this.dbFilePath);
+            BudgetCategory category = new BudgetCategory();
+            await vm.PopulateVMAsync(category);
             vm.IsNew = true;
-            await Task.Run(() => this.BudgetCategoryVMs.Add(vm));
-            OnCollectionChanged(this, NotifyCollectionChangedAction.Add);
+            vm.CanDelete = false;
+            vm.CanEdit = true;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                this.BudgetCategoryVMs.Add(vm);
+            });
         }
 
         public async Task<bool> DeleteBudgetCategoryAsync(BudgetCategoryViewModel vm)
@@ -135,23 +124,15 @@ namespace EasyBudget.Business.ViewModels
 
                 if (deleted) 
                 {
-                    await Task.Run(() => this.BudgetCategoryVMs.Remove(vm));
-                    OnCollectionChanged(this, NotifyCollectionChangedAction.Remove);
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        this.BudgetCategoryVMs.Remove(vm);
+                    });
                 }
             }
 
             return deleted;
         }
-
-        public void OnCollectionChanged(object sender, NotifyCollectionChangedAction action)
-        {
-            if (CollectionChanged != null)
-            {
-                CollectionChanged(sender, new NotifyCollectionChangedEventArgs(action));
-            }
-        }
-    
-        
     }
 
 }
