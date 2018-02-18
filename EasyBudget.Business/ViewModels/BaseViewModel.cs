@@ -34,6 +34,8 @@ namespace EasyBudget.Business.ViewModels
 
         // Transitional Properties ****************
 
+        public bool IsDirty { get; set; }
+
         public bool CanEdit { get; set; }
 
         public bool CanDelete { get; set; }

@@ -20,24 +20,12 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public abstract class DepositViewModel : BaseViewModel, INotifyPropertyChanged
+    public abstract class DepositViewModel : BaseViewModel
     {
         
         public int accountId { get; set; }
 
         public BankAccountType accountType { get; set; }
-
-        public DateTime transactionDate { get; set; }
-
-        public decimal transactionAmount { get; set; }
-
-        public string description { get; set; }
-
-        public string notation { get; set; }
-
-        public int budgetItemId { get; set; }
-
-        public bool reconciled { get; set; }
 
         internal DepositViewModel(string dbFilePath)
             : base(dbFilePath)
@@ -45,31 +33,7 @@ namespace EasyBudget.Business.ViewModels
 
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        internal void PopulateVM(CheckingDeposit deposit)
-        {
-            this.accountId = deposit.checkingAccountId;
-            this.transactionDate = deposit.transactionDate;
-            this.transactionAmount = deposit.transactionAmount;
-            this.description = deposit.description;
-            this.notation = deposit.notation;
-            this.budgetItemId = deposit.budgetIncomeId != null ? (int)deposit.budgetIncomeId : 0;
-            this.reconciled = deposit.reconciled;
-            this.accountType = BankAccountType.Checking;
-        }
-
-        internal void PopulateVM(SavingsDeposit deposit)
-        {
-            this.accountId = deposit.savingsAccountId;
-            this.transactionDate = deposit.transactionDate;
-            this.transactionAmount = deposit.transactionAmount;
-            this.description = deposit.description;
-            this.notation = deposit.notation;
-            this.budgetItemId = deposit.budgetIncomeId != null ? (int)deposit.budgetIncomeId : 0;
-            this.reconciled = deposit.reconciled;
-            this.accountType = BankAccountType.Savings;
-        }
     }
 
 }

@@ -23,13 +23,13 @@ namespace EasyBudget.Business.ViewModels
 
     public class BudgetItemViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        BudgetItem BudgetItem { get; set; }
+        BudgetItem model { get; set; }
 
         public string CategoryName 
         {
             get 
             {
-                return BudgetItem.budgetCategory?.categoryName;
+                return model.budgetCategory?.categoryName;
             }
         }
 
@@ -37,13 +37,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return BudgetItem.ItemType;
+                return model.ItemType;
             }
             set
             {
-                if (BudgetItem.ItemType != value)
+                if (model.ItemType != value)
                 {
-                    BudgetItem.ItemType = value;
+                    model.ItemType = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemType)));
                 }
@@ -54,13 +54,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return BudgetItem.BudgetedAmount;
+                return model.BudgetedAmount;
             }
             set
             {
-                if (BudgetItem.BudgetedAmount != value) 
+                if (model.BudgetedAmount != value) 
                 {
-                    BudgetItem.BudgetedAmount = value;
+                    model.BudgetedAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetedAmount)));
                 }
@@ -71,13 +71,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return BudgetItem.description;
+                return model.description;
             }
             set
             {
-                if (BudgetItem.description != value)
+                if (model.description != value)
                 {
-                    BudgetItem.description = value;
+                    model.description = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemDescription)));
                 }
@@ -88,13 +88,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return BudgetItem.notation;
+                return model.notation;
             }
             set 
             {
-                if (BudgetItem.notation != value) 
+                if (model.notation != value) 
                 {
-                    BudgetItem.notation = value;
+                    model.notation = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemNotation)));
                 }
@@ -105,13 +105,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return BudgetItem.recurring;
+                return model.recurring;
             }
             set 
             {
-                if (BudgetItem.recurring != value) 
+                if (model.recurring != value) 
                 {
-                    BudgetItem.recurring = value;
+                    model.recurring = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRecurring)));
                 }
@@ -122,13 +122,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get 
             {
-                return BudgetItem.frequency;
+                return model.frequency;
             }
             set 
             {
-                if (BudgetItem.frequency != value) 
+                if (model.frequency != value) 
                 {
-                    BudgetItem.frequency = value;
+                    model.frequency = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemFrequency)));
                 }
@@ -139,13 +139,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get 
             {
-                return BudgetItem.StartDate;
+                return model.StartDate;
             }
             set
             {
-                if (BudgetItem.StartDate != value) 
+                if (model.StartDate != value) 
                 {
-                    BudgetItem.StartDate = value;
+                    model.StartDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
                 }
@@ -156,20 +156,18 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return BudgetItem.EndDate;
+                return model.EndDate;
             }
             set
             {
-                if (BudgetItem.EndDate != value) 
+                if (model.EndDate != value) 
                 {
-                    BudgetItem.EndDate = value;
+                    model.EndDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EndDate)));
                 }
             }
         }
-
-        public bool IsDirty { get; set; }
 
         internal BudgetItemViewModel(string dbFilePath)
             : base(dbFilePath)
@@ -219,7 +217,7 @@ namespace EasyBudget.Business.ViewModels
                 {
                     item.budgetCategory = await GetBudgetCategoryAsync(item.budgetCategoryId);
                 }
-                this.BudgetItem = item;
+                this.model = item;
             }
         }
 
@@ -233,7 +231,7 @@ namespace EasyBudget.Business.ViewModels
                 {
                     case BudgetItemType.Expense:
 
-                        var _resultsDeleteExpense = await uow.DeleteExpenseItemAsync(this.BudgetItem as ExpenseItem);
+                        var _resultsDeleteExpense = await uow.DeleteExpenseItemAsync(this.model as ExpenseItem);
                         deleted = _resultsDeleteExpense.Successful;
                         if (!_resultsDeleteExpense.Successful)
                         {
@@ -252,7 +250,7 @@ namespace EasyBudget.Business.ViewModels
                         }
                         break;
                     case BudgetItemType.Income:
-                        var _resultsDeleteIncome = await uow.DeleteIncomeItemAsync(this.BudgetItem as IncomeItem);
+                        var _resultsDeleteIncome = await uow.DeleteIncomeItemAsync(this.model as IncomeItem);
                         deleted = _resultsDeleteIncome.Successful;
                         if (!_resultsDeleteIncome.Successful)
                         {
@@ -286,11 +284,11 @@ namespace EasyBudget.Business.ViewModels
                     switch (this.ItemType)
                     {
                         case BudgetItemType.Expense:
-                            var _resultsAddExpense = await uow.AddExpenseItemAsync(this.BudgetItem as ExpenseItem);
+                            var _resultsAddExpense = await uow.AddExpenseItemAsync(this.model as ExpenseItem);
                             _saveOk = _resultsAddExpense.Successful;
                             if (_saveOk)
                             {
-                                this.BudgetItem = _resultsAddExpense.Results;
+                                this.model = _resultsAddExpense.Results;
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
@@ -312,11 +310,11 @@ namespace EasyBudget.Business.ViewModels
                             }
                             break;
                         case BudgetItemType.Income:
-                            var _resultsAddIncome = await uow.AddIncomeItemAsync(this.BudgetItem as IncomeItem);
+                            var _resultsAddIncome = await uow.AddIncomeItemAsync(this.model as IncomeItem);
                             _saveOk = _resultsAddIncome.Successful;
                             if (_saveOk)
                             {
-                                this.BudgetItem = _resultsAddIncome.Results;
+                                this.model = _resultsAddIncome.Results;
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
@@ -344,11 +342,11 @@ namespace EasyBudget.Business.ViewModels
                     switch (this.ItemType)
                     {
                         case BudgetItemType.Expense:
-                            var _resultsUpdateExpense = await uow.UpdateExpenseItemAsync(this.BudgetItem as ExpenseItem);
+                            var _resultsUpdateExpense = await uow.UpdateExpenseItemAsync(this.model as ExpenseItem);
                             _saveOk = _resultsUpdateExpense.Successful;
                             if (_saveOk)
                             {
-                                this.BudgetItem = _resultsUpdateExpense.Results;
+                                this.model = _resultsUpdateExpense.Results;
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
@@ -373,11 +371,11 @@ namespace EasyBudget.Business.ViewModels
                             break;
                         case BudgetItemType.Income:
 
-                            var _resultsUpdateIncome = await uow.UpdateIncomeItemAsync(this.BudgetItem as IncomeItem);
+                            var _resultsUpdateIncome = await uow.UpdateIncomeItemAsync(this.model as IncomeItem);
                             _saveOk = _resultsUpdateIncome.Successful;
                             if (_saveOk)
                             {
-                                this.BudgetItem = _resultsUpdateIncome.Results;
+                                this.model = _resultsUpdateIncome.Results;
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;

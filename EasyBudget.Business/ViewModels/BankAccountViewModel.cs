@@ -26,19 +26,19 @@ namespace EasyBudget.Business.ViewModels
 
     public class BankAccountViewModel : BaseViewModel, INotifyPropertyChanged
     {
-        BankAccount Account { get; set; }
+        BankAccount model { get; set; }
 
         public string BankName 
         {
             get
             {
-                return Account.bankName;
+                return model.bankName;
             }
             set
             {
-                if (Account.bankName != value)
+                if (model.bankName != value)
                 {
-                    Account.bankName = value;
+                    model.bankName = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BankName)));
                 }
@@ -49,13 +49,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return Account.accountType;
+                return model.accountType;
             }
             set
             {
-                if (Account.accountType != value)
+                if (model.accountType != value)
                 {
-                    Account.accountType = value;
+                    model.accountType = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccountType)));
                 }
@@ -66,13 +66,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return Account.currentBalance;
+                return model.currentBalance;
             }
             set
             {
-                if (Account.currentBalance != value)
+                if (model.currentBalance != value)
                 {
-                    Account.currentBalance = value;
+                    model.currentBalance = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBalance)));
                 }
@@ -83,13 +83,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get 
             {
-                return Account.routingNumber;
+                return model.routingNumber;
             }
             set
             {
-                if (Account.routingNumber != value)
+                if (model.routingNumber != value)
                 {
-                    Account.routingNumber = value;
+                    model.routingNumber = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RoutingNumber)));
                 }
@@ -100,13 +100,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return Account.accountNumber;
+                return model.accountNumber;
             }
             set
             {
-                if (Account.accountNumber != value)
+                if (model.accountNumber != value)
                 {
-                    Account.accountNumber = value;
+                    model.accountNumber = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccountNumber)));
                 }
@@ -117,20 +117,18 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return Account.accountNickname;
+                return model.accountNickname;
             }
             set
             {
-                if (Account.accountNickname != value)
+                if (model.accountNickname != value)
                 {
-                    Account.accountNickname = value;
+                    model.accountNickname = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Nickname)));
                 }
             }
         }
-
-        public bool IsDirty { get; set; }
 
         public ObservableCollection<DepositViewModel> Deposits { get; set; }
 
@@ -147,7 +145,7 @@ namespace EasyBudget.Business.ViewModels
 
         internal async Task PopulateVMAsync(BankAccount account)
         {
-            await Task.Run(() => this.Account = account);
+            await Task.Run(() => this.model = account);
 
 
             //using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))

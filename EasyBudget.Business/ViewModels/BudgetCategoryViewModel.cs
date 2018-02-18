@@ -25,13 +25,13 @@ namespace EasyBudget.Business.ViewModels
 
     public class BudgetCategoryViewModel : BaseViewModel, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        BudgetCategory Category { get; set; }
+        BudgetCategory model { get; set; }
 
         public int CategoryId 
         {
             get
             {
-                return Category.id;
+                return model.id;
             }
         }
 
@@ -39,13 +39,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return Category.categoryName;
+                return model.categoryName;
             }
             set
             {
-                if (Category.categoryName != value)
+                if (model.categoryName != value)
                 {
-                    Category.categoryName = value;
+                    model.categoryName = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
                 }
@@ -56,13 +56,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return Category.description;
+                return model.description;
             }
             set
             {
-                if (Category.description != value)
+                if (model.description != value)
                 {
-                    Category.description = value;
+                    model.description = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
                 }
@@ -72,13 +72,13 @@ namespace EasyBudget.Business.ViewModels
         public decimal Amount 
         {
             get{
-                return Category.budgetAmount;
+                return model.budgetAmount;
             }
             set
             {
-                if (Category.budgetAmount != value)
+                if (model.budgetAmount != value)
                 {
-                    Category.budgetAmount = value;
+                    model.budgetAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Amount)));
                 }
@@ -89,13 +89,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                return Category.categoryIcon;
+                return model.categoryIcon;
             }
             set
             {
-                if (Category.categoryIcon != value)
+                if (model.categoryIcon != value)
                 {
-                    Category.categoryIcon = value;
+                    model.categoryIcon = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategoryId)));
                 }
@@ -106,13 +106,13 @@ namespace EasyBudget.Business.ViewModels
         {
             get 
             {
-                return Category.categoryType;
+                return model.categoryType;
             }
             set
             {
-                if (Category.categoryType != value)
+                if (model.categoryType != value)
                 {
-                    Category.categoryType = value;
+                    model.categoryType = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategoryType)));
                 }
@@ -120,8 +120,6 @@ namespace EasyBudget.Business.ViewModels
         }
 
         public ICollection<BudgetItemViewModel> BudgetItemVMs { get; set; }
-
-        public bool IsDirty { get; set; }
 
         public BudgetCategoryViewModel(string dbFilePath)
             : base(dbFilePath)
@@ -135,7 +133,7 @@ namespace EasyBudget.Business.ViewModels
 
         internal async Task PopulateVMAsync(BudgetCategory category)
         {
-            Category = category;
+            model = category;
 
             using (UnitOfWork uow = new UnitOfWork(dbFilePath))
             {
@@ -271,7 +269,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 if (this.IsNew)
                 {
-                    var _resultsSaveNew = await uow.AddBudgetCategoryAsync(Category);
+                    var _resultsSaveNew = await uow.AddBudgetCategoryAsync(model);
                     _saveOk = _resultsSaveNew.Successful;
                     if (_saveOk)
                     {
@@ -299,7 +297,7 @@ namespace EasyBudget.Business.ViewModels
                 else
                 {
 
-                    var _resultsUpdate = await uow.UpdateBudgetCategoryAsync(Category);
+                    var _resultsUpdate = await uow.UpdateBudgetCategoryAsync(model);
                     _saveOk = _resultsUpdate.Successful;
                     if (_saveOk)
                     {

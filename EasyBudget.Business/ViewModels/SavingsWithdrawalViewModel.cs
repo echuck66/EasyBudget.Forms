@@ -13,17 +13,126 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.ComponentModel;
+using EasyBudget.Models.DataModels;
+
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class SavingsWithdrawalViewModel : WithdrawalViewModel
+    public class SavingsWithdrawalViewModel : WithdrawalViewModel, INotifyPropertyChanged
     {
+        SavingsWithdrawal model { get; set; }
+
+        public DateTime transactionDate
+        {
+            get
+            {
+                return model.transactionDate;
+            }
+            set
+            {
+                if (model.transactionDate != value)
+                {
+                    model.transactionDate = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(transactionDate)));
+                }
+            }
+        }
+
+        public decimal transactionAmount
+        {
+            get
+            {
+                return model.transactionAmount;
+            }
+            set
+            {
+                if (model.transactionAmount != value)
+                {
+                    model.transactionAmount = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(transactionAmount)));
+                }
+            }
+        }
+
+        public string notation
+        {
+            get
+            {
+                return model.notation;
+            }
+            set
+            {
+                if (model.notation != value)
+                {
+                    model.notation = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(notation)));
+                }
+            }
+        }
+
+
+        public string description
+        {
+            get
+            {
+                return model.description;
+            }
+            set
+            {
+                if (model.description != value)
+                {
+                    model.description = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(description)));
+                }
+            }
+        }
+
+        public int? budgetExpenseId
+        {
+            get
+            {
+                return model.budgetExpenseId;
+            }
+            set
+            {
+                if (model.budgetExpenseId != value)
+                {
+                    model.budgetExpenseId = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(budgetExpenseId)));
+                }
+            }
+        }
+
+        public bool reconciled
+        {
+            get
+            {
+                return model.reconciled;
+            }
+            set
+            {
+                if (model.reconciled != value)
+                {
+                    model.reconciled = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(reconciled)));
+                }
+            }
+        }
+
         internal SavingsWithdrawalViewModel(string dbFilePath)
             : base(dbFilePath)
         {
 
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
 }
