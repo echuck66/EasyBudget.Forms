@@ -167,7 +167,65 @@ namespace EasyBudget.Business.ViewModels
 
         public async override Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            bool _saveOk = false;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                if (this.IsNew)
+                {
+                    var _resultsAddWithdrawal = await uow.AddSavingsDepositAsync(model);
+                    _saveOk = _resultsAddWithdrawal.Successful;
+                    if (_saveOk)
+                    {
+                        this.IsDirty = false;
+                        this.IsNew = false;
+                        this.CanEdit = true;
+                        this.CanDelete = true;
+                    }
+                    else
+                    {
+                        if (_resultsAddWithdrawal.WorkException != null)
+                        {
+                            WriteErrorCondition(_resultsAddWithdrawal.WorkException);
+                        }
+                        else if (!string.IsNullOrEmpty(_resultsAddWithdrawal.Message))
+                        {
+                            WriteErrorCondition(_resultsAddWithdrawal.Message);
+                        }
+                        else
+                        {
+                            WriteErrorCondition("An unknown error has occurred saving deposit record");
+                        }
+                    }
+                }
+                else
+                {
+                    var _resultsUpdateWithdrawal = await uow.UpdateSavingsDepositAsync(model);
+                    _saveOk = _resultsUpdateWithdrawal.Successful;
+                    if (_saveOk)
+                    {
+                        this.IsDirty = false;
+                        this.IsNew = false;
+                        this.CanEdit = true;
+                        this.CanDelete = true;
+                    }
+                    else
+                    {
+                        if (_resultsUpdateWithdrawal.WorkException != null)
+                        {
+                            WriteErrorCondition(_resultsUpdateWithdrawal.WorkException);
+                        }
+                        else if (!string.IsNullOrEmpty(_resultsUpdateWithdrawal.Message))
+                        {
+                            WriteErrorCondition(_resultsUpdateWithdrawal.Message);
+                        }
+                        else
+                        {
+                            WriteErrorCondition("An unknown error has occurred saving withdrawal record");
+                        }
+                    }
+                }
+            }
         }
     }
 }
