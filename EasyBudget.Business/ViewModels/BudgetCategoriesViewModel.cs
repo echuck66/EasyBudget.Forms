@@ -55,7 +55,7 @@ namespace EasyBudget.Business.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        internal async Task LoadBudgetCategoriesAsync()
+        internal async Task LoadVMAsync()
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {

@@ -202,7 +202,7 @@ namespace EasyBudget.Business.ViewModels
 
         }
 
-        internal async Task LoadBudgetCategoryDetails(int categoryId)
+        internal async Task LoadVMAsync(int categoryId)
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {

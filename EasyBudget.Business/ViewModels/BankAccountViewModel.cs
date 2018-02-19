@@ -252,15 +252,28 @@ namespace EasyBudget.Business.ViewModels
             });
         }
 
+        internal async Task LoadVMAsync(int accountId, BankAccountType accountType)
+        {
+            switch (accountType)
+            {
+                case BankAccountType.Checking:
+                    await LoadCheckingAccountAsync(accountId);
+                    break;
+                case BankAccountType.Savings:
+                    await LoadSavingsAccountAsync(accountId);
+                    break;
+            }
+        }
+
         public async Task LoadDepositsAsync(bool getReconciled = false)
         {
             switch (this.AccountType)
             {
                 case BankAccountType.Checking:
-                    await LoadCheckingDeposits(getReconciled);
+                    await LoadCheckingDepositsAsync(getReconciled);
                     break;
                 case BankAccountType.Savings:
-                    await LoadSavingsDeposits(getReconciled);
+                    await LoadSavingsDepositsAsync(getReconciled);
                     break;
             }
         }
@@ -270,15 +283,69 @@ namespace EasyBudget.Business.ViewModels
             switch (this.AccountType)
             {
                 case BankAccountType.Checking:
-                    await LoadCheckingWithdrawals(getReconciled);
+                    await LoadCheckingWithdrawalsAsync(getReconciled);
                     break;
                 case BankAccountType.Savings:
-                    await LoadSavingsWithdrawals(getReconciled);
+                    await LoadSavingsWithdrawalsAsync(getReconciled);
                     break;
             }
         }
 
-        async Task LoadCheckingDeposits(bool getReconciled = false)
+        async Task LoadCheckingAccountAsync(int accountId)
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetCheckingAccountAsync(accountId);
+                if (_results.Successful)
+                {
+                    await PopulateVMAsync(_results.Results);
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred loading bank account records");
+                    }
+                }
+            }
+        }
+
+        async Task LoadSavingsAccountAsync(int accountId)
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetSavingsAccountAsync(accountId);
+                if (_results.Successful)
+                {
+                    await PopulateVMAsync(_results.Results);
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred loading bank account records");
+                    }
+                }
+            }
+        }
+
+        async Task LoadCheckingDepositsAsync(bool getReconciled = false)
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -316,7 +383,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        async Task LoadCheckingWithdrawals(bool getReconciled = false)
+        async Task LoadCheckingWithdrawalsAsync(bool getReconciled = false)
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -354,7 +421,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        async Task LoadSavingsDeposits(bool getReconciled = false)
+        async Task LoadSavingsDepositsAsync(bool getReconciled = false)
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -392,7 +459,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        async Task LoadSavingsWithdrawals(bool getReconciled = false)
+        async Task LoadSavingsWithdrawalsAsync(bool getReconciled = false)
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {

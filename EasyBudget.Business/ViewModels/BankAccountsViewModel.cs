@@ -34,7 +34,7 @@ namespace EasyBudget.Business.ViewModels
             BankAccountVMs = new ObservableCollection<BankAccountViewModel>();
         }
 
-        internal async Task LoadBankAccountsAsync()
+        internal async Task LoadVMAsync()
         {
             await LoadCheckingAccountsAsync();
             await LoadSavingsAccountsAsync();

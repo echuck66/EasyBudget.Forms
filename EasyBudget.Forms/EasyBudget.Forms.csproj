@@ -15,5 +15,6 @@
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="Converters\" />
+    <Folder Include="Assets\" />
   </ItemGroup>
 </Project>
