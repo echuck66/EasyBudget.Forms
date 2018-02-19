@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>EasyBudget</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,5 +17,10 @@
     <Folder Include="Pages\" />
     <Folder Include="Converters\" />
     <Folder Include="Assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\StatusPage.xaml.cs">
+      <DependentUpon>StatusPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

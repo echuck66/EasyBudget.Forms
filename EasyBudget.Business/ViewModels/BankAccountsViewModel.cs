@@ -18,7 +18,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
-using Xamarin.Forms;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -111,9 +110,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
-            Device.BeginInvokeOnMainThread(() => {
-                this.BankAccountVMs.Add(vm);
-            });
+            this.BankAccountVMs.Add(vm);
         }
 
         public async Task AddsavingsAccountAsync()
@@ -124,9 +121,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
-            Device.BeginInvokeOnMainThread(() => {
-                this.BankAccountVMs.Add(vm);
-            });
+            this.BankAccountVMs.Add(vm);
         }
     }
 

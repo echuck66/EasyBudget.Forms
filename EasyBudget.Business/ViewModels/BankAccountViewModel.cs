@@ -20,7 +20,6 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
-using Xamarin.Forms;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -192,9 +191,7 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(deposit);
             
-            Device.BeginInvokeOnMainThread(() => {
-                this.Deposits.Add(vm);
-            });
+            this.Deposits.Add(vm);
 
         }
 
@@ -211,9 +208,8 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(deposit);
 
-            Device.BeginInvokeOnMainThread(() => {
-                this.Deposits.Add(vm);
-            });
+            this.Deposits.Add(vm);
+
         }
 
         async Task AddCheckingWithdrawalAsync()
@@ -229,9 +225,7 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(withdrawal);
 
-            Device.BeginInvokeOnMainThread(() => {
-                this.Withdrawals.Add(vm);
-            });
+            this.Withdrawals.Add(vm);
         }
 
         async Task AddSavingsWithdrawalAsync()
@@ -247,9 +241,7 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(withdrawal);
 
-            Device.BeginInvokeOnMainThread(() => {
-                this.Withdrawals.Add(vm);
-            });
+            this.Withdrawals.Add(vm);
         }
 
         internal async Task LoadVMAsync(int accountId, BankAccountType accountType)

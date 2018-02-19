@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="EasyBudget.Forms.Pages.StatusPage">
+	<ContentPage.Content>
+        <StackLayout>
+            <Button x:Name="btnCategories" Text="Budget Categories" Clicked="btnBudgetCategries_Clicked"></Button>
+            <Button x:Name="btnBankAccounts" Text="Bank Accounts" Clicked="btnBankAccounts_Clicked"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

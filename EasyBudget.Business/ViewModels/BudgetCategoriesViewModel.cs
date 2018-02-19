@@ -20,7 +20,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
-using Xamarin.Forms;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -95,10 +94,7 @@ namespace EasyBudget.Business.ViewModels
             vm.CanDelete = false;
             vm.CanEdit = true;
             vm.IsNew = true;
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                this.BudgetCategoryVMs.Add(vm);
-            });
+            this.BudgetCategoryVMs.Add(vm);
         }
 
         public async Task AddNewBudgetCategoryAsync()
@@ -109,10 +105,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanDelete = false;
             vm.CanEdit = true;
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                this.BudgetCategoryVMs.Add(vm);
-            });
+            this.BudgetCategoryVMs.Add(vm);
         }
 
         public async Task<bool> DeleteBudgetCategoryAsync(BudgetCategoryViewModel vm)
@@ -124,10 +117,7 @@ namespace EasyBudget.Business.ViewModels
 
                 if (deleted) 
                 {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        this.BudgetCategoryVMs.Remove(vm);
-                    });
+                    this.BudgetCategoryVMs.Remove(vm);
                 }
             }
 

@@ -13,7 +13,7 @@ namespace EasyBudget.Forms
         public App()
         {
             InitializeComponent();
-            var np = new NavigationPage(new BudgetCategories());
+            var np = new NavigationPage(new StatusPage());
 
             // Toolbar
             //np.On<Windows>().SetToolbarPlacement(ToolbarPlacement.Default);

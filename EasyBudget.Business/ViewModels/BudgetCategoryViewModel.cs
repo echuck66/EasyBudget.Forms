@@ -20,7 +20,6 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
-using Xamarin.Forms;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -341,9 +340,7 @@ namespace EasyBudget.Business.ViewModels
             BudgetItemViewModel vm = new BudgetItemViewModel(this.dbFilePath);
             vm.ItemType = this.CategoryType == BudgetCategoryType.Expense ? BudgetItemType.Expense : BudgetItemType.Income;
             vm.IsNew = true;
-            Device.BeginInvokeOnMainThread(() => {
-                this.BudgetItemVMs.Add(vm);
-            });
+            this.BudgetItemVMs.Add(vm);
 
             return vm;
         }
