@@ -44,7 +44,7 @@ namespace EasyBudget.Business
         public async Task<BudgetCategoriesViewModel> GetBudgetCategoriesViewModelAsync()
         {
             BudgetCategoriesViewModel vm = new BudgetCategoriesViewModel(this.dbFilePath);
-            await vm.LoadBudgetCategoriesAsync();
+            await vm.LoadVMAsync();
 
             return vm;
         }
@@ -52,7 +52,7 @@ namespace EasyBudget.Business
         public async Task<BudgetCategoryViewModel> GetBudgetCategoryVM(int categoryId)
         {
             BudgetCategoryViewModel vm = new BudgetCategoryViewModel(this.dbFilePath);
-            await vm.LoadBudgetCategoryDetails(categoryId);
+            await vm.LoadVMAsync(categoryId);
 
             return vm;
         }
@@ -61,7 +61,15 @@ namespace EasyBudget.Business
         public async Task<BudgetItemsViewModel> GetBudgetItemsVM(int categoryId)
         {
             BudgetItemsViewModel vm = new BudgetItemsViewModel(this.dbFilePath);
-            await vm.LoadBudgetItemsAsync(categoryId);
+            await vm.LoadVMAsync(categoryId);
+
+            return vm;
+        }
+
+        public async Task<BudgetItemViewModel> GetBudgetItemVM(int itemId, BudgetItemType itemType)
+        {
+            BudgetItemViewModel vm = new BudgetItemViewModel(this.dbFilePath);
+            await vm.LoadVMAsync(itemId, itemType);
 
             return vm;
         }
@@ -69,7 +77,7 @@ namespace EasyBudget.Business
         public async Task<EasyBudgetStatusViewModel> GetStatusVM()
         {
             EasyBudgetStatusViewModel vm = new EasyBudgetStatusViewModel(this.dbFilePath);
-            await vm.LoadStatusAsync();
+            await vm.LoadVMAsync();
 
             return vm;
         }
@@ -77,7 +85,14 @@ namespace EasyBudget.Business
         public async Task<BankAccountsViewModel> GetBankAccountsViewModelAsync()
         {
             BankAccountsViewModel vm = new BankAccountsViewModel(this.dbFilePath);
-            await vm.LoadBankAccountsAsync();
+            await vm.LoadVMAsync();
+            return vm;
+        }
+
+        public async Task<BankAccountViewModel> GetBankAccountViewModelAsync(int accountId, BankAccountType accountType)
+        {
+            BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
+            await vm.LoadVMAsync(accountId, accountType);
             return vm;
         }
 

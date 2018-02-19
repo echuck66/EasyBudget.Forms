@@ -2,26 +2,29 @@
 using System.Collections.Generic;
 using EasyBudget.Business;
 using EasyBudget.Business.ViewModels;
+using EasyBudget.Models;
 using Xamarin.Forms;
 
 namespace EasyBudget.Forms.Pages
 {
-    public partial class MainPage : ContentPage
+    public partial class CheckingAccountEdit : ContentPage
     {
         EasyBudgetDataService ds;
-        EasyBudgetStatusViewModel vm;
+        BankAccountViewModel vm;
+        int bankAccountId;
 
-        public MainPage()
+        public CheckingAccountEdit(int accountId)
         {
             InitializeComponent();
             ds = EasyBudgetDataService.Instance;
-
+            bankAccountId = accountId;
         }
 
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            vm = await ds.GetStatusVM();
+            vm = await ds.GetBankAccountViewModelAsync(bankAccountId, BankAccountType.Checking);
+
         }
     }
 }

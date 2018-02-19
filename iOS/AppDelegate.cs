@@ -15,6 +15,7 @@ namespace EasyBudget.iOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            
             global::Xamarin.Forms.Forms.Init();
 
             container.Register<IDataServiceHelper, DataServiceHelper>();

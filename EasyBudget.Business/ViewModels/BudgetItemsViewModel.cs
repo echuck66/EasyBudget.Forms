@@ -34,7 +34,7 @@ namespace EasyBudget.Business.ViewModels
             BudgetItemVMs = new List<BudgetItemViewModel>();
         }
 
-        internal async Task LoadBudgetItemsAsync(int categoryId)
+        internal async Task LoadVMAsync(int categoryId)
         {
             await LoadIncomeItemsAsync(categoryId);
             await LoadExpenseItemsAsync(categoryId);

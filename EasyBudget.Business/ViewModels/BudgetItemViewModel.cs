@@ -209,6 +209,73 @@ namespace EasyBudget.Business.ViewModels
             return _category;
         }
 
+        internal async Task LoadVMAsync(int itemId, BudgetItemType itemType)
+        {
+            switch (itemType)
+            {
+                case BudgetItemType.Income:
+                    await LoadEIncomeItemAsync(itemId);
+                    break;
+                case BudgetItemType.Expense:
+                    await LoadExpenseItemAsync(itemId);
+                    break;
+            }
+        }
+
+        async Task LoadExpenseItemAsync(int itemId)
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetExpenseItemAsync(itemId);
+                if (_results.Successful)
+                {
+                    await PopulateVMAsync(_results.Results);
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred loading expense item object");
+                    }
+                }
+            }
+        }
+
+        async Task LoadEIncomeItemAsync(int itemId)
+        {
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetIncomeItemAsync(itemId);
+                if (_results.Successful)
+                {
+                    await PopulateVMAsync(_results.Results);
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred loading income item object");
+                    }
+                }
+            }
+        }
+
         internal async Task PopulateVMAsync(BudgetItem item)
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))

@@ -1,5 +1,23 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="EasyBudget.Forms.Pages.BudgetCategories">
-	<ContentPage.Content>
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                x:Class="EasyBudget.Forms.Pages.BudgetCategories">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="NewCategory" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
+    </ContentPage.ToolbarItems>    
+    <ContentPage.Content>
+        <ListView ItemsSource="{Binding BudgetCategoryVMs}" ItemSelected="OnItemSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" />
+                            <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
+                         </ViewCell.ContextActions>
+                        <Label Text="{Binding Name}"></Label>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 	</ContentPage.Content>
 </ContentPage>
