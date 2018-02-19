@@ -3,18 +3,25 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 x:Class="EasyBudget.Forms.Pages.BudgetCategoryEdit" 
                 Title="Details">
-	<ContentPage.Content>
-        <ScrollView>
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="10,30,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>  
+    <ContentPage.Content>
+
             <StackLayout>
                 <Label Text="Name"></Label>
-                <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode TwoWay}"></Entry>
+                <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
                 <Label Text="Description"></Label>
-                <Entry x:Name="txtDescription" Text="{Binding Description, Mode TwoWay}"></Entry>
-                <Label Text="Budgted Amount"></Label>
+                <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
+                <Label Text="Budgeted Amount"></Label>
                 <Label Text="{Binding Amount}">
                     
                 </Label>
+                <Button Text="Save" Clicked="OnSaveClicked" BackgroundColor="Green" TextColor="White" WidthRequest="150" HorizontalOptions="Center"></Button>
+                <Button Text="Cancel" Clicked="OnCancelClicked" BackgroundColor="Red" TextColor="White" WidthRequest="150" HorizontalOptions="Center"></Button>
             </StackLayout>
-        </ScrollView>
+
 	</ContentPage.Content>
 </ContentPage>

@@ -8,21 +8,47 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class BudgetCategoryEdit : ContentPage
     {
-        EasyBudgetDataService ds;
-        BudgetCategoryViewModel vm;
-        int budgetCategoryId;
+        //EasyBudgetDataService ds;
+        //BudgetCategoryViewModel vm;
+        //int budgetCategoryId;
 
-        public BudgetCategoryEdit(int categoryId)
+        public BudgetCategoryEdit()
         {
             InitializeComponent();
-            ds = EasyBudgetDataService.Instance;
-            budgetCategoryId = categoryId;
+            //ds = EasyBudgetDataService.Instance;
+
         }
 
-        protected async override void OnAppearing()
+        //public BudgetCategoryEdit(BudgetCategoryViewModel viewmodel)
+        //{
+        //    InitializeComponent();
+        //    ds = EasyBudgetDataService.Instance;
+        //    vm = viewmodel;
+        //}
+
+        //public BudgetCategoryEdit(int categoryId)
+        //{
+        //    InitializeComponent();
+        //    ds = EasyBudgetDataService.Instance;
+        //    budgetCategoryId = categoryId;
+        //}
+
+        //protected async override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    vm = await ds.GetBudgetCategoryVM(budgetCategoryId);
+        //}
+
+        protected async void OnSaveClicked(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            vm = await ds.GetBudgetCategoryVM(budgetCategoryId);
+            await (this.BindingContext as BudgetCategoryViewModel).SaveChangesAsync();
+            await Navigation.PopModalAsync();
         }
+
+        protected async void OnCancelClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
+        }
+
     }
 }

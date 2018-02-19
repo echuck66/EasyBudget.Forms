@@ -29,6 +29,20 @@ namespace EasyBudget.Business.ViewModels
 
         public ObservableCollection<BudgetCategoryViewModel> BudgetCategoryVMs { get; set; }
 
+        BudgetCategoryViewModel _SelectedBudgetCategoryVM;
+        public BudgetCategoryViewModel SelectedBudgetCategoryVM
+        {
+            get
+            {
+                return _SelectedBudgetCategoryVM;
+            }
+            set
+            {
+                _SelectedBudgetCategoryVM = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetCategoryVM)));
+            }
+        }
+
         int _CurrentMonth;
         public int CurrentMonth {
             get
@@ -95,6 +109,7 @@ namespace EasyBudget.Business.ViewModels
             vm.CanEdit = true;
             vm.IsNew = true;
             this.BudgetCategoryVMs.Add(vm);
+            this.SelectedBudgetCategoryVM = vm;
         }
 
         public async Task AddNewBudgetCategoryAsync()
@@ -106,6 +121,7 @@ namespace EasyBudget.Business.ViewModels
             vm.CanDelete = false;
             vm.CanEdit = true;
             this.BudgetCategoryVMs.Add(vm);
+            this.SelectedBudgetCategoryVM = vm;
         }
 
         public async Task<bool> DeleteBudgetCategoryAsync(BudgetCategoryViewModel vm)
