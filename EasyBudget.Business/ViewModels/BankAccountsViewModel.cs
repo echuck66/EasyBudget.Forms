@@ -25,12 +25,12 @@ namespace EasyBudget.Business.ViewModels
     public class BankAccountsViewModel : BaseViewModel
     {
 
-        public ObservableCollection<BankAccountViewModel> BankAccountVMs { get; set; }
+        public ObservableCollection<BankAccountViewModel> BankAccounts { get; set; }
 
         internal BankAccountsViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            BankAccountVMs = new ObservableCollection<BankAccountViewModel>();
+            BankAccounts = new ObservableCollection<BankAccountViewModel>();
         }
 
         internal async Task LoadVMAsync()
@@ -51,7 +51,7 @@ namespace EasyBudget.Business.ViewModels
                     {
                         BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
                         await vm.PopulateVMAsync(account);
-                        this.BankAccountVMs.Add(vm);
+                        this.BankAccounts.Add(vm);
                     }
                 }
                 else
@@ -110,7 +110,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
-            this.BankAccountVMs.Add(vm);
+            this.BankAccounts.Add(vm);
         }
 
         public async Task AddsavingsAccountAsync()
@@ -121,7 +121,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
-            this.BankAccountVMs.Add(vm);
+            this.BankAccounts.Add(vm);
         }
     }
 
