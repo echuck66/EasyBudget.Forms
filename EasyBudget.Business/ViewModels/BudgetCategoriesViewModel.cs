@@ -114,7 +114,7 @@ namespace EasyBudget.Business.ViewModels
                           group cat by cat.CategoryType into Group
                           select new Grouping<string, BudgetCategoryViewModel>(Group.Key.ToString(), Group);
             
-            this.BudgetCategoriesGrouped = new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>(grouped);
+            this.BudgetCategoriesGrouped = new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>(grouped.OrderBy(g => g.Key));
         }
 
         public async Task GroupCategoriesAsync()
@@ -124,7 +124,7 @@ namespace EasyBudget.Business.ViewModels
                           group cat by cat.CategoryType into Group
                           select new Grouping<string, BudgetCategoryViewModel>(Group.Key.ToString(), Group);
 
-            this.BudgetCategoriesGrouped = await Task.Run(() => new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>(grouped));
+            this.BudgetCategoriesGrouped = await Task.Run(() => new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>(grouped.OrderBy(g => g.Key)));
         }
 
         public void AddNewBudgetCategory()

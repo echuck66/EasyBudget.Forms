@@ -1,28 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using EasyBudget.Business;
-using EasyBudget.Business.ViewModels;
+
 using Xamarin.Forms;
 
 namespace EasyBudget.Forms.Pages
 {
     public partial class BudgetCategoryView : ContentPage
     {
-        EasyBudgetDataService ds;
-        BudgetCategoryViewModel vm;
-        int budgetCategoryId;
-
-        public BudgetCategoryView(int categoryId)
+        public BudgetCategoryView()
         {
             InitializeComponent();
-            ds = EasyBudgetDataService.Instance;
-            budgetCategoryId = categoryId;
         }
 
-        protected async override void OnAppearing()
+        public async void OnBackClicked(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            vm = await ds.GetBudgetCategoryVM(budgetCategoryId);
+            await Navigation.PopModalAsync();
         }
     }
 }

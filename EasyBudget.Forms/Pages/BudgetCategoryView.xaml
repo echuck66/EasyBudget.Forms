@@ -1,5 +1,26 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="EasyBudget.Forms.Pages.BudgetCategoryView">
-	<ContentPage.Content>
-	</ContentPage.Content>
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="EasyBudget.Forms.Pages.BudgetCategoryView">
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="10,25,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="Back" Order="Primary" Text="Back" Clicked="OnBackClicked"></ToolbarItem>
+    </ContentPage.ToolbarItems>  
+    <ContentPage.Content>
+        <StackLayout Spacing="10">
+            <Label Text="Name" FontAttributes="Bold"></Label>
+            <Label Text="{Binding Name}"></Label>
+            <Label Text="Description" FontAttributes="Bold"></Label>
+            <Label Text="{Binding Description}"></Label>
+            <Label Text="Type" FontAttributes="Bold"></Label>
+            <Label Text="{Binding CategoryType}"></Label>
+            <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
+            <Label Text="{Binding Amount}"></Label>
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

@@ -9,7 +9,8 @@
         <ListView ItemsSource="{Binding BudgetCategoriesGrouped}" 
                   ItemSelected="OnItemSelected" 
                   IsGroupingEnabled="true" 
-                  GroupDisplayBinding="{Binding Key}">
+                  GroupDisplayBinding="{Binding Key}" 
+                  SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
             
             <ListView.ItemTemplate>
                 <DataTemplate>
