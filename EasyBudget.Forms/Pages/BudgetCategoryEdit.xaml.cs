@@ -8,36 +8,10 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class BudgetCategoryEdit : ContentPage
     {
-        //EasyBudgetDataService ds;
-        //BudgetCategoryViewModel vm;
-        //int budgetCategoryId;
-
         public BudgetCategoryEdit()
         {
             InitializeComponent();
-            //ds = EasyBudgetDataService.Instance;
-
         }
-
-        //public BudgetCategoryEdit(BudgetCategoryViewModel viewmodel)
-        //{
-        //    InitializeComponent();
-        //    ds = EasyBudgetDataService.Instance;
-        //    vm = viewmodel;
-        //}
-
-        //public BudgetCategoryEdit(int categoryId)
-        //{
-        //    InitializeComponent();
-        //    ds = EasyBudgetDataService.Instance;
-        //    budgetCategoryId = categoryId;
-        //}
-
-        //protected async override void OnAppearing()
-        //{
-        //    base.OnAppearing();
-        //    vm = await ds.GetBudgetCategoryVM(budgetCategoryId);
-        //}
 
         protected async void OnSaveClicked(object sender, EventArgs e)
         {

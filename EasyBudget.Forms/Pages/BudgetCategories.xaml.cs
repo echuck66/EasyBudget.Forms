@@ -66,6 +66,14 @@ namespace EasyBudget.Forms.Pages
             }
         }
 
+        public async void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var categoryViewModel = e.Item as BudgetCategoryViewModel;
+            BudgetCategoryViewTabs viewer = new BudgetCategoryViewTabs();
+            viewer.BindingContext = categoryViewModel;
+            await Navigation.PushModalAsync(viewer);
+        }
+
         protected async void OnNewItemClicked(object sender, EventArgs e)
         {
             await vm.AddNewBudgetCategoryAsync();
