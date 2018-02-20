@@ -13,12 +13,8 @@ Here are a few screenshots. Nothing fancy yet, just some basic plumbing.
 Budget Categories | Context Actions
 --------|--------
 ![Categories](./images/budget_categories_listview.png) | ![Context](./images/budget_categories_listview_contextactions.png)
---------|--------
 Budget Categories | Context Actions
---------|--------
 ![Editor](./images/budget_category_editor.png) | ![Picker](./images/budget_category_edits_picker.png)
---------|--------
 Delete Confirmation | Deleted Message
---------|--------
 ![Confirmation](./images/budget_category_delete_confirmation.png) | ![Message](./images/budget_category_deleted_message.png)
 
