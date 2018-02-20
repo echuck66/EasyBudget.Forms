@@ -16,9 +16,9 @@ Budget Categories | Context Actions
 --------|--------
 Budget Categories | Context Actions
 --------|--------
-![Editor](.images/budget_category_editor.png) | ![Picker](./images/budget_category_edits_picker.png)
+![Editor](./images/budget_category_editor.png) | ![Picker](./images/budget_category_edits_picker.png)
 --------|--------
 Delete Confirmation | Deleted Message
 --------|--------
-![Confirmation](.images/budget_category_delete_confirmation.png) | ![Message](./images/budget_category_deleted_message.png)
+![Confirmation](./images/budget_category_delete_confirmation.png) | ![Message](./images/budget_category_deleted_message.png)
 
