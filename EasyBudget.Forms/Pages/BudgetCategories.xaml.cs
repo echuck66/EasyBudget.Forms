@@ -43,7 +43,7 @@ namespace EasyBudget.Forms.Pages
             var btn = sender as MenuItem;
             BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
             editor.BindingContext = btn.BindingContext; 
-            await PushTabbedPageModalAsync(editor);
+            await Navigation.PushModalAsync(editor);
         }
 
         protected async void OnItemDelete(object sender, EventArgs e)
@@ -71,14 +71,15 @@ namespace EasyBudget.Forms.Pages
             await vm.AddNewBudgetCategoryAsync();
             BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
             editor.BindingContext = vm.SelectedBudgetCategory;
-            await PushTabbedPageModalAsync(editor);
+            await Navigation.PushModalAsync(editor);
+            //await PushTabbedPageModalAsync(editor);
         }
 
-        private async Task PushTabbedPageModalAsync(TabbedPage page)
-        {
-            // Wrap TabbedPage in a NavigationPage to get the toolbar
-            NavigationPage np = new NavigationPage(page);
-            await Navigation.PushModalAsync(np);
-        }
+        //private async Task PushTabbedPageModalAsync(TabbedPage page)
+        //{
+        //    // Wrap TabbedPage in a NavigationPage to get the toolbar
+        //    NavigationPage np = new NavigationPage(page);
+        //    await Navigation.PushModalAsync(np);
+        //}
     }
 }

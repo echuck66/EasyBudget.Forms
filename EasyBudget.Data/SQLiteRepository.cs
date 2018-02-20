@@ -255,7 +255,9 @@ namespace EasyBudget.Data
                        where x.budgetCategoryId == categoryId 
                        select x;
             List<ExpenseItem> expenses = await xps?.ToListAsync();
-
+            if (expenses == null)
+                expenses = new List<ExpenseItem>();
+            
             return expenses as ICollection<ExpenseItem>;
         }
 
@@ -270,7 +272,9 @@ namespace EasyBudget.Data
                       where i.budgetCategoryId == categoryId
                       select i;
             List<IncomeItem> income = await inc?.ToListAsync();
-
+            if (income == null)
+                income = new List<IncomeItem>();
+            
             return income as ICollection<IncomeItem>;
         }
 
