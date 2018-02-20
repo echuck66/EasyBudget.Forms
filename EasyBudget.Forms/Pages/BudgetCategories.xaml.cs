@@ -72,14 +72,7 @@ namespace EasyBudget.Forms.Pages
             BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
             editor.BindingContext = vm.SelectedBudgetCategory;
             await Navigation.PushModalAsync(editor);
-            //await PushTabbedPageModalAsync(editor);
         }
 
-        //private async Task PushTabbedPageModalAsync(TabbedPage page)
-        //{
-        //    // Wrap TabbedPage in a NavigationPage to get the toolbar
-        //    NavigationPage np = new NavigationPage(page);
-        //    await Navigation.PushModalAsync(np);
-        //}
     }
 }

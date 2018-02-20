@@ -6,16 +6,20 @@
         <ToolbarItem Name="NewCategory" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
     </ContentPage.ToolbarItems>    
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding BudgetCategories}" ItemSelected="OnItemSelected">
+        <ListView ItemsSource="{Binding BudgetCategoriesGrouped}" 
+                  ItemSelected="OnItemSelected" 
+                  IsGroupingEnabled="true" 
+                  GroupDisplayBinding="{Binding Key}">
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <ViewCell.ContextActions>
+                    <TextCell Text="{Binding Name}" Detail="{Binding Amount}">
+                        <TextCell.ContextActions>
                             <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                             <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                         </ViewCell.ContextActions>
-                        <Label Text="{Binding Name}"></Label>
-                    </ViewCell>
+                        </TextCell.ContextActions>
+                    </TextCell>
+                    
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

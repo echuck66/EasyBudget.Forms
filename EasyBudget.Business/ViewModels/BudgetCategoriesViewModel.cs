@@ -26,8 +26,8 @@ namespace EasyBudget.Business.ViewModels
 
     public class BudgetCategoriesViewModel : BaseViewModel, INotifyPropertyChanged
     {
-
         public ObservableCollection<BudgetCategoryViewModel> BudgetCategories { get; set; }
+        public ObservableCollection<Grouping<string, BudgetCategoryViewModel>> BudgetCategoriesGrouped { get; set; }
 
         BudgetCategoryViewModel _SelectedBudgetCategory;
         public BudgetCategoryViewModel SelectedBudgetCategory
@@ -63,6 +63,7 @@ namespace EasyBudget.Business.ViewModels
             : base(dbFilePath)
         {
             this.BudgetCategories = new ObservableCollection<BudgetCategoryViewModel>();
+            this.BudgetCategoriesGrouped = new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>();
             this.CurrentMonth = DateTime.Now.Month;
         }
 
@@ -73,6 +74,7 @@ namespace EasyBudget.Business.ViewModels
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
                 var _results = await uow.GetAllBudgetCategoriesAsync();
+                var _tempList = new List<BudgetCategoryViewModel>();
                 if (_results.Successful)
                 {
                     foreach (var category in _results.Results)
@@ -83,6 +85,7 @@ namespace EasyBudget.Business.ViewModels
                         await vm.PopulateVMAsync(category);
                         this.BudgetCategories.Add(vm);
                     }
+                    await GroupCategoriesAsync();
                 }
                 else
                 {
@@ -99,7 +102,29 @@ namespace EasyBudget.Business.ViewModels
                         WriteErrorCondition("An unknown error has occurred");
                     }
                 }
+
+                                    
             }
+        }
+
+        public void GroupCategories()
+        {
+            var grouped = from cat in this.BudgetCategories
+                          orderby cat.Name
+                          group cat by cat.CategoryType into Group
+                          select new Grouping<string, BudgetCategoryViewModel>(Group.Key.ToString(), Group);
+            
+            this.BudgetCategoriesGrouped = new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>(grouped);
+        }
+
+        public async Task GroupCategoriesAsync()
+        {
+            var grouped = from cat in this.BudgetCategories
+                          orderby cat.Name
+                          group cat by cat.CategoryType into Group
+                          select new Grouping<string, BudgetCategoryViewModel>(Group.Key.ToString(), Group);
+
+            this.BudgetCategoriesGrouped = await Task.Run(() => new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>(grouped));
         }
 
         public void AddNewBudgetCategory()
@@ -111,6 +136,7 @@ namespace EasyBudget.Business.ViewModels
             vm.CanEdit = true;
             vm.IsNew = true;
             this.BudgetCategories.Add(vm);
+            GroupCategories();
             this.SelectedBudgetCategory = vm;
         }
 
@@ -123,19 +149,22 @@ namespace EasyBudget.Business.ViewModels
             vm.CanDelete = false;
             vm.CanEdit = true;
             this.BudgetCategories.Add(vm);
+            await GroupCategoriesAsync();
             this.SelectedBudgetCategory = vm;
         }
 
         public async Task<bool> DeleteBudgetCategoryAsync(BudgetCategoryViewModel vm)
         {
             bool deleted = false;
+            var itemList = new List<BudgetCategoryViewModel>();
+
             if (vm.CanDelete && this.BudgetCategories.Contains(vm, new BudgetCategoryViewModelComparer()))
             {
                 deleted = await vm.DeleteAsync();
-
                 if (deleted) 
                 {
                     this.BudgetCategories.Remove(vm);
+                    await GroupCategoriesAsync();
                 }
             }
             else
