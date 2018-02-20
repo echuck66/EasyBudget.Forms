@@ -50,5 +50,9 @@ namespace EasyBudget.Forms.Pages
             await Navigation.PopModalAsync();
         }
 
+        protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

@@ -120,12 +120,32 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public ObservableCollection<BudgetItemViewModel> BudgetItemVMs { get; set; }
+        BudgetItemViewModel _SelectedBudgetItem;
+        public BudgetItemViewModel SelectedBudgetItem
+        {
+            get
+            {
+                return _SelectedBudgetItem;
+            }
+            set
+            {
+                _SelectedBudgetItem = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
+            }
+        }
+
+        public ObservableCollection<BudgetCategoryType> CategoryTypes { get; set; }
+
+        public ObservableCollection<BudgetItemViewModel> BudgetItems { get; set; }
 
         public BudgetCategoryViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.BudgetItemVMs = new ObservableCollection<BudgetItemViewModel>();
+            this.BudgetItems = new ObservableCollection<BudgetItemViewModel>();
+            this.CategoryTypes = new ObservableCollection<BudgetCategoryType>() {
+                BudgetCategoryType.Income,
+                BudgetCategoryType.Expense
+            };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -148,7 +168,7 @@ namespace EasyBudget.Business.ViewModels
                                 item.budgetCategory = category;
                                 var vm = new BudgetItemViewModel(this.dbFilePath);
                                 await vm.PopulateVMAsync(item);
-                                this.BudgetItemVMs.Add(vm);
+                                this.BudgetItems.Add(vm);
                             }
                         }
                         else
@@ -177,7 +197,7 @@ namespace EasyBudget.Business.ViewModels
                                 item.budgetCategory = category;
                                 var vm = new BudgetItemViewModel(this.dbFilePath);
                                 await vm.PopulateVMAsync(item);
-                                this.BudgetItemVMs.Add(vm);
+                                this.BudgetItems.Add(vm);
                             }
                         }
                         else
@@ -232,7 +252,7 @@ namespace EasyBudget.Business.ViewModels
         {
             bool deleted = false;
 
-            if (this.BudgetItemVMs.Count == 0)
+            if (this.BudgetItems.Count == 0)
             {
                 using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
                 {
@@ -325,7 +345,7 @@ namespace EasyBudget.Business.ViewModels
 
             if (_saveOk)
             {
-                foreach(var item in BudgetItemVMs)
+                foreach(var item in BudgetItems)
                 {
                     if (item.IsDirty)
                     {
@@ -340,7 +360,7 @@ namespace EasyBudget.Business.ViewModels
             BudgetItemViewModel vm = new BudgetItemViewModel(this.dbFilePath);
             vm.ItemType = this.CategoryType == BudgetCategoryType.Expense ? BudgetItemType.Expense : BudgetItemType.Income;
             vm.IsNew = true;
-            this.BudgetItemVMs.Add(vm);
+            this.BudgetItems.Add(vm);
 
             return vm;
         }

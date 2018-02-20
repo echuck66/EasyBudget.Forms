@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using EasyBudget.Business;
 using EasyBudget.Business.ViewModels;
 using Xamarin.Forms;
@@ -21,7 +22,7 @@ namespace EasyBudget.Forms.Pages
         {
             base.OnAppearing();
             vm = await ds.GetBudgetCategoriesViewModelAsync();
-            vm.SelectedBudgetCategoryVM = null;
+            vm.SelectedBudgetCategory = null;
             this.BindingContext = vm;
         }
 
@@ -34,27 +35,50 @@ namespace EasyBudget.Forms.Pages
         protected void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var selectedVM = e.SelectedItem as BudgetCategoryViewModel;
-            vm.SelectedBudgetCategoryVM = selectedVM;
+            vm.SelectedBudgetCategory = selectedVM;
         }
 
         protected async void OnItemEdit(object sender, EventArgs e)
         {
+            var btn = sender as MenuItem;
             BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
-            editor.BindingContext = vm.SelectedBudgetCategoryVM;
-            await Navigation.PushModalAsync(editor);
+            editor.BindingContext = btn.BindingContext; 
+            await PushTabbedPageModalAsync(editor);
         }
 
-        protected void OnItemDelete(object sender, EventArgs e)
+        protected async void OnItemDelete(object sender, EventArgs e)
         {
-            
+            var answer = await DisplayAlert("Confirmation", "Are you sure you want to delete this Category?", "Yes","No");
+
+            if (answer) 
+            {
+                var btn = sender as MenuItem;
+                var category = btn.BindingContext as BudgetCategoryViewModel;
+                bool deleted = await vm.DeleteBudgetCategoryAsync(category);
+                if (deleted) 
+                {
+                    await DisplayAlert("Results", "Item Deleted", "Dismiss");
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Unable to delte this Category. Message: " + category.ErrorCondition, "Ok");
+                }
+            }
         }
 
         protected async void OnNewItemClicked(object sender, EventArgs e)
         {
             await vm.AddNewBudgetCategoryAsync();
             BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
-            editor.BindingContext = vm.SelectedBudgetCategoryVM;
-            await Navigation.PushModalAsync(editor);
+            editor.BindingContext = vm.SelectedBudgetCategory;
+            await PushTabbedPageModalAsync(editor);
+        }
+
+        private async Task PushTabbedPageModalAsync(TabbedPage page)
+        {
+            // Wrap TabbedPage in a NavigationPage to get the toolbar
+            NavigationPage np = new NavigationPage(page);
+            await Navigation.PushModalAsync(np);
         }
     }
 }

@@ -6,13 +6,13 @@
         <ToolbarItem Name="NewCategory" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
     </ContentPage.ToolbarItems>    
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding BudgetCategoryVMs}" ItemSelected="OnItemSelected">
+        <ListView ItemsSource="{Binding BudgetCategories}" ItemSelected="OnItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" />
-                            <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" />
+                            <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                            <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
                          </ViewCell.ContextActions>
                         <Label Text="{Binding Name}"></Label>
                     </ViewCell>
