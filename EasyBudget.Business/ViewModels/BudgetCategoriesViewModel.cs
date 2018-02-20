@@ -27,19 +27,19 @@ namespace EasyBudget.Business.ViewModels
     public class BudgetCategoriesViewModel : BaseViewModel, INotifyPropertyChanged
     {
 
-        public ObservableCollection<BudgetCategoryViewModel> BudgetCategoryVMs { get; set; }
+        public ObservableCollection<BudgetCategoryViewModel> BudgetCategories { get; set; }
 
-        BudgetCategoryViewModel _SelectedBudgetCategoryVM;
-        public BudgetCategoryViewModel SelectedBudgetCategoryVM
+        BudgetCategoryViewModel _SelectedBudgetCategory;
+        public BudgetCategoryViewModel SelectedBudgetCategory
         {
             get
             {
-                return _SelectedBudgetCategoryVM;
+                return _SelectedBudgetCategory;
             }
             set
             {
-                _SelectedBudgetCategoryVM = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetCategoryVM)));
+                _SelectedBudgetCategory = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetCategory)));
             }
         }
 
@@ -62,7 +62,7 @@ namespace EasyBudget.Business.ViewModels
         public BudgetCategoriesViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.BudgetCategoryVMs = new ObservableCollection<BudgetCategoryViewModel>();
+            this.BudgetCategories = new ObservableCollection<BudgetCategoryViewModel>();
             this.CurrentMonth = DateTime.Now.Month;
         }
 
@@ -78,8 +78,10 @@ namespace EasyBudget.Business.ViewModels
                     foreach (var category in _results.Results)
                     {
                         var vm = new BudgetCategoryViewModel(this.dbFilePath);
+                        vm.CanEdit = true;
+                        vm.CanDelete = true;
                         await vm.PopulateVMAsync(category);
-                        this.BudgetCategoryVMs.Add(vm);
+                        this.BudgetCategories.Add(vm);
                     }
                 }
                 else
@@ -108,8 +110,8 @@ namespace EasyBudget.Business.ViewModels
             vm.CanDelete = false;
             vm.CanEdit = true;
             vm.IsNew = true;
-            this.BudgetCategoryVMs.Add(vm);
-            this.SelectedBudgetCategoryVM = vm;
+            this.BudgetCategories.Add(vm);
+            this.SelectedBudgetCategory = vm;
         }
 
         public async Task AddNewBudgetCategoryAsync()
@@ -120,21 +122,25 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanDelete = false;
             vm.CanEdit = true;
-            this.BudgetCategoryVMs.Add(vm);
-            this.SelectedBudgetCategoryVM = vm;
+            this.BudgetCategories.Add(vm);
+            this.SelectedBudgetCategory = vm;
         }
 
         public async Task<bool> DeleteBudgetCategoryAsync(BudgetCategoryViewModel vm)
         {
             bool deleted = false;
-            if (vm.CanDelete && this.BudgetCategoryVMs.Contains(vm, new BudgetCategoryViewModelComparer()))
+            if (vm.CanDelete && this.BudgetCategories.Contains(vm, new BudgetCategoryViewModelComparer()))
             {
                 deleted = await vm.DeleteAsync();
 
                 if (deleted) 
                 {
-                    this.BudgetCategoryVMs.Remove(vm);
+                    this.BudgetCategories.Remove(vm);
                 }
+            }
+            else
+            {
+                this.WriteErrorCondition("Unable to locate provided item in the source collection");
             }
 
             return deleted;

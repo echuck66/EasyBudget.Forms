@@ -5,22 +5,24 @@
                 Title="Details">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,30,0,0" />
+            <On Platform="iOS" Value="10,25,0,0" />
         </OnPlatform>
     </ContentPage.Padding>  
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="SaveEdits" Order="Primary" Text="Save" Clicked="OnSaveClicked"></ToolbarItem>
+        <ToolbarItem Name="CancelEdits" Order="Primary" Text="Cancel" Clicked="OnCancelClicked"></ToolbarItem>
+    </ContentPage.ToolbarItems>   
     <ContentPage.Content>
 
             <StackLayout>
-                <Label Text="Name"></Label>
+                <Label Text="Name" FontAttributes="Bold"></Label>
                 <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
-                <Label Text="Description"></Label>
+                <Label Text="Description" FontAttributes="Bold"></Label>
                 <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
-                <Label Text="Budgeted Amount"></Label>
-                <Label Text="{Binding Amount}">
-                    
-                </Label>
-                <Button Text="Save" Clicked="OnSaveClicked" BackgroundColor="Green" TextColor="White" WidthRequest="150" HorizontalOptions="Center"></Button>
-                <Button Text="Cancel" Clicked="OnCancelClicked" BackgroundColor="Red" TextColor="White" WidthRequest="150" HorizontalOptions="Center"></Button>
+                <Label Text="Type" FontAttributes="Bold"></Label>
+                <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}"></Picker>
+                <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
+                <Label Text="{Binding Amount}"></Label>
             </StackLayout>
 
 	</ContentPage.Content>
