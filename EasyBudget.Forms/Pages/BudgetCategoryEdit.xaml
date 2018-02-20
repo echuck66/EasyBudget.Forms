@@ -13,7 +13,7 @@
     </ContentPage.ToolbarItems>   
     <ContentPage.Content>
 
-            <StackLayout>
+            <StackLayout Spacing="10">
                 <Label Text="Name" FontAttributes="Bold"></Label>
                 <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
                 <Label Text="Description" FontAttributes="Bold"></Label>
