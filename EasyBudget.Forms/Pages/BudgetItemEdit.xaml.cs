@@ -9,23 +9,21 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class BudgetItemEdit : ContentPage
     {
-        EasyBudgetDataService ds;
-        BudgetItemViewModel vm;
-        int budgetItemId;
-        BudgetItemType budgetItemType;
 
         public BudgetItemEdit(int itemId, BudgetItemType itemType)
         {
             InitializeComponent();
-            ds = EasyBudgetDataService.Instance;
-            budgetItemId = itemId;
-            budgetItemType = itemType;
         }
 
-        protected async override void OnAppearing()
+        protected async void OnSaveClicked(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            vm = await ds.GetBudgetItemVM(budgetItemId, budgetItemType);
+            await (this.BindingContext as BudgetItemViewModel).SaveChangesAsync();
+            await Navigation.PopModalAsync();
+        }
+
+        protected async void OnCancelClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
         }
     }
 }
