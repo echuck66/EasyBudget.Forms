@@ -10,6 +10,7 @@ namespace EasyBudget.Forms.Pages
         public BudgetCategoryItems()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         protected void OnItemSelected(object sender, SelectedItemChangedEventArgs e)

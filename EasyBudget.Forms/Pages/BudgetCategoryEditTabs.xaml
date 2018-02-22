@@ -4,11 +4,7 @@
             xmlns:local="clr-namespace:EasyBudget.Forms.Pages;assembly=EasyBudget"
             x:Class="EasyBudget.Forms.Pages.BudgetCategoryEditTabs">
 
-    <NavigationPage Title="Details">
-        <x:Arguments>
-            <local:BudgetCategoryEdit />
-        </x:Arguments>
-    </NavigationPage>
+    <local:BudgetCategoryEdit />
 
     <NavigationPage Title="Budget Items">
         <x:Arguments>
