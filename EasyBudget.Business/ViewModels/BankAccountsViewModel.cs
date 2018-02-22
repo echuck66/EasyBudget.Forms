@@ -153,6 +153,7 @@ namespace EasyBudget.Business.ViewModels
             vm.CanEdit = true;
             vm.CanDelete = false;
             this.BankAccounts.Add(vm);
+            this.SelectedBankAccount = vm;
             await GroupAccountsAsync();
         }
 
@@ -165,6 +166,7 @@ namespace EasyBudget.Business.ViewModels
             vm.CanEdit = true;
             vm.CanDelete = false;
             this.BankAccounts.Add(vm);
+            this.SelectedBankAccount = vm;
             await GroupAccountsAsync();
         }
     }

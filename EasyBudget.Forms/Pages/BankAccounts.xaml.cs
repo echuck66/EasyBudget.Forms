@@ -46,16 +46,77 @@ namespace EasyBudget.Forms.Pages
             vm.SelectedBankAccount = btn.BindingContext as BankAccountViewModel;
             if (vm.SelectedBankAccount.AccountType == BankAccountType.Checking)
             {
-                
+                CheckingAccountEditTabs editor = new CheckingAccountEditTabs();
+                editor.BindingContext = btn.BindingContext;
+                await Navigation.PushModalAsync(editor);
             }
             else
             {
-                
+                SavingsAccountEditTabs editor = new SavingsAccountEditTabs();
+                editor.BindingContext = btn.BindingContext;
+                await Navigation.PushModalAsync(editor);
             }
-            //BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
-            //editor.BindingContext = btn.BindingContext;
-            //await Navigation.PushModalAsync(editor);
+
         }
 
+        protected async void OnItemDelete(object sender, EventArgs e)
+        {
+            var answer = await DisplayAlert("Confirmation", "Are you sure you want to delete this Account?", "Yes", "No");
+
+            if (answer)
+            {
+                var btn = sender as MenuItem;
+                //var category = btn.BindingContext as BankAccountViewModel;
+                //bool deleted = await vm.(category);
+                //if (deleted)
+                //{
+                //    await DisplayAlert("Results", "Item Deleted", "Dismiss");
+                //}
+                //else
+                //{
+                //    await DisplayAlert("Error", "Unable to delte this Category. Message: " + category.ErrorCondition, "Ok");
+                //}
+            }
+        }
+
+        public async void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var accountViewModel = e.Item as BankAccountViewModel;
+
+            switch (accountViewModel.AccountType)
+            {
+                case BankAccountType.Checking:
+                    CheckingAccountViewTabs checkingViewer = new CheckingAccountViewTabs();
+                    checkingViewer.BindingContext = accountViewModel;
+                    await Navigation.PushModalAsync(checkingViewer);
+                    break;
+                case BankAccountType.Savings:
+                    SavingsAccountViewTabs savingsViewer = new SavingsAccountViewTabs();
+                    savingsViewer.BindingContext = accountViewModel;
+                    await Navigation.PushModalAsync(savingsViewer);
+                    break;
+            }
+        }
+
+        public async void OnNewItemClicked(object sender, EventArgs e)
+        {
+            var action = await DisplayActionSheet("New Account Type", "Cancel", null, "Checking", "Savings");
+
+            switch (action)
+            {
+                case "Checking":
+                    await vm.AddCheckingAccountAsync();
+                    CheckingAccountEditTabs checkingEditor = new CheckingAccountEditTabs();
+                    checkingEditor.BindingContext = vm.SelectedBankAccount;
+                    await Navigation.PushModalAsync(checkingEditor);
+                    break;
+                case "Savings":
+                    await vm.AddsavingsAccountAsync();
+                    SavingsAccountEditTabs savingsEditor = new SavingsAccountEditTabs();
+                    savingsEditor.BindingContext = vm.SelectedBankAccount;
+                    await Navigation.PushModalAsync(savingsEditor);
+                    break;
+            }
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace EasyBudget.Forms.Pages
         public CheckingAccountRegister()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
     }

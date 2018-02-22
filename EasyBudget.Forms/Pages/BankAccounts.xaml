@@ -3,7 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="EasyBudget.Forms.Pages.BankAccounts" Title="Bank Accounts">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="NewBankAccount" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
+    </ContentPage.ToolbarItems>    
     <ContentPage.Content>
-        
-	</ContentPage.Content>
+        <ListView ItemsSource="{Binding BankAccountsGrouped}" 
+                  ItemSelected="OnItemSelected" 
+                  IsGroupingEnabled="true" 
+                  GroupDisplayBinding="{Binding Key}" 
+                  SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding BankName}" Detail="{Binding CurrentBalance}">
+                        <TextCell.ContextActions>
+                            <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                            <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                        </TextCell.ContextActions>
+                    </TextCell>
+                    
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
 </ContentPage>
