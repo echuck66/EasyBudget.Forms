@@ -16,30 +16,71 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BankAccountsViewModel : BaseViewModel
+    public class BankAccountsViewModel : BaseViewModel, INotifyPropertyChanged
     {
 
         public ObservableCollection<BankAccountViewModel> BankAccounts { get; set; }
+        public ObservableCollection<Grouping<string, BankAccountViewModel>> BankAccountsGrouped { get; set; }
+
+        BankAccountViewModel _SelectedBankAccount;
+        public BankAccountViewModel SelectedBankAccount
+        {
+            get
+            {
+                return _SelectedBankAccount;
+            }
+            set
+            {
+                _SelectedBankAccount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBankAccount)));
+            }
+        }
+
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         internal BankAccountsViewModel(string dbFilePath)
             : base(dbFilePath)
         {
             BankAccounts = new ObservableCollection<BankAccountViewModel>();
+            BankAccountsGrouped = new ObservableCollection<Grouping<string, BankAccountViewModel>>();
         }
 
         internal async Task LoadVMAsync()
         {
             await LoadCheckingAccountsAsync();
             await LoadSavingsAccountsAsync();
+            await GroupAccountsAsync();
         }
 
-        private async Task LoadCheckingAccountsAsync()
+        public void GroupAccounts()
+        {
+            var grouped = from bnk in this.BankAccounts
+                          orderby bnk.BankName 
+                          group bnk by bnk.AccountType into Group
+                          select new Grouping<string, BankAccountViewModel>(Group.Key.ToString(), Group);
+
+            this.BankAccountsGrouped = new ObservableCollection<Grouping<string, BankAccountViewModel>>(grouped.OrderBy(g => g.Key));
+        }
+
+        public async Task GroupAccountsAsync()
+        {
+            var grouped = from bnk in this.BankAccounts
+                          orderby bnk.BankName
+                          group bnk by bnk.AccountType into Group
+                          select new Grouping<string, BankAccountViewModel>(Group.Key.ToString(), Group);
+
+            this.BankAccountsGrouped = await Task.Run(() => new ObservableCollection<Grouping<string, BankAccountViewModel>>(grouped.OrderBy(g => g.Key)));
+        }
+
+        async Task LoadCheckingAccountsAsync()
         {
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
@@ -53,6 +94,7 @@ namespace EasyBudget.Business.ViewModels
                         await vm.PopulateVMAsync(account);
                         this.BankAccounts.Add(vm);
                     }
+                    await GroupAccountsAsync();
                 }
                 else
                 {
@@ -72,7 +114,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        private async Task LoadSavingsAccountsAsync()
+        async Task LoadSavingsAccountsAsync()
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -111,6 +153,8 @@ namespace EasyBudget.Business.ViewModels
             vm.CanEdit = true;
             vm.CanDelete = false;
             this.BankAccounts.Add(vm);
+            this.SelectedBankAccount = vm;
+            await GroupAccountsAsync();
         }
 
         public async Task AddsavingsAccountAsync()
@@ -122,6 +166,8 @@ namespace EasyBudget.Business.ViewModels
             vm.CanEdit = true;
             vm.CanDelete = false;
             this.BankAccounts.Add(vm);
+            this.SelectedBankAccount = vm;
+            await GroupAccountsAsync();
         }
     }
 

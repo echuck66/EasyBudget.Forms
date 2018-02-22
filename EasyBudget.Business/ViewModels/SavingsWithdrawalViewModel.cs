@@ -134,7 +134,7 @@ namespace EasyBudget.Business.ViewModels
             
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
 
 
         public void PopulateVM(SavingsWithdrawal withdrawal)

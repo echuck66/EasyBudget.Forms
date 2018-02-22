@@ -67,7 +67,7 @@ namespace EasyBudget.Business.ViewModels
             this.CurrentMonth = DateTime.Now.Month;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         internal async Task LoadVMAsync()
         {

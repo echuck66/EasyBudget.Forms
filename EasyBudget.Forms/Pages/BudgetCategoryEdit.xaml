@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                x:Class="EasyBudget.Forms.Pages.BudgetCategoryEdit">
+                x:Class="EasyBudget.Forms.Pages.BudgetCategoryEdit" Title="Details">
+
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,25,0,0" />
+            <On Platform="iOS" Value="10,40,0,0" />
+            <On Platform="Android" Value="10,0,0,0" />
         </OnPlatform>
     </ContentPage.Padding>  
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Name="SaveEdits" Order="Primary" Text="Save" Clicked="OnSaveClicked"></ToolbarItem>
-        <ToolbarItem Name="CancelEdits" Order="Primary" Text="Cancel" Clicked="OnCancelClicked"></ToolbarItem>
-    </ContentPage.ToolbarItems>   
+
     <ContentPage.Content>
 
             <StackLayout Spacing="10">
-                <Label Text="Name" FontAttributes="Bold"></Label>
-                <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
-                <Label Text="Description" FontAttributes="Bold"></Label>
-                <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
-                <Label Text="Type" FontAttributes="Bold"></Label>
-                <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}"></Picker>
-                <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                <Label Text="{Binding Amount}"></Label>
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <Label Text="Name" FontAttributes="Bold"></Label>
+                    <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
+                    <Label Text="Description" FontAttributes="Bold"></Label>
+                    <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
+                    <Label Text="Type" FontAttributes="Bold"></Label>
+                    <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}"></Picker>
+                    <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
+                    <Label Text="{Binding Amount}"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
+                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+                </StackLayout>
+
             </StackLayout>
 
 	</ContentPage.Content>

@@ -175,7 +175,7 @@ namespace EasyBudget.Business.ViewModels
 
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         async Task<BudgetCategory> GetBudgetCategoryAsync(int categoryId)
         {
