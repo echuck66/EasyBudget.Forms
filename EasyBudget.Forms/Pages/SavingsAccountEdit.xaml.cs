@@ -9,22 +9,23 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class SavingsAccountEdit : ContentPage
     {
-        EasyBudgetDataService ds;
-        BankAccountViewModel vm;
-        int bankAccountId;
 
-        public SavingsAccountEdit(int accountId)
+
+        public SavingsAccountEdit()
         {
             InitializeComponent();
-            ds = EasyBudgetDataService.Instance;
-            bankAccountId = accountId;
         }
 
-        protected async override void OnAppearing()
+        protected async void OnSaveClicked(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            vm = await ds.GetBankAccountViewModelAsync(bankAccountId, BankAccountType.Savings);
-
+            await (this.BindingContext as BudgetCategoryViewModel).SaveChangesAsync();
+            await Navigation.PopModalAsync();
         }
+
+        protected async void OnCancelClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
+        }
+
     }
 }

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="EasyBudget.Forms.Pages.SavingsAccountView">
-
-    <ContentPage.Padding>
+    x:Class="EasyBudget.Forms.Pages.CheckingDepositView">
+    
+	<ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="10,40,0,0" />
             <On Platform="Android" Value="10,0,0,0" />
         </OnPlatform>
     </ContentPage.Padding> 
     
-	<ContentPage.Content>
+    <ContentPage.Content>
         <StackLayout Spacing="10">
             <StackLayout VerticalOptions="FillAndExpand">
                 
@@ -20,5 +20,6 @@
             </StackLayout>
 
         </StackLayout>
-	</ContentPage.Content>
+    </ContentPage.Content>
+    
 </ContentPage>

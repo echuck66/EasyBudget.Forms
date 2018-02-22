@@ -9,22 +9,15 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class CheckingAccountView : ContentPage
     {
-        EasyBudgetDataService ds;
-        BankAccountViewModel vm;
-        int bankAccountId;
-
-        public CheckingAccountView(int accountId)
+        
+        public CheckingAccountView()
         {
             InitializeComponent();
-            ds = EasyBudgetDataService.Instance;
-            bankAccountId = accountId;
         }
 
-        protected async override void OnAppearing()
+        public async void OnBackClicked(object sender, EventArgs e)
         {
-            base.OnAppearing();
-            vm = await ds.GetBankAccountViewModelAsync(bankAccountId, BankAccountType.Checking);
-
+            await Navigation.PopModalAsync();
         }
     }
 }

@@ -20,8 +20,9 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-            <Button x:Name="btnAddItem" Text="New" Clicked="OnNewItemClicked"></Button>
-
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button x:Name="btnAddItem" Text="New" Clicked="OnNewItemClicked" IsEnabled="{Binding CanAddItems}"></Button>
+            </StackLayout>
         </StackLayout>
 
 	</ContentPage.Content>

@@ -37,7 +37,7 @@ namespace EasyBudget.Business.ViewModels
             
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         public async Task LoadVMAsync()
         {

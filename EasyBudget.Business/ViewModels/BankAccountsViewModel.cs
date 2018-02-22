@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
@@ -23,11 +24,27 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BankAccountsViewModel : BaseViewModel
+    public class BankAccountsViewModel : BaseViewModel, INotifyPropertyChanged
     {
 
         public ObservableCollection<BankAccountViewModel> BankAccounts { get; set; }
         public ObservableCollection<Grouping<string, BankAccountViewModel>> BankAccountsGrouped { get; set; }
+
+        BankAccountViewModel _SelectedBankAccount;
+        public BankAccountViewModel SelectedBankAccount
+        {
+            get
+            {
+                return _SelectedBankAccount;
+            }
+            set
+            {
+                _SelectedBankAccount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBankAccount)));
+            }
+        }
+
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         internal BankAccountsViewModel(string dbFilePath)
             : base(dbFilePath)

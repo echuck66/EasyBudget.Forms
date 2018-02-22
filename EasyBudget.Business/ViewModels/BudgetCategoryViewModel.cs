@@ -120,6 +120,14 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public bool CanAddItems
+        {
+            get
+            {
+                return !this.IsNew;
+            }
+        }
+
         BudgetItemViewModel _SelectedBudgetItem;
         public BudgetItemViewModel SelectedBudgetItem
         {
@@ -148,7 +156,7 @@ namespace EasyBudget.Business.ViewModels
             };
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         internal async Task PopulateVMAsync(BudgetCategory category)
         {

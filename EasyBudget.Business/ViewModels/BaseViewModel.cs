@@ -13,14 +13,17 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.ComponentModel;
 using System.Text;
 
 namespace EasyBudget.Business.ViewModels
 {
 
-    public abstract class BaseViewModel
+    public abstract class BaseViewModel: INotifyPropertyChanged
     {
         internal string dbFilePath;
+
+        public virtual event PropertyChangedEventHandler PropertyChanged;
 
         StringBuilder sbErrorBuilder { get; set; }
 
@@ -33,14 +36,73 @@ namespace EasyBudget.Business.ViewModels
         }
 
         // Transitional Properties ****************
+        bool _IsDirty;
+        public bool IsDirty 
+        {
+            get
+            {
+                return _IsDirty;
+            }
+            set
+            {
+                if (_IsDirty != value)
+                {
+                    _IsDirty = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsDirty)));
+                }
+            }
+        }
 
-        public bool IsDirty { get; set; }
+        bool _CanEdit;
+        public bool CanEdit 
+        {
+            get
+            {
+                return _CanEdit;
+            }
+            set
+            {
+                if (_CanEdit != value)
+                {
+                    _CanEdit = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanEdit)));
+                }
+            }
+        }
 
-        public bool CanEdit { get; set; }
+        bool _CanDelete;
+        public bool CanDelete 
+        {
+            get
+            {
+                return _CanDelete;
+            }
+            set
+            {
+                if (_CanDelete != value)
+                {
+                    _CanDelete = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanDelete)));
+                }
+            }
+        }
 
-        public bool CanDelete { get; set; }
-
-        public bool IsNew { get; set; }
+        bool _IsNew;
+        public bool IsNew 
+        {
+            get
+            {
+                return _IsNew;
+            }
+            set
+            {
+                if (_IsNew != value)
+                {
+                    _IsNew = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsNew)));
+                }
+            }
+        }
 
         //*****************************************
 

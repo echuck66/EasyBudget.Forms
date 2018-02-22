@@ -141,7 +141,7 @@ namespace EasyBudget.Business.ViewModels
             this.Withdrawals = new ObservableCollection<WithdrawalViewModel>();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         internal async Task PopulateVMAsync(BankAccount account)
         {
