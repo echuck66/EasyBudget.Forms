@@ -19,7 +19,7 @@
                     <Label Text="Description" FontAttributes="Bold"></Label>
                     <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
                     <Label Text="Type" FontAttributes="Bold"></Label>
-                    <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}"></Picker>
+                    <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}" IsEnabled="{Binding IsNew}"></Picker>
                     <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
                     <Label Text="{Binding Amount}"></Label>
                 </StackLayout>

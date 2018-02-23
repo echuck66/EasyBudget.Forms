@@ -21,7 +21,7 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public abstract class WithdrawalViewModel : BaseViewModel
+    public abstract class WithdrawalViewModel : AccountRegisterItemViewModel
     {
         internal BankAccount accountModel { get; set; }
 

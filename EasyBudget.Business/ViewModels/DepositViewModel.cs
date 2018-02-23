@@ -22,7 +22,7 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public abstract class DepositViewModel : BaseViewModel
+    public abstract class DepositViewModel : AccountRegisterItemViewModel
     {
         internal BankAccount accountModel { get; set; }
 

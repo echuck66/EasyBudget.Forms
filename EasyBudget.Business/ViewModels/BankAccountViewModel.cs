@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -130,15 +131,33 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public ObservableCollection<DepositViewModel> Deposits { get; set; }
+        public ObservableCollection<AccountRegisterItemViewModel> AccountRegister { get; set; }
+        public ObservableCollection<Grouping<string, AccountRegisterItemViewModel>> AccountRegisteredGrouped { get; set; }
 
-        public ObservableCollection<WithdrawalViewModel> Withdrawals { get; set; }
+        public void GroupAccountItems()
+        {
+            var grouped = from regItm in this.AccountRegister
+                          orderby regItm.ItemDate descending
+                          group regItm by regItm.ItemType into Group
+                          select new Grouping<string, AccountRegisterItemViewModel>(Group.Key.ToString(), Group);
+            this.AccountRegisteredGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>(grouped.OrderBy(g => g.Key));
+        }
+
+        public async Task GroupAccountItemsAsync()
+        {
+            var grouped = from regItm in this.AccountRegister
+                          orderby regItm.ItemDate descending
+                          group regItm by regItm.ItemType into Group
+                          select new Grouping<string, AccountRegisterItemViewModel>(Group.Key.ToString(), Group);
+
+            this.AccountRegisteredGrouped = await Task.Run(() => new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>(grouped.OrderBy(g => g.Key)));
+        }
 
         internal BankAccountViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.Deposits = new ObservableCollection<DepositViewModel>();
-            this.Withdrawals = new ObservableCollection<WithdrawalViewModel>();
+            this.AccountRegister = new ObservableCollection<AccountRegisterItemViewModel>();
+            this.AccountRegisteredGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>();
         }
 
         public override event PropertyChangedEventHandler PropertyChanged;
@@ -184,6 +203,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
+            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposit;
 
             CheckingDeposit deposit = new CheckingDeposit();
             deposit.checkingAccount = model as CheckingAccount;
@@ -191,7 +211,7 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(deposit);
             
-            this.Deposits.Add(vm);
+            this.AccountRegister.Add(vm);
 
         }
 
@@ -201,6 +221,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
+            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposit;
 
             SavingsDeposit deposit = new SavingsDeposit();
             deposit.savingsAccount = model as SavingsAccount;
@@ -208,7 +229,7 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(deposit);
 
-            this.Deposits.Add(vm);
+            this.AccountRegister.Add(vm);
 
         }
 
@@ -218,6 +239,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
+            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawal;
 
             CheckingWithdrawal withdrawal = new CheckingWithdrawal();
             withdrawal.checkingAccount = model as CheckingAccount;
@@ -225,7 +247,7 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(withdrawal);
 
-            this.Withdrawals.Add(vm);
+            this.AccountRegister.Add(vm);
         }
 
         async Task AddSavingsWithdrawalAsync()
@@ -234,6 +256,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
+            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawal;
 
             SavingsWithdrawal withdrawal = new SavingsWithdrawal();
             withdrawal.savingsAccount = model as SavingsAccount;
@@ -241,7 +264,7 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(withdrawal);
 
-            this.Withdrawals.Add(vm);
+            this.AccountRegister.Add(vm);
         }
 
         internal async Task LoadVMAsync(int accountId, BankAccountType accountType)
@@ -354,7 +377,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(deposit);
 
-                        this.Deposits.Add(vm);
+                        this.AccountRegister.Add(vm);
                     }
                 }
                 else
@@ -392,7 +415,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(withdrawal);
 
-                        this.Withdrawals.Add(vm);
+                        this.AccountRegister.Add(vm);
                     }
                 }
                 else
@@ -430,7 +453,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(deposit);
 
-                        this.Deposits.Add(vm);
+                        this.AccountRegister.Add(vm);
                     }
                 }
                 else
@@ -468,7 +491,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(withdrawal);
 
-                        this.Withdrawals.Add(vm);
+                        this.AccountRegister.Add(vm);
                     }
                 }
                 else
@@ -616,19 +639,20 @@ namespace EasyBudget.Business.ViewModels
 
                 if (_saveOk)
                 {
-                    foreach (var withdrawal in this.Withdrawals)
-                    {
-                        if (withdrawal.IsDirty)
+                    foreach (var item in this.AccountRegister)
+                    { 
+                        if (item.IsDirty)
                         {
-                            await withdrawal.SaveChangesAsync();
-                        }
-                    }
+                            switch (item.ItemType)
+                            {
+                                case AccountRegisterItemViewModel.AccountItemType.Deposit:
+                                    await (item as DepositViewModel).SaveChangesAsync();
 
-                    foreach (var deposit in this.Deposits)
-                    {
-                        if (deposit.IsDirty)
-                        {
-                            await deposit.SaveChangesAsync();
+                                    break;
+                                case AccountRegisterItemViewModel.AccountItemType.Withdrawal:
+                                    await (item as WithdrawalViewModel).SaveChangesAsync();
+                                    break;
+                            }
                         }
                     }
                 }
