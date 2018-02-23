@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EasyBudget.Business.ViewModels;
+using EasyBudget.Models;
+using EasyBudget.Models.DataModels;
 using Xamarin.Forms;
 
 namespace EasyBudget.Forms.Pages
@@ -30,14 +33,11 @@ namespace EasyBudget.Forms.Pages
 
         protected async void OnNewItemClicked(object sender, EventArgs e)
         {
-
+            BudgetItemEdit editor = new BudgetItemEdit();
+            BudgetItemViewModel newItem = await (this.BindingContext as BudgetCategoryViewModel).AddBudgetItemAsync();
+            editor.BindingContext = newItem;
+            await Navigation.PushModalAsync(editor);
         }
 
-        private async Task PushContentPageModalAsync(ContentPage page)
-        {
-            // Wrap ContentPage in a NavigationPage to get the toolbar
-            NavigationPage np = new NavigationPage(page);
-            await Navigation.PushModalAsync(np);
-        }
     }
 }

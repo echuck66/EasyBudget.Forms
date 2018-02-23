@@ -174,8 +174,12 @@ namespace EasyBudget.Business.ViewModels
                             {
                                 item.ItemType = BudgetItemType.Expense;
                                 item.budgetCategory = category;
+                                item.budgetCategoryId = category.id;
                                 var vm = new BudgetItemViewModel(this.dbFilePath);
                                 await vm.PopulateVMAsync(item);
+                                vm.IsNew = false;
+                                vm.CanEdit = true;
+                                vm.CanDelete = true;
                                 this.BudgetItems.Add(vm);
                             }
                         }
@@ -203,8 +207,12 @@ namespace EasyBudget.Business.ViewModels
                             {
                                 item.ItemType = BudgetItemType.Income;
                                 item.budgetCategory = category;
+                                item.budgetCategoryId = category.id;
                                 var vm = new BudgetItemViewModel(this.dbFilePath);
                                 await vm.PopulateVMAsync(item);
+                                vm.IsNew = false;
+                                vm.CanEdit = true;
+                                vm.CanDelete = true;
                                 this.BudgetItems.Add(vm);
                             }
                         }
@@ -363,13 +371,29 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public BudgetItemViewModel AddBudgetItem()
+        public async Task<BudgetItemViewModel> AddBudgetItemAsync()
         {
             BudgetItemViewModel vm = new BudgetItemViewModel(this.dbFilePath);
-            vm.ItemType = this.CategoryType == BudgetCategoryType.Expense ? BudgetItemType.Expense : BudgetItemType.Income;
+            BudgetItem item = null;
+            if (this.CategoryType == BudgetCategoryType.Income)
+            {
+                item = new IncomeItem();
+                item.ItemType = BudgetItemType.Income;
+            }
+            else
+            {
+                item = new ExpenseItem();
+                item.ItemType = BudgetItemType.Expense;
+            }
+            item.budgetCategory = model;
+            item.budgetCategoryId = model.id;
+            item.StartDate = DateTime.Now;
+            item.recurring = true;
+            item.frequency = Frequency.Monthly;
+            await vm.PopulateVMAsync(item);
             vm.IsNew = true;
             this.BudgetItems.Add(vm);
-
+            this.SelectedBudgetItem = vm;
             return vm;
         }
     }

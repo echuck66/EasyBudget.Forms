@@ -22,7 +22,7 @@
                 <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
                 <Label Text="{Binding Amount}"></Label>
             </StackLayout>
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>
             </StackLayout>
 
