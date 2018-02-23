@@ -11,7 +11,33 @@
     </ContentPage.Padding> 
      
 	<ContentPage.Content>
-        
+        <StackLayout Spacing="10">
+            <StackLayout>
+                <Label Text="Category" FontAttributes="Bold"></Label>
+                <Label Text="{Binding CategoryName}"></Label>
+                <Label Text="Description" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding ItemDescription}"></Entry>
+                <Label Text="Notation" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding ItemNotation}"></Entry>
+                <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding BudgetedAmount}"></Entry>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Recurring" FontAttributes="Bold"></Label>
+                    <Switch IsToggled="{Binding IsRecurring}"></Switch>
+                </StackLayout>
+                <Label Text="Frequency" FontAttributes="Bold"></Label>
+                <Picker ItemsSource="{Binding AvailableFrequencies}" SelectedItem="{Binding ItemFrequency}"></Picker>
+                <Label Text="Start Date" FontAttributes="Bold"></Label>
+                <DatePicker Date="{Binding StartDate}" MinimumDate="{Binding MinStartDate}"></DatePicker>
+                <!--<Label Text="End Date" FontAttributes="Bold"></Label>
+                <DatePicker Date="{Binding EndDate}" MinimumDate="{Binding MinEndDate}"></DatePicker>-->
+                
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
+                <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+            </StackLayout>
+        </StackLayout>
 	</ContentPage.Content>
     
 </ContentPage>

@@ -13,6 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using EasyBudget.Models;
@@ -118,6 +119,8 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public ObservableCollection<Frequency> AvailableFrequencies { get; set; }
+
         public Frequency ItemFrequency 
         {
             get 
@@ -135,6 +138,14 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public DateTime MinStartDate
+        {
+            get
+            {
+                return DateTime.Now.AddYears(-1);
+            }
+        }
+
         public DateTime StartDate 
         {
             get 
@@ -149,6 +160,14 @@ namespace EasyBudget.Business.ViewModels
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartDate)));
                 }
+            }
+        }
+
+        public DateTime MinEndDate
+        {
+            get
+            {
+                return this.MinStartDate.AddMonths(1);
             }
         }
 
@@ -172,7 +191,15 @@ namespace EasyBudget.Business.ViewModels
         internal BudgetItemViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-
+            AvailableFrequencies = new ObservableCollection<Frequency>() {
+                Frequency.OneTime,
+                Frequency.Daily,
+                Frequency.Weekly,
+                Frequency.BiWeekly,
+                Frequency.SemiMonthly,
+                Frequency.Monthly,
+                Frequency.Annually
+            };
         }
 
         public override event PropertyChangedEventHandler PropertyChanged;
@@ -214,7 +241,7 @@ namespace EasyBudget.Business.ViewModels
             switch (itemType)
             {
                 case BudgetItemType.Income:
-                    await LoadEIncomeItemAsync(itemId);
+                    await LoadIncomeItemAsync(itemId);
                     break;
                 case BudgetItemType.Expense:
                     await LoadExpenseItemAsync(itemId);
@@ -249,7 +276,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        async Task LoadEIncomeItemAsync(int itemId)
+        async Task LoadIncomeItemAsync(int itemId)
         {
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -278,13 +305,14 @@ namespace EasyBudget.Business.ViewModels
 
         internal async Task PopulateVMAsync(BudgetItem item)
         {
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            model = item;
+
+            if (item.budgetCategory == null)
             {
-                if (item.budgetCategory == null)
+                using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
                 {
                     item.budgetCategory = await GetBudgetCategoryAsync(item.budgetCategoryId);
                 }
-                this.model = item;
             }
         }
 
@@ -355,7 +383,8 @@ namespace EasyBudget.Business.ViewModels
                             _saveOk = _resultsAddExpense.Successful;
                             if (_saveOk)
                             {
-                                this.model = _resultsAddExpense.Results;
+                                //this.model = _resultsAddExpense.Results;
+                                this.IsDirty = false;
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
@@ -381,7 +410,8 @@ namespace EasyBudget.Business.ViewModels
                             _saveOk = _resultsAddIncome.Successful;
                             if (_saveOk)
                             {
-                                this.model = _resultsAddIncome.Results;
+                                //this.model = _resultsAddIncome.Results;
+                                this.IsDirty = false;
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
@@ -413,7 +443,8 @@ namespace EasyBudget.Business.ViewModels
                             _saveOk = _resultsUpdateExpense.Successful;
                             if (_saveOk)
                             {
-                                this.model = _resultsUpdateExpense.Results;
+                                //this.model = _resultsUpdateExpense.Results;
+                                this.IsDirty = false;
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
@@ -442,7 +473,8 @@ namespace EasyBudget.Business.ViewModels
                             _saveOk = _resultsUpdateIncome.Successful;
                             if (_saveOk)
                             {
-                                this.model = _resultsUpdateIncome.Results;
+                                //this.model = _resultsUpdateIncome.Results;
+                                this.IsDirty = false;
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;

@@ -10,7 +10,7 @@ namespace EasyBudget.Forms.Pages
     public partial class BudgetItemEdit : ContentPage
     {
 
-        public BudgetItemEdit(int itemId, BudgetItemType itemType)
+        public BudgetItemEdit()
         {
             InitializeComponent();
         }

@@ -3,19 +3,26 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 x:Class="EasyBudget.Forms.Pages.BudgetCategoryItems">
 
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0,40,0,0" />
+            <On Platform="Android" Value="0,0,0,0" />
+        </OnPlatform>
+    </ContentPage.Padding>  
+
     <ContentPage.Content>
         <StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
                 <ListView ItemsSource="{Binding BudgetItems}" ItemSelected="OnItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.ContextActions>
+                            <TextCell Text="{Binding ItemDescription}" Detail="{Binding BudgetedAmount}">
+                                <TextCell.ContextActions>
                                     <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                                     <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                                 </ViewCell.ContextActions>
-                                <Label Text="{Binding Name}"></Label>
-                            </ViewCell>
+                                 </TextCell.ContextActions>
+                            </TextCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
