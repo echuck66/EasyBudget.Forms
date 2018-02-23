@@ -24,7 +24,7 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BudgetCategoriesViewModel : BaseViewModel, INotifyPropertyChanged
+    public class BudgetCategoriesViewModel : BaseViewModel, INotifyPropertyChanged, IDisposable
     {
         public ObservableCollection<BudgetCategoryViewModel> BudgetCategories { get; set; }
         public ObservableCollection<Grouping<string, BudgetCategoryViewModel>> BudgetCategoriesGrouped { get; set; }
@@ -173,6 +173,14 @@ namespace EasyBudget.Business.ViewModels
             }
 
             return deleted;
+        }
+
+        public void Dispose()
+        {
+            foreach(BudgetCategoryViewModel vm in this.BudgetCategories)
+            {
+                vm.Dispose();
+            }
         }
     }
 

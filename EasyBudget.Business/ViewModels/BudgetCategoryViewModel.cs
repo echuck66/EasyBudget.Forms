@@ -24,7 +24,7 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BudgetCategoryViewModel : BaseViewModel, INotifyPropertyChanged
+    public class BudgetCategoryViewModel : BaseViewModel, INotifyPropertyChanged, IDisposable
     {
         BudgetCategory model { get; set; }
 
@@ -180,6 +180,7 @@ namespace EasyBudget.Business.ViewModels
                                 item.budgetCategoryId = category.id;
                                 var vm = new BudgetItemViewModel(this.dbFilePath);
                                 await vm.PopulateVMAsync(item);
+                                vm.ItemUpdated += OnItemUpdate;
                                 vm.IsNew = false;
                                 vm.CanEdit = true;
                                 vm.CanDelete = true;
@@ -213,6 +214,7 @@ namespace EasyBudget.Business.ViewModels
                                 item.budgetCategoryId = category.id;
                                 var vm = new BudgetItemViewModel(this.dbFilePath);
                                 await vm.PopulateVMAsync(item);
+                                vm.ItemUpdated += OnItemUpdate;
                                 vm.IsNew = false;
                                 vm.CanEdit = true;
                                 vm.CanDelete = true;
@@ -378,6 +380,7 @@ namespace EasyBudget.Business.ViewModels
         public async Task<BudgetItemViewModel> AddBudgetItemAsync()
         {
             BudgetItemViewModel vm = new BudgetItemViewModel(this.dbFilePath);
+            vm.ItemUpdated += OnItemUpdate;
             BudgetItem item = null;
             if (this.CategoryType == BudgetCategoryType.Income)
             {
@@ -399,6 +402,19 @@ namespace EasyBudget.Business.ViewModels
             this.BudgetItems.Add(vm);
             this.SelectedBudgetItem = vm;
             return vm;
+        }
+
+        void OnItemUpdate(object sender, EventArgs e)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Amount)));
+        }
+
+        public void Dispose()
+        {
+            foreach(var item in this.BudgetItems)
+            {
+                item.ItemUpdated -= OnItemUpdate;
+            }
         }
     }
 

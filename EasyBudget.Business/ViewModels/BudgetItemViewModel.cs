@@ -328,7 +328,11 @@ namespace EasyBudget.Business.ViewModels
 
                         var _resultsDeleteExpense = await uow.DeleteExpenseItemAsync(this.model as ExpenseItem);
                         deleted = _resultsDeleteExpense.Successful;
-                        if (!_resultsDeleteExpense.Successful)
+                        if (deleted)
+                        {
+                            OnItemUpdated();
+                        }
+                        else
                         {
                             if (_resultsDeleteExpense.WorkException != null)
                             {
@@ -347,7 +351,11 @@ namespace EasyBudget.Business.ViewModels
                     case BudgetItemType.Income:
                         var _resultsDeleteIncome = await uow.DeleteIncomeItemAsync(this.model as IncomeItem);
                         deleted = _resultsDeleteIncome.Successful;
-                        if (!_resultsDeleteIncome.Successful)
+                        if (deleted)
+                        {
+                            OnItemUpdated();
+                        }
+                        else
                         {
                             if (_resultsDeleteIncome.WorkException != null)
                             {
@@ -388,6 +396,7 @@ namespace EasyBudget.Business.ViewModels
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
+                                OnItemUpdated();
                             }
                             else
                             {
@@ -415,6 +424,7 @@ namespace EasyBudget.Business.ViewModels
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
+                                OnItemUpdated();
                             }
                             else
                             {
@@ -448,6 +458,7 @@ namespace EasyBudget.Business.ViewModels
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
+                                OnItemUpdated();
                             }
                             else
                             {
@@ -478,6 +489,7 @@ namespace EasyBudget.Business.ViewModels
                                 this.IsNew = false;
                                 this.CanEdit = true;
                                 this.CanDelete = true;
+                                OnItemUpdated();
                             }
                             if (!_saveOk)
                             {
@@ -498,6 +510,18 @@ namespace EasyBudget.Business.ViewModels
                             break;
                     }
                 }
+            }
+        }
+
+        public delegate void ItemUpdatedEventHandler(object sender, EventArgs e);
+
+        public event ItemUpdatedEventHandler ItemUpdated;
+
+        public void OnItemUpdated()
+        {
+            if (this.ItemUpdated != null)
+            {
+                ItemUpdated(this, new EventArgs());
             }
         }
     }
