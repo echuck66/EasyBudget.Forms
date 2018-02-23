@@ -70,19 +70,22 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        decimal _Amount;
         public decimal Amount 
         {
-            get{
-                return model.budgetAmount;
-            }
-            set
+            get
             {
-                if (model.budgetAmount != value)
+                decimal _bugetTotal = 0M;
+                foreach (var itm in this.BudgetItems)
                 {
-                    model.budgetAmount = value;
-                    this.IsDirty = true;
+                    _bugetTotal += itm.BudgetedAmount;
+                }
+                if (_Amount != _bugetTotal)
+                {
+                    _Amount = _bugetTotal;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Amount)));
                 }
+                return _bugetTotal;
             }
         }
 
@@ -233,6 +236,7 @@ namespace EasyBudget.Business.ViewModels
                         }
                         break;
                 }
+
             }
 
         }
