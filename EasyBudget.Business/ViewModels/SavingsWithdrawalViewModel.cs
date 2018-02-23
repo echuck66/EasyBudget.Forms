@@ -36,6 +36,7 @@ namespace EasyBudget.Business.ViewModels
                 if (model.transactionDate != value)
                 {
                     model.transactionDate = value;
+                    this.ItemDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(transactionDate)));
                 }
@@ -53,6 +54,7 @@ namespace EasyBudget.Business.ViewModels
                 if (model.transactionAmount != value)
                 {
                     model.transactionAmount = value;
+                    this.ItemAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(transactionAmount)));
                 }
@@ -88,6 +90,7 @@ namespace EasyBudget.Business.ViewModels
                 if (model.description != value)
                 {
                     model.description = value;
+                    this.ItemDescription = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(description)));
                 }
@@ -140,6 +143,12 @@ namespace EasyBudget.Business.ViewModels
         public void PopulateVM(SavingsWithdrawal withdrawal)
         {
             this.model = withdrawal;
+            this.accountModel = withdrawal.savingsAccount;
+            this.ItemDescription = this.model.description;
+            this.ItemType = AccountItemType.Withdrawals;
+            this.ItemDate = model.transactionDate;
+            this.ItemAmount = model.transactionAmount;
+
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
                 var _results = Task.Run(() => uow.GetAllBudgetCategoriesAsync()).Result;
@@ -159,6 +168,11 @@ namespace EasyBudget.Business.ViewModels
         public async Task PopulateVMAsync(SavingsWithdrawal withdrawal)
         {
             this.model = withdrawal;
+            this.accountModel = withdrawal.savingsAccount;
+            this.ItemDescription = this.model.description;
+            this.ItemType = AccountItemType.Withdrawals;
+            this.ItemDate = model.transactionDate;
+            this.ItemAmount = model.transactionAmount;
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
