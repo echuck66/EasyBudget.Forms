@@ -131,6 +131,20 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        AccountRegisterItemViewModel _SelectedRegisterItem;
+        public AccountRegisterItemViewModel SelectedRegisterItem
+        {
+            get
+            {
+                return _SelectedRegisterItem;
+            }
+            set
+            {
+                _SelectedRegisterItem = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedRegisterItem)));
+            }
+        }
+
         public ObservableCollection<AccountRegisterItemViewModel> AccountRegister { get; set; }
         public ObservableCollection<Grouping<string, AccountRegisterItemViewModel>> AccountRegisteredGrouped { get; set; }
 
@@ -168,6 +182,7 @@ namespace EasyBudget.Business.ViewModels
 
             await LoadDepositsAsync(false);
             await LoadWithdrawalsAsync(false);
+            await GroupAccountItemsAsync();
 
         }
 
@@ -203,7 +218,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
-            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposit;
+            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposits;
 
             CheckingDeposit deposit = new CheckingDeposit();
             deposit.checkingAccount = model as CheckingAccount;
@@ -212,7 +227,7 @@ namespace EasyBudget.Business.ViewModels
             await vm.PopulateVMAsync(deposit);
             
             this.AccountRegister.Add(vm);
-
+            await GroupAccountItemsAsync();
         }
 
         async Task AddSavingsDepositAsync()
@@ -221,7 +236,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
-            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposit;
+            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposits;
 
             SavingsDeposit deposit = new SavingsDeposit();
             deposit.savingsAccount = model as SavingsAccount;
@@ -230,6 +245,7 @@ namespace EasyBudget.Business.ViewModels
             await vm.PopulateVMAsync(deposit);
 
             this.AccountRegister.Add(vm);
+            await GroupAccountItemsAsync();
 
         }
 
@@ -239,7 +255,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
-            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawal;
+            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawals;
 
             CheckingWithdrawal withdrawal = new CheckingWithdrawal();
             withdrawal.checkingAccount = model as CheckingAccount;
@@ -248,6 +264,7 @@ namespace EasyBudget.Business.ViewModels
             await vm.PopulateVMAsync(withdrawal);
 
             this.AccountRegister.Add(vm);
+            await GroupAccountItemsAsync();
         }
 
         async Task AddSavingsWithdrawalAsync()
@@ -256,7 +273,7 @@ namespace EasyBudget.Business.ViewModels
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
-            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawal;
+            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawals;
 
             SavingsWithdrawal withdrawal = new SavingsWithdrawal();
             withdrawal.savingsAccount = model as SavingsAccount;
@@ -265,6 +282,7 @@ namespace EasyBudget.Business.ViewModels
             await vm.PopulateVMAsync(withdrawal);
 
             this.AccountRegister.Add(vm);
+            await GroupAccountItemsAsync();
         }
 
         internal async Task LoadVMAsync(int accountId, BankAccountType accountType)
@@ -645,11 +663,11 @@ namespace EasyBudget.Business.ViewModels
                         {
                             switch (item.ItemType)
                             {
-                                case AccountRegisterItemViewModel.AccountItemType.Deposit:
+                                case AccountRegisterItemViewModel.AccountItemType.Deposits:
                                     await (item as DepositViewModel).SaveChangesAsync();
 
                                     break;
-                                case AccountRegisterItemViewModel.AccountItemType.Withdrawal:
+                                case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
                                     await (item as WithdrawalViewModel).SaveChangesAsync();
                                     break;
                             }

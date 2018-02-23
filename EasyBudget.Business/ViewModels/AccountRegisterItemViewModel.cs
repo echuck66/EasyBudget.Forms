@@ -83,8 +83,8 @@ namespace EasyBudget.Business.ViewModels
 
         public enum AccountItemType
         {
-            Deposit,
-            Withdrawal
+            Deposits,
+            Withdrawals
         }
     }
 }

@@ -177,7 +177,7 @@ namespace EasyBudget.Business.ViewModels
             this.model = withdrawal;
             this.accountModel = withdrawal.checkingAccount;
             this.ItemDescription = this.model.payToTheOrderOf;
-            this.ItemType = AccountItemType.Withdrawal;
+            this.ItemType = AccountItemType.Withdrawals;
             this.ItemDate = model.transactionDate;
             this.ItemAmount = model.transactionAmount;
 
@@ -202,7 +202,7 @@ namespace EasyBudget.Business.ViewModels
             this.model = withdrawal;
             this.accountModel = withdrawal.checkingAccount;
             this.ItemDescription = this.model.payToTheOrderOf;
-            this.ItemType = AccountItemType.Withdrawal;
+            this.ItemType = AccountItemType.Withdrawals;
             this.ItemDate = model.transactionDate;
             this.ItemAmount = model.transactionAmount;
 
