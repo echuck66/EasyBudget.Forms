@@ -170,6 +170,28 @@ namespace EasyBudget.Business.ViewModels
             await GroupAccountsAsync();
         }
 
+        public async Task<bool> DeleteBankAccountAsync(BankAccountViewModel vm)
+        {
+            bool deleted = false;
+            var itemList = new List<BankAccountViewModel>();
+
+            if (vm.CanDelete && this.BankAccounts.Contains(vm, new BankAccountComparer()))
+            {
+                deleted = await vm.DeleteAsync();
+                if (deleted)
+                {
+                    this.BankAccounts.Remove(vm);
+                    await GroupAccountsAsync();
+                }
+            }
+            else
+            {
+                this.WriteErrorCondition("Unable to locate provided item in the source collection");
+            }
+
+            return deleted;
+        }
+
         public void Dispose()
         {
             foreach(BankAccountViewModel vm in this.BankAccounts)

@@ -44,23 +44,48 @@ namespace EasyBudget.Forms.Pages
 
             if (answer)
             {
-                //var btn = sender as MenuItem;
-                //var category = btn.BindingContext as BudgetCategoryViewModel;
-                //bool deleted = await vm.DeleteBudgetCategoryAsync(category);
-                //if (deleted)
-                //{
-                //    await DisplayAlert("Results", "Item Deleted", "Dismiss");
-                //}
-                //else
-                //{
-                //    await DisplayAlert("Error", "Unable to delte this Category. Message: " + category.ErrorCondition, "Ok");
-                //}
+                var btn = sender as MenuItem;
+                var regItem = btn.BindingContext as AccountRegisterItemViewModel;
+
+                bool deleted = false;
+                switch (regItem.ItemType)
+                {
+                    case AccountRegisterItemViewModel.AccountItemType.Deposits:
+                        deleted = await (this.BindingContext as BankAccountViewModel).DeleteRegisterItemAsync(regItem as DepositViewModel);
+
+                        break;
+                    case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
+                        deleted = await (this.BindingContext as BankAccountViewModel).DeleteRegisterItemAsync(regItem as WithdrawalViewModel);
+
+                        break;
+                }
+                if (deleted)
+                {
+                    await DisplayAlert("Results", "Item Deleted", "Dismiss");
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Unable to delte this Item. Message: " + regItem.ErrorCondition, "Ok");
+                }
             }
         }
 
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-
+            var itemVM = e.Item as AccountRegisterItemViewModel;
+            switch (itemVM.ItemType)
+            {
+                case AccountRegisterItemViewModel.AccountItemType.Deposits:
+                    SavingsDepositView depositViewer = new SavingsDepositView();
+                    depositViewer.BindingContext = itemVM as SavingsDepositViewModel;
+                    await Navigation.PushModalAsync(depositViewer);
+                    break;
+                case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
+                    SavingsWithdrawalView withdrawalViewer = new SavingsWithdrawalView();
+                    withdrawalViewer.BindingContext = itemVM as SavingsWithdrawalViewModel;
+                    await Navigation.PushModalAsync(withdrawalViewer);
+                    break;
+            }
         }
 
         protected async void OnNewItemClicked(object sender, EventArgs e)
@@ -70,10 +95,22 @@ namespace EasyBudget.Forms.Pages
             switch (action)
             {
                 case "Deposit":
-
+                    var depositVM = await (this.BindingContext as BankAccountViewModel).AddDepositAsync();
+                    if (depositVM != null)
+                    {
+                        SavingsDepositView depositViewer = new SavingsDepositView();
+                        depositViewer.BindingContext = depositVM as SavingsDepositViewModel;
+                        await Navigation.PushModalAsync(depositViewer);
+                    }
                     break;
                 case "Withdrawal":
-
+                    var withdrawalVM = await (this.BindingContext as BankAccountViewModel).AddWithdrawalAsync();
+                    if (withdrawalVM != null)
+                    {
+                        SavingsWithdrawalView withdrawalViewer = new SavingsWithdrawalView();
+                        withdrawalViewer.BindingContext = withdrawalVM as SavingsWithdrawalViewModel;
+                        await Navigation.PushModalAsync(withdrawalViewer);
+                    }
                     break;
             }
         }

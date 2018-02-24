@@ -13,7 +13,14 @@
     <ContentPage.Content>
         <StackLayout Spacing="10">
             <StackLayout VerticalOptions="FillAndExpand">
-                
+                <Label Text="Bank Name" FontAttributes="Bold"></Label>
+                <Label Text="{Binding BankName}" ></Label>
+                <Label Text="Routing Number" FontAttributes="Bold"></Label>
+                <Label Text="{Binding RoutingNumber}"></Label>
+                <Label Text="Account Number" FontAttributes="Bold"></Label>
+                <Label Text="{Binding AccountNumber}"></Label>
+                <Label Text="Current Balance" FontAttributes="Bold"></Label>
+                <Label Text="{Binding CurrentBalance}"></Label>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>

@@ -67,16 +67,16 @@ namespace EasyBudget.Forms.Pages
             if (answer)
             {
                 var btn = sender as MenuItem;
-                //var category = btn.BindingContext as BankAccountViewModel;
-                //bool deleted = await vm.(category);
-                //if (deleted)
-                //{
-                //    await DisplayAlert("Results", "Item Deleted", "Dismiss");
-                //}
-                //else
-                //{
-                //    await DisplayAlert("Error", "Unable to delte this Category. Message: " + category.ErrorCondition, "Ok");
-                //}
+                var accountVM = btn.BindingContext as BankAccountViewModel;
+                bool deleted = await vm.DeleteBankAccountAsync(accountVM);
+                if (deleted)
+                {
+                    await DisplayAlert("Results", "Account Deleted", "Dismiss");
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Unable to delte this Account. Message: " + accountVM.ErrorCondition, "Ok");
+                }
             }
         }
 

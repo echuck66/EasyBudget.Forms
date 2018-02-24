@@ -12,13 +12,19 @@
     
     <ContentPage.Content>
         <StackLayout Spacing="10">
-                <StackLayout VerticalOptions="FillAndExpand">
-                    
-                </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
-                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
-                </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand">
+                <Label Text="Bank Name" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding BankName}" ></Entry>
+                <Label Text="Routing Number" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding RoutingNumber}"></Entry>
+                <Label Text="Account Number" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding AccountNumber}"></Entry>
+                <Label Text="{Binding CurrentBalance}"></Label>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
+                <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+            </StackLayout>
 
             </StackLayout>
 	</ContentPage.Content>

@@ -187,33 +187,37 @@ namespace EasyBudget.Business.ViewModels
 
         }
 
-        public async Task AddDepositAsync()
+        public async Task<AccountRegisterItemViewModel> AddDepositAsync()
         {
+            AccountRegisterItemViewModel vm = null;
             switch (this.AccountType)
             {
                 case BankAccountType.Checking:
-                    await AddCheckingDepositAsync();
+                    vm = await AddCheckingDepositAsync();
                     break;
                 case BankAccountType.Savings:
-                    await AddSavingsDepositAsync();
+                    vm = await AddSavingsDepositAsync();
                     break;
             }
+            return vm;
         }
 
-        public async Task AddWithdrawalAsync()
+        public async Task<AccountRegisterItemViewModel> AddWithdrawalAsync()
         {
+            AccountRegisterItemViewModel vm = null;
             switch (this.AccountType)
             {
                 case BankAccountType.Checking:
-                    await AddCheckingWithdrawalAsync();
+                    vm = await AddCheckingWithdrawalAsync();
                     break;
                 case BankAccountType.Savings:
-                    await AddSavingsWithdrawalAsync();
+                    vm = await AddSavingsWithdrawalAsync();
                     break;
             }
+            return vm;
         }
 
-        async Task AddCheckingDepositAsync()
+        async Task<CheckingDepositViewModel> AddCheckingDepositAsync()
         {
             CheckingDepositViewModel vm = new CheckingDepositViewModel(this.dbFilePath);
             vm.IsNew = true;
@@ -229,9 +233,10 @@ namespace EasyBudget.Business.ViewModels
             
             this.AccountRegister.Add(vm);
             await GroupAccountItemsAsync();
+            return vm;
         }
 
-        async Task AddSavingsDepositAsync()
+        async Task<SavingsDepositViewModel> AddSavingsDepositAsync()
         {
             SavingsDepositViewModel vm = new SavingsDepositViewModel(this.dbFilePath);
             vm.IsNew = true;
@@ -247,10 +252,10 @@ namespace EasyBudget.Business.ViewModels
 
             this.AccountRegister.Add(vm);
             await GroupAccountItemsAsync();
-
+            return vm;
         }
 
-        async Task AddCheckingWithdrawalAsync()
+        async Task<CheckingWithdrawalViewModel> AddCheckingWithdrawalAsync()
         {
             CheckingWithdrawalViewModel vm = new CheckingWithdrawalViewModel(this.dbFilePath);
             vm.IsNew = true;
@@ -266,9 +271,10 @@ namespace EasyBudget.Business.ViewModels
 
             this.AccountRegister.Add(vm);
             await GroupAccountItemsAsync();
+            return vm;
         }
 
-        async Task AddSavingsWithdrawalAsync()
+        async Task<SavingsWithdrawalViewModel> AddSavingsWithdrawalAsync()
         {
             SavingsWithdrawalViewModel vm = new SavingsWithdrawalViewModel(this.dbFilePath);
             vm.IsNew = true;
@@ -284,6 +290,7 @@ namespace EasyBudget.Business.ViewModels
 
             this.AccountRegister.Add(vm);
             await GroupAccountItemsAsync();
+            return vm;
         }
 
         internal async Task LoadVMAsync(int accountId, BankAccountType accountType)
@@ -682,14 +689,113 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public async Task DeleteAsync()
+        public async Task<bool> DeleteAsync()
         {
-            
+            bool _deleted = false;
+
+            if (this.AccountRegister.Count == 0)
+            {
+                using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+                {
+                    switch (this.AccountType)
+                    {
+                        case BankAccountType.Checking:
+                            var _resultsChecking = await uow.DeleteCheckingAccountAsync(model as CheckingAccount);
+                            if (_resultsChecking.Successful)
+                            {
+                                _deleted = true;
+                                this.Dispose();
+                            }
+                            else
+                            {
+                                if (_resultsChecking.WorkException != null)
+                                {
+                                    WriteErrorCondition(_resultsChecking.WorkException);
+                                }
+                                else if (!string.IsNullOrEmpty(_resultsChecking.Message))
+                                {
+                                    WriteErrorCondition(_resultsChecking.Message);
+                                }
+                                else
+                                {
+                                    WriteErrorCondition("An unknown error has occurred deleting account record");
+                                }
+                            }
+                            break;
+                        case BankAccountType.Savings:
+                            var _resultsSavings = await uow.DeleteSavingsAccountAsync(model as SavingsAccount);
+                            if (_resultsSavings.Successful)
+                            {
+                                _deleted = true;
+                                this.Dispose();
+                            }
+                            else
+                            {
+                                if (_resultsSavings.WorkException != null)
+                                {
+                                    WriteErrorCondition(_resultsSavings.WorkException);
+                                }
+                                else if (!string.IsNullOrEmpty(_resultsSavings.Message))
+                                {
+                                    WriteErrorCondition(_resultsSavings.Message);
+                                }
+                                else
+                                {
+                                    WriteErrorCondition("An unknown error has occurred deleting account record");
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                WriteErrorCondition("Account register must first be cleared before it can be deleted");
+            }
+            return _deleted;
         }
 
-        public async Task DeleteRegisterItemAsync(AccountRegisterItemViewModel vm)
+        public async Task<bool> DeleteRegisterItemAsync(AccountRegisterItemViewModel vm)
         {
-            
+            bool _deleted = false;
+
+            switch (vm.ItemType)
+            {
+                case AccountRegisterItemViewModel.AccountItemType.Deposits:
+                    switch (this.AccountType)
+                    {
+                        case BankAccountType.Checking:
+                            _deleted = await (vm as CheckingDepositViewModel).DeleteAsync();
+                            (vm as CheckingDepositViewModel).ItemUpdated -= OnRegisterUpdated;
+                            break;
+                        case BankAccountType.Savings:
+                            _deleted = await (vm as SavingsDepositViewModel).DeleteAsync();
+                            (vm as SavingsDepositViewModel).ItemUpdated -= OnRegisterUpdated;
+                            break;
+                    }
+                    break;
+                case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
+                    switch (this.AccountType)
+                    {
+                        case BankAccountType.Checking:
+                            _deleted = await (vm as CheckingWithdrawalViewModel).DeleteAsync();
+                            (vm as CheckingWithdrawalViewModel).ItemUpdated -= OnRegisterUpdated;
+                            break;
+                        case BankAccountType.Savings:
+                            _deleted = await (vm as SavingsWithdrawalViewModel).DeleteAsync();
+                            (vm as SavingsWithdrawalViewModel).ItemUpdated -= OnRegisterUpdated;
+                            break;
+                    }
+                    break;
+            }
+
+            if (_deleted && this.AccountRegister.Contains(vm, new AccountRegisterItemViewModelComparer()))
+            {
+                this.AccountRegister.Remove(vm);
+                GroupAccountItems();
+            }
+
+            return _deleted;
         }
 
         private async void OnRegisterUpdated(object sender, EventArgs e)
@@ -747,6 +853,19 @@ namespace EasyBudget.Business.ViewModels
                         break;
                 }
             }
+        }
+    }
+
+    public class BankAccountComparer : IEqualityComparer<BankAccountViewModel>
+    {
+        public bool Equals(BankAccountViewModel x, BankAccountViewModel y)
+        {
+            return x.AccountType == y.AccountType && x.AccountNumber == y.AccountNumber && x.BankName == y.BankName;
+        }
+
+        public int GetHashCode(BankAccountViewModel obj)
+        {
+            return obj.AccountNumber.GetHashCode() + obj.AccountType.GetHashCode() + obj.BankName.GetHashCode();
         }
     }
 }
