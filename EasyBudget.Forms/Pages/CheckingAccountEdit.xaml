@@ -26,7 +26,7 @@
                 <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
             </StackLayout>
 
-            </StackLayout>
+        </StackLayout>
 	</ContentPage.Content>
     
 </ContentPage>

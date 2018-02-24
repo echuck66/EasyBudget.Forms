@@ -11,7 +11,6 @@ namespace EasyBudget.Forms.Pages
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-            (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = null;
         }
 
         protected void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
