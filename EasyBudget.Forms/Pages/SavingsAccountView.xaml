@@ -22,7 +22,7 @@
                 <Label Text="Current Balance" FontAttributes="Bold"></Label>
                 <Label Text="{Binding CurrentBalance}"></Label>
             </StackLayout>
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>
             </StackLayout>
 

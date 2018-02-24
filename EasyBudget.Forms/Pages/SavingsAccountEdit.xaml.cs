@@ -18,7 +18,7 @@ namespace EasyBudget.Forms.Pages
 
         protected async void OnSaveClicked(object sender, EventArgs e)
         {
-            await (this.BindingContext as BudgetCategoryViewModel).SaveChangesAsync();
+            await (this.BindingContext as BankAccountViewModel).SaveChangesAsync();
             await Navigation.PopModalAsync();
         }
 

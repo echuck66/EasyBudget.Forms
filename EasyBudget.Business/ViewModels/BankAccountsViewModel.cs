@@ -92,6 +92,9 @@ namespace EasyBudget.Business.ViewModels
                     {
                         BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
                         await vm.PopulateVMAsync(account);
+                        vm.CanEdit = true;
+                        vm.CanDelete = true;
+                        vm.IsNew = false;
                         this.BankAccounts.Add(vm);
                     }
                     await GroupAccountsAsync();
@@ -123,8 +126,14 @@ namespace EasyBudget.Business.ViewModels
                 {
                     foreach (var account in _results.Results)
                     {
-                        //this.BankAccountVMs.Add(account);
+                        BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
+                        await vm.PopulateVMAsync(account);
+                        vm.CanEdit = true;
+                        vm.CanDelete = true;
+                        vm.IsNew = false;
+                        this.BankAccounts.Add(vm);
                     }
+                    await GroupAccountsAsync();
                 }
                 else
                 {
@@ -149,6 +158,7 @@ namespace EasyBudget.Business.ViewModels
             BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
             CheckingAccount account = new CheckingAccount();
             await vm.PopulateVMAsync(account);
+            vm.AccountType = Models.BankAccountType.Checking;
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;
@@ -162,6 +172,7 @@ namespace EasyBudget.Business.ViewModels
             BankAccountViewModel vm = new BankAccountViewModel(this.dbFilePath);
             SavingsAccount account = new SavingsAccount();
             await vm.PopulateVMAsync(account);
+            vm.AccountType = Models.BankAccountType.Savings;
             vm.IsNew = true;
             vm.CanEdit = true;
             vm.CanDelete = false;

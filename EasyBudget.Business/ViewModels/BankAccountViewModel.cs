@@ -155,13 +155,13 @@ namespace EasyBudget.Business.ViewModels
 
         public ObservableCollection<AccountRegisterItemViewModel> AccountRegister { get; set; }
 
-        public ObservableCollection<Grouping<string, AccountRegisterItemViewModel>> AccountRegisteredGrouped { get; set; }
+        public ObservableCollection<Grouping<string, AccountRegisterItemViewModel>> AccountRegisterGrouped { get; set; }
 
         internal BankAccountViewModel(string dbFilePath)
             : base(dbFilePath)
         {
             this.AccountRegister = new ObservableCollection<AccountRegisterItemViewModel>();
-            this.AccountRegisteredGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>();
+            this.AccountRegisterGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>();
         }
         
         public void GroupAccountItems()
@@ -170,7 +170,7 @@ namespace EasyBudget.Business.ViewModels
                           orderby regItm.ItemDate descending
                           group regItm by regItm.ItemType into Group
                           select new Grouping<string, AccountRegisterItemViewModel>(Group.Key.ToString(), Group);
-            this.AccountRegisteredGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>(grouped.OrderBy(g => g.Key));
+            this.AccountRegisterGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>(grouped.OrderBy(g => g.Key));
         }
 
         public async Task GroupAccountItemsAsync()
@@ -180,7 +180,7 @@ namespace EasyBudget.Business.ViewModels
                           group regItm by regItm.ItemType into Group
                           select new Grouping<string, AccountRegisterItemViewModel>(Group.Key.ToString(), Group);
 
-            this.AccountRegisteredGrouped = await Task.Run(() => new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>(grouped.OrderBy(g => g.Key)));
+            this.AccountRegisterGrouped = await Task.Run(() => new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>(grouped.OrderBy(g => g.Key)));
         }
 
         public override event PropertyChangedEventHandler PropertyChanged;
