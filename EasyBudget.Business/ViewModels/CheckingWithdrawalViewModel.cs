@@ -176,6 +176,7 @@ namespace EasyBudget.Business.ViewModels
         {
             this.model = withdrawal;
             this.accountModel = withdrawal.checkingAccount;
+            this.ItemId = this.model.id;
             this.ItemDescription = this.model.payToTheOrderOf;
             this.ItemType = AccountItemType.Withdrawals;
             this.ItemDate = model.transactionDate;
@@ -201,6 +202,7 @@ namespace EasyBudget.Business.ViewModels
         {
             this.model = withdrawal;
             this.accountModel = withdrawal.checkingAccount;
+            this.ItemId = this.model.id;
             this.ItemDescription = this.model.payToTheOrderOf;
             this.ItemType = AccountItemType.Withdrawals;
             this.ItemDate = model.transactionDate;
@@ -238,6 +240,7 @@ namespace EasyBudget.Business.ViewModels
                         this.IsNew = false;
                         this.CanEdit = true;
                         this.CanDelete = true;
+                        OnItemUpdated();
                     }
                     else
                     {
@@ -265,6 +268,7 @@ namespace EasyBudget.Business.ViewModels
                         this.IsNew = false;
                         this.CanEdit = true;
                         this.CanDelete = true;
+                        OnItemUpdated();
                     }
                     else
                     {
@@ -282,6 +286,50 @@ namespace EasyBudget.Business.ViewModels
                         }
                     }
                 }
+            }
+        }
+
+        public async override Task<bool> DeleteAsync()
+        {
+            bool deleted = false;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.DeleteCheckingWithdrawalAsync(model);
+                deleted = _results.Successful;
+                if (deleted)
+                {
+                    OnItemUpdated();
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred deleting withdrawal record");
+                    }
+                }
+            }
+
+            return deleted;
+        }
+
+        public delegate void ItemUpdatedEventHandler(object sender, EventArgs e);
+
+        public event ItemUpdatedEventHandler ItemUpdated;
+
+        public void OnItemUpdated()
+        {
+            if (this.ItemUpdated != null)
+            {
+                ItemUpdated(this, new EventArgs());
             }
         }
     }

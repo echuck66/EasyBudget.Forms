@@ -1,10 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace EasyBudget.Business.ViewModels
 {
     public abstract class AccountRegisterItemViewModel: BaseViewModel, INotifyPropertyChanged
     {
+        int _ItemId;
+        public int ItemId
+        {
+            get
+            {
+                return _ItemId;
+            }
+            set
+            {
+                if (_ItemId != value)
+                {
+                    _ItemId = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ItemId)));
+                }
+            }
+        }
+
         string _ItemDescription;
         public string ItemDescription
         {
@@ -85,6 +103,19 @@ namespace EasyBudget.Business.ViewModels
         {
             Deposits,
             Withdrawals
+        }
+    }
+
+    public class AccountRegisterItemViewModelComparer : IEqualityComparer<AccountRegisterItemViewModel>
+    {
+        public bool Equals(AccountRegisterItemViewModel x, AccountRegisterItemViewModel y)
+        {
+            return x.ItemId == y.ItemId;
+        }
+
+        public int GetHashCode(AccountRegisterItemViewModel obj)
+        {
+            return obj.ItemId.GetHashCode() + obj.ItemDate.GetHashCode() + obj.ItemDescription.GetHashCode();
         }
     }
 }

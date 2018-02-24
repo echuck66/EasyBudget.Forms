@@ -24,7 +24,7 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BankAccountsViewModel : BaseViewModel, INotifyPropertyChanged
+    public class BankAccountsViewModel : BaseViewModel, INotifyPropertyChanged, IDisposable
     {
 
         public ObservableCollection<BankAccountViewModel> BankAccounts { get; set; }
@@ -168,6 +168,14 @@ namespace EasyBudget.Business.ViewModels
             this.BankAccounts.Add(vm);
             this.SelectedBankAccount = vm;
             await GroupAccountsAsync();
+        }
+
+        public void Dispose()
+        {
+            foreach(BankAccountViewModel vm in this.BankAccounts)
+            {
+                vm.Dispose();
+            }
         }
     }
 
