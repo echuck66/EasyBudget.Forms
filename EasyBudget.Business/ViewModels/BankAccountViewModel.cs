@@ -131,6 +131,14 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public bool CanAddItems
+        {
+            get
+            {
+                return !this.IsNew;
+            }
+        }
+
         AccountRegisterItemViewModel _SelectedRegisterItem;
         public AccountRegisterItemViewModel SelectedRegisterItem
         {
