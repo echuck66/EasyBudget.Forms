@@ -99,6 +99,8 @@ namespace EasyBudget.Data
 
         Task DeleteSavingsDepositAsync(SavingsDeposit deposit);
 
+        Task DeleteSavingsWithdrawalAsync(SavingsWithdrawal withdrawal);
+
         Task DeleteExpenseItemAsync(ExpenseItem expense);
 
         Task DeleteIncomeItemAsync(IncomeItem income);

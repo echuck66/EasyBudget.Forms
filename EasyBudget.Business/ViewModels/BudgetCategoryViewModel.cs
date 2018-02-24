@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
@@ -285,16 +286,46 @@ namespace EasyBudget.Business.ViewModels
                         deleted = _resultsDeleteCategory.Successful;
                         if (!_resultsDeleteCategory.Successful)
                         {
-                            // TODO handle failure here
-
+                            if (_resultsCategory.WorkException != null)
+                            {
+                                WriteErrorCondition(_resultsCategory.WorkException);    
+                            }
+                            else if (!string.IsNullOrEmpty(_resultsCategory.Message))
+                            {
+                                WriteErrorCondition(_resultsCategory.Message);
+                            }
+                            else
+                            {
+                                WriteErrorCondition("An unknown error occurred while attempting to delete record");
+                            }
                         }
                     }
                 }
             }
             else
             {
-                // TODO make aware that BudgetItems must first be cleared
+                WriteErrorCondition("All related Budget Items must first be deleted");
+            }
 
+            return deleted;
+        }
+
+        public async Task<bool> DelteBudgetItemAsync(BudgetItemViewModel vm)
+        {
+            bool deleted = false;
+            var itemList = new List<BudgetItemViewModel>();
+
+            if (vm.CanDelete && this.BudgetItems.Contains(vm, new BudgetItemViewModelComparer()))
+            {
+                deleted = await vm.DeleteAsync();
+                if (deleted)
+                {
+                    this.BudgetItems.Remove(vm);
+                }
+            }
+            else
+            {
+                this.WriteErrorCondition("Unable to locate provided item in the source collection");
             }
 
             return deleted;

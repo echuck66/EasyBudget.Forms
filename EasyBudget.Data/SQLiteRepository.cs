@@ -467,5 +467,10 @@ namespace EasyBudget.Data
 
             return withdrawals as ICollection<SavingsWithdrawal>;
         }
+
+        public async Task DeleteSavingsWithdrawalAsync(SavingsWithdrawal withdrawal)
+        {
+            var deleted = await connection.DeleteAsync(withdrawal);
+        }
     }
 }

@@ -25,7 +25,7 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public class BankAccountViewModel : BaseViewModel, INotifyPropertyChanged
+    public class BankAccountViewModel : BaseViewModel, INotifyPropertyChanged, IDisposable
     {
         BankAccount model { get; set; }
 
@@ -146,8 +146,16 @@ namespace EasyBudget.Business.ViewModels
         }
 
         public ObservableCollection<AccountRegisterItemViewModel> AccountRegister { get; set; }
+
         public ObservableCollection<Grouping<string, AccountRegisterItemViewModel>> AccountRegisteredGrouped { get; set; }
 
+        internal BankAccountViewModel(string dbFilePath)
+            : base(dbFilePath)
+        {
+            this.AccountRegister = new ObservableCollection<AccountRegisterItemViewModel>();
+            this.AccountRegisteredGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>();
+        }
+        
         public void GroupAccountItems()
         {
             var grouped = from regItm in this.AccountRegister
@@ -165,13 +173,6 @@ namespace EasyBudget.Business.ViewModels
                           select new Grouping<string, AccountRegisterItemViewModel>(Group.Key.ToString(), Group);
 
             this.AccountRegisteredGrouped = await Task.Run(() => new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>(grouped.OrderBy(g => g.Key)));
-        }
-
-        internal BankAccountViewModel(string dbFilePath)
-            : base(dbFilePath)
-        {
-            this.AccountRegister = new ObservableCollection<AccountRegisterItemViewModel>();
-            this.AccountRegisteredGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>();
         }
 
         public override event PropertyChangedEventHandler PropertyChanged;
@@ -394,6 +395,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanEdit = true;
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(deposit);
+                        vm.ItemUpdated += OnRegisterUpdated;
 
                         this.AccountRegister.Add(vm);
                     }
@@ -432,6 +434,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanEdit = true;
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(withdrawal);
+                        vm.ItemUpdated += OnRegisterUpdated;
 
                         this.AccountRegister.Add(vm);
                     }
@@ -470,6 +473,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanEdit = true;
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(deposit);
+                        vm.ItemUpdated += OnRegisterUpdated;
 
                         this.AccountRegister.Add(vm);
                     }
@@ -508,6 +512,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanEdit = true;
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(withdrawal);
+                        vm.ItemUpdated += OnRegisterUpdated;
 
                         this.AccountRegister.Add(vm);
                     }
@@ -673,6 +678,73 @@ namespace EasyBudget.Business.ViewModels
                             }
                         }
                     }
+                }
+            }
+        }
+
+        public async Task DeleteAsync()
+        {
+            
+        }
+
+        public async Task DeleteRegisterItemAsync(AccountRegisterItemViewModel vm)
+        {
+            
+        }
+
+        private async void OnRegisterUpdated(object sender, EventArgs e)
+        {
+            int accountId = model.id;
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                switch (this.AccountType)
+                {
+                    case BankAccountType.Checking:
+                        var _resultsChecking = await uow.GetCheckingAccountAsync(accountId);
+                        if (_resultsChecking.Successful)
+                        {
+                            this.CurrentBalance = _resultsChecking.Account.currentBalance;
+                        }
+                        break;
+                    case BankAccountType.Savings:
+                        var _resultsSavings = await uow.GetSavingsAccountAsync(accountId);
+                        if (_resultsSavings.Successful)
+                        {
+                            this.CurrentBalance = _resultsSavings.Account.currentBalance;
+                        }
+                        break;
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach(AccountRegisterItemViewModel vm in this.AccountRegister)
+            {
+                switch (vm.ItemType)
+                {
+                    case AccountRegisterItemViewModel.AccountItemType.Deposits:
+                        switch (this.AccountType)
+                        {
+                            case BankAccountType.Checking:
+                                (vm as CheckingDepositViewModel).ItemUpdated -= OnRegisterUpdated;
+                                break;
+                            case BankAccountType.Savings:
+                                (vm as SavingsDepositViewModel).ItemUpdated -= OnRegisterUpdated;
+                                break;
+                        }
+                        break;
+                    case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
+                        switch (this.AccountType)
+                        {
+                            case BankAccountType.Checking:
+                                (vm as CheckingWithdrawalViewModel).ItemUpdated -= OnRegisterUpdated;
+                                break;
+                            case BankAccountType.Savings:
+                                (vm as SavingsWithdrawalViewModel).ItemUpdated -= OnRegisterUpdated;
+                                break;
+                        }
+                        break;
                 }
             }
         }

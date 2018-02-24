@@ -45,17 +45,29 @@ namespace EasyBudget.Forms.Pages
 
             if (answer)
             {
-                //var btn = sender as MenuItem;
-                //var category = btn.BindingContext as BudgetCategoryViewModel;
-                //bool deleted = await vm.DeleteBudgetCategoryAsync(category);
-                //if (deleted)
-                //{
-                //    await DisplayAlert("Results", "Item Deleted", "Dismiss");
-                //}
-                //else
-                //{
-                //    await DisplayAlert("Error", "Unable to delte this Category. Message: " + category.ErrorCondition, "Ok");
-                //}
+                var btn = sender as MenuItem;
+                var regItem = btn.BindingContext as AccountRegisterItemViewModel;
+
+                bool deleted = false;
+                //await vm.DeleteBudgetCategoryAsync(category);
+                switch(regItem.ItemType)
+                {
+                    case AccountRegisterItemViewModel.AccountItemType.Deposits:
+                        //(regItem as DepositViewModel).
+
+                        break;
+                    case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
+
+                        break;
+                }
+                if (deleted)
+                {
+                    await DisplayAlert("Results", "Item Deleted", "Dismiss");
+                }
+                else
+                {
+                    await DisplayAlert("Error", "Unable to delte this Category. Message: " + regItem.ErrorCondition, "Ok");
+                }
             }
         }
 

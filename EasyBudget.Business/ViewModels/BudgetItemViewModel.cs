@@ -13,6 +13,8 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -25,6 +27,14 @@ namespace EasyBudget.Business.ViewModels
     public class BudgetItemViewModel : BaseViewModel, INotifyPropertyChanged
     {
         BudgetItem model { get; set; }
+
+        public int ItemId 
+        {
+            get
+            {
+                return model.id;
+            }
+        }
 
         public string CategoryName 
         {
@@ -523,6 +533,19 @@ namespace EasyBudget.Business.ViewModels
             {
                 ItemUpdated(this, new EventArgs());
             }
+        }
+    }
+
+    public class BudgetItemViewModelComparer : IEqualityComparer<BudgetItemViewModel>
+    {
+        public bool Equals(BudgetItemViewModel x, BudgetItemViewModel y)
+        {
+            return x.ItemId == y.ItemId;
+        }
+
+        public int GetHashCode(BudgetItemViewModel obj)
+        {
+            return obj.ItemId.GetHashCode() + obj.ItemType.GetHashCode() + obj.ItemFrequency.GetHashCode() + obj.ItemDescription.GetHashCode();
         }
     }
 }
