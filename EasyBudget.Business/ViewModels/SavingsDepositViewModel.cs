@@ -10,7 +10,7 @@ namespace EasyBudget.Business.ViewModels
     {
         SavingsDeposit model { get; set; }
 
-        public DateTime transactionDate
+        public DateTime TransactionDate
         {
             get
             {
@@ -23,12 +23,12 @@ namespace EasyBudget.Business.ViewModels
                     model.transactionDate = value;
                     this.ItemDate = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(transactionDate)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionDate)));
                 }
             }
         }
 
-        public decimal transactionAmount
+        public decimal TransactionAmount
         {
             get
             {
@@ -41,12 +41,12 @@ namespace EasyBudget.Business.ViewModels
                     model.transactionAmount = value;
                     this.ItemAmount = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(transactionAmount)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionAmount)));
                 }
             }
         }
 
-        public string description
+        public string Description
         {
             get
             {
@@ -59,12 +59,12 @@ namespace EasyBudget.Business.ViewModels
                     model.description = value;
                     this.ItemDescription = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(description)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
                 }
             }
         }
 
-        public string notation
+        public string Notation
         {
             get
             {
@@ -76,12 +76,12 @@ namespace EasyBudget.Business.ViewModels
                 {
                     model.notation = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(notation)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Notation)));
                 }
             }
         }
 
-        public int? budgetItemId
+        public int BudgetItemId
         {
             get
             {
@@ -93,8 +93,37 @@ namespace EasyBudget.Business.ViewModels
                 {
                     model.budgetIncomeId = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(budgetItemId)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemId)));
                 }
+            }
+        }
+
+        BudgetCategory _SelectedCategory;
+        public BudgetCategory SelectedCategory
+        {
+            get
+            {
+                return _SelectedCategory;
+            }
+            set
+            {
+                _SelectedCategory = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
+            }
+        }
+
+        BudgetItem _SelectedBudgetItem;
+        public BudgetItem SelectedBudgetItem
+        {
+            get
+            {
+                return _SelectedBudgetItem;
+            }
+            set
+            {
+                _SelectedBudgetItem = value;
+                this.BudgetItemId = value.id;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
             }
         }
 

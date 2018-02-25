@@ -22,7 +22,7 @@ using EasyBudget.Models.DataModels;
 namespace EasyBudget.Business.ViewModels
 {
 
-    public abstract class DepositViewModel : AccountRegisterItemViewModel
+    public abstract class DepositViewModel : AccountRegisterItemViewModel, INotifyPropertyChanged
     {
         internal BankAccount accountModel { get; set; }
 
@@ -65,6 +65,9 @@ namespace EasyBudget.Business.ViewModels
                 return accountModel.accountType;
             }
         }
+
+
+        public override event PropertyChangedEventHandler PropertyChanged;
 
         public ICollection<BudgetCategory> BudgetCategories { get; set; }
 

@@ -38,7 +38,7 @@ namespace EasyBudget.Models.DataModels
         [MaxLength(250)]
         public string memo { get; set; }
 
-        public int? budgetExpenseId { get; set; }
+        public int budgetExpenseId { get; set; }
 
         [Ignore]
         public virtual ExpenseItem budgetExpense { get; set; }

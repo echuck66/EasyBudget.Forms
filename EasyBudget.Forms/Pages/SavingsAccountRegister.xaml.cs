@@ -76,12 +76,12 @@ namespace EasyBudget.Forms.Pages
             switch (itemVM.ItemType)
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
-                    SavingsDepositView depositViewer = new SavingsDepositView();
+                    SavingsDepositEdit depositViewer = new SavingsDepositEdit();
                     depositViewer.BindingContext = itemVM as SavingsDepositViewModel;
                     await Navigation.PushModalAsync(depositViewer);
                     break;
                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
-                    SavingsWithdrawalView withdrawalViewer = new SavingsWithdrawalView();
+                    SavingsWithdrawalEdit withdrawalViewer = new SavingsWithdrawalEdit();
                     withdrawalViewer.BindingContext = itemVM as SavingsWithdrawalViewModel;
                     await Navigation.PushModalAsync(withdrawalViewer);
                     break;
@@ -98,7 +98,7 @@ namespace EasyBudget.Forms.Pages
                     var depositVM = await (this.BindingContext as BankAccountViewModel).AddDepositAsync();
                     if (depositVM != null)
                     {
-                        SavingsDepositView depositViewer = new SavingsDepositView();
+                        SavingsDepositEdit depositViewer = new SavingsDepositEdit();
                         depositViewer.BindingContext = depositVM as SavingsDepositViewModel;
                         await Navigation.PushModalAsync(depositViewer);
                     }
@@ -107,7 +107,7 @@ namespace EasyBudget.Forms.Pages
                     var withdrawalVM = await (this.BindingContext as BankAccountViewModel).AddWithdrawalAsync();
                     if (withdrawalVM != null)
                     {
-                        SavingsWithdrawalView withdrawalViewer = new SavingsWithdrawalView();
+                        SavingsWithdrawalEdit withdrawalViewer = new SavingsWithdrawalEdit();
                         withdrawalViewer.BindingContext = withdrawalVM as SavingsWithdrawalViewModel;
                         await Navigation.PushModalAsync(withdrawalViewer);
                     }

@@ -113,7 +113,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public int? budgetExpenseId 
+        public int BudgetItemId 
         {
             get
             {
@@ -125,8 +125,37 @@ namespace EasyBudget.Business.ViewModels
                 {
                     model.budgetExpenseId = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(budgetExpenseId)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemId)));
                 }
+            }
+        }
+
+        BudgetCategory _SelectedCategory;
+        public BudgetCategory SelectedCategory
+        {
+            get
+            {
+                return _SelectedCategory;
+            }
+            set
+            {
+                _SelectedCategory = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
+            }
+        }
+
+        BudgetItem _SelectedBudgetItem;
+        public BudgetItem SelectedBudgetItem
+        {
+            get
+            {
+                return _SelectedBudgetItem;
+            }
+            set
+            {
+                _SelectedBudgetItem = value;
+                this.BudgetItemId = value.id;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
             }
         }
 

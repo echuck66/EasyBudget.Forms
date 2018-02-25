@@ -99,7 +99,7 @@ namespace EasyBudget.Forms.Pages
                     var depositVM = await (this.BindingContext as BankAccountViewModel).AddDepositAsync();
                     if (depositVM != null)
                     {
-                        CheckingDepositView depositViewer = new CheckingDepositView();
+                        CheckingDepositEdit depositViewer = new CheckingDepositEdit();
                         depositViewer.BindingContext = depositVM as CheckingDepositViewModel;
                         await Navigation.PushModalAsync(depositViewer);
                     }
@@ -108,7 +108,7 @@ namespace EasyBudget.Forms.Pages
                     var withdrawalVM = await (this.BindingContext as BankAccountViewModel).AddWithdrawalAsync();
                     if (withdrawalVM != null)
                     {
-                        CheckingWithdrawalView withdrawalViewer = new CheckingWithdrawalView();
+                        CheckingWithdrawalEdit withdrawalViewer = new CheckingWithdrawalEdit();
                         withdrawalViewer.BindingContext = withdrawalVM as CheckingWithdrawalViewModel;
                         await Navigation.PushModalAsync(withdrawalViewer);
                     }
