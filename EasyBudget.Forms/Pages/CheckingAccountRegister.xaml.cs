@@ -22,12 +22,12 @@ namespace EasyBudget.Forms.Pages
         {
             var btn = sender as MenuItem;
             var regItem = btn.BindingContext as AccountRegisterItemViewModel;
+            (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = regItem;
 
             switch (regItem.ItemType)
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
                     CheckingDepositEdit depEditor = new CheckingDepositEdit();
-                    depEditor.BindingContext = regItem as CheckingDepositViewModel;
                     await Navigation.PushModalAsync(depEditor);
                     break;
                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
@@ -46,6 +46,7 @@ namespace EasyBudget.Forms.Pages
             {
                 var btn = sender as MenuItem;
                 var regItem = btn.BindingContext as AccountRegisterItemViewModel;
+                (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = regItem;
 
                 bool deleted = false;
                 switch(regItem.ItemType)
@@ -73,6 +74,7 @@ namespace EasyBudget.Forms.Pages
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var itemVM = e.Item as AccountRegisterItemViewModel;
+            (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = itemVM;
             switch (itemVM.ItemType)
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
@@ -86,7 +88,6 @@ namespace EasyBudget.Forms.Pages
                     await Navigation.PushModalAsync(withdrawalViewer);
                     break;
             }
-
         }
 
         protected async void OnNewItemClicked(object sender, EventArgs e)
@@ -97,6 +98,7 @@ namespace EasyBudget.Forms.Pages
             {
                 case "Deposit":
                     var depositVM = await (this.BindingContext as BankAccountViewModel).AddDepositAsync();
+                    (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = depositVM;
                     if (depositVM != null)
                     {
                         CheckingDepositEdit depositViewer = new CheckingDepositEdit();
@@ -106,6 +108,7 @@ namespace EasyBudget.Forms.Pages
                     break;
                 case "Withdrawal":
                     var withdrawalVM = await (this.BindingContext as BankAccountViewModel).AddWithdrawalAsync();
+                    (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = withdrawalVM;
                     if (withdrawalVM != null)
                     {
                         CheckingWithdrawalEdit withdrawalViewer = new CheckingWithdrawalEdit();
