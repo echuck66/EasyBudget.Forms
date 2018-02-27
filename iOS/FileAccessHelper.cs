@@ -44,10 +44,8 @@ namespace EasyBudget.iOS
             }
             string dbFilePath = System.IO.Path.Combine(dataFolder, filename);
 
-            //if (!System.IO.File.Exists(dbFilePath))
-            //{
-            //    System.IO.File.Copy("dbEasyBudget.sqlite", dbFilePath);
-            //}
+            //if (System.IO.File.Exists(docsFilePath))
+                //System.IO.File.Delete(docsFilePath);
 
             return dbFilePath;
         }

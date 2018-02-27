@@ -36,7 +36,7 @@ namespace EasyBudget.Models.DataModels
         [MaxLength(250)]
         public string notation { get; set; }
 
-        public int? budgetIncomeId { get; set; }
+        public int budgetIncomeId { get; set; }
 
         [Ignore]
         public virtual IncomeItem budgetIncome { get; set; }

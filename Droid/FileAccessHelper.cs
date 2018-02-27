@@ -42,6 +42,9 @@ namespace EasyBudget.Droid
             }
             string docsFilePath = System.IO.Path.Combine(dataFolder, filename);
 
+            //if (System.IO.File.Exists(docsFilePath))
+                //System.IO.File.Delete(docsFilePath);
+            
             return docsFilePath;
         }
 

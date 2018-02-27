@@ -207,6 +207,7 @@ namespace EasyBudget.Business.ViewModels
                     vm = await AddSavingsDepositAsync();
                     break;
             }
+            this.SelectedRegisterItem = vm;
             return vm;
         }
 
@@ -222,6 +223,7 @@ namespace EasyBudget.Business.ViewModels
                     vm = await AddSavingsWithdrawalAsync();
                     break;
             }
+            this.SelectedRegisterItem = vm;
             return vm;
         }
 
@@ -241,6 +243,8 @@ namespace EasyBudget.Business.ViewModels
             
             this.AccountRegister.Add(vm);
             await GroupAccountItemsAsync();
+            //this.SelectedRegisterItem = vm;
+
             return vm;
         }
 
@@ -260,6 +264,8 @@ namespace EasyBudget.Business.ViewModels
 
             this.AccountRegister.Add(vm);
             await GroupAccountItemsAsync();
+            //this.SelectedRegisterItem = vm;
+
             return vm;
         }
 
@@ -279,6 +285,8 @@ namespace EasyBudget.Business.ViewModels
 
             this.AccountRegister.Add(vm);
             await GroupAccountItemsAsync();
+            //this.SelectedRegisterItem = vm;
+
             return vm;
         }
 
@@ -298,6 +306,8 @@ namespace EasyBudget.Business.ViewModels
 
             this.AccountRegister.Add(vm);
             await GroupAccountItemsAsync();
+            //this.SelectedRegisterItem = vm;
+
             return vm;
         }
 

@@ -12,15 +12,22 @@
     
     <ContentPage.Content>
         <StackLayout Spacing="10">
-                <StackLayout VerticalOptions="FillAndExpand">
-                    
-                </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
-                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
-                </StackLayout>
-
+            <StackLayout VerticalOptions="FillAndExpand">
+                <Label Text="Date" FontAttributes="Bold"></Label>
+                <DatePicker Date="{Binding TransactionDate}"></DatePicker>
+                <Label Text="Amount" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding TransactionAmount}"></Entry>
+                <Label Text="Description" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding Description}"></Entry>
+                <Label Text="Note" FontAttributes="Bold"></Label>
+                <Entry Text="{Binding Notation}"></Entry>
             </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
+                <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+            </StackLayout>
+
+        </StackLayout>
     </ContentPage.Content>
     
 </ContentPage>

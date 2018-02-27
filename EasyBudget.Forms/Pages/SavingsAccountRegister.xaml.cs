@@ -22,7 +22,7 @@ namespace EasyBudget.Forms.Pages
         {
             var btn = sender as MenuItem;
             var regItem = btn.BindingContext as AccountRegisterItemViewModel;
-
+            (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = regItem;
             switch (regItem.ItemType)
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
@@ -46,6 +46,7 @@ namespace EasyBudget.Forms.Pages
             {
                 var btn = sender as MenuItem;
                 var regItem = btn.BindingContext as AccountRegisterItemViewModel;
+                (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = regItem;
 
                 bool deleted = false;
                 switch (regItem.ItemType)
@@ -65,7 +66,7 @@ namespace EasyBudget.Forms.Pages
                 }
                 else
                 {
-                    await DisplayAlert("Error", "Unable to delte this Item. Message: " + regItem.ErrorCondition, "Ok");
+                    await DisplayAlert("Error", "Unable to delete this Item. Message: " + regItem.ErrorCondition, "Ok");
                 }
             }
         }
@@ -73,15 +74,16 @@ namespace EasyBudget.Forms.Pages
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var itemVM = e.Item as AccountRegisterItemViewModel;
+            (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = itemVM;
             switch (itemVM.ItemType)
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
-                    SavingsDepositView depositViewer = new SavingsDepositView();
+                    SavingsDepositEdit depositViewer = new SavingsDepositEdit();
                     depositViewer.BindingContext = itemVM as SavingsDepositViewModel;
                     await Navigation.PushModalAsync(depositViewer);
                     break;
                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
-                    SavingsWithdrawalView withdrawalViewer = new SavingsWithdrawalView();
+                    SavingsWithdrawalEdit withdrawalViewer = new SavingsWithdrawalEdit();
                     withdrawalViewer.BindingContext = itemVM as SavingsWithdrawalViewModel;
                     await Navigation.PushModalAsync(withdrawalViewer);
                     break;
@@ -96,18 +98,20 @@ namespace EasyBudget.Forms.Pages
             {
                 case "Deposit":
                     var depositVM = await (this.BindingContext as BankAccountViewModel).AddDepositAsync();
+                    (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = depositVM;
                     if (depositVM != null)
                     {
-                        SavingsDepositView depositViewer = new SavingsDepositView();
+                        SavingsDepositEdit depositViewer = new SavingsDepositEdit();
                         depositViewer.BindingContext = depositVM as SavingsDepositViewModel;
                         await Navigation.PushModalAsync(depositViewer);
                     }
                     break;
                 case "Withdrawal":
                     var withdrawalVM = await (this.BindingContext as BankAccountViewModel).AddWithdrawalAsync();
+                    (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = withdrawalVM;
                     if (withdrawalVM != null)
                     {
-                        SavingsWithdrawalView withdrawalViewer = new SavingsWithdrawalView();
+                        SavingsWithdrawalEdit withdrawalViewer = new SavingsWithdrawalEdit();
                         withdrawalViewer.BindingContext = withdrawalVM as SavingsWithdrawalViewModel;
                         await Navigation.PushModalAsync(withdrawalViewer);
                     }
