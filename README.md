@@ -1,6 +1,10 @@
 # EasyBudget.Forms
 Xamarin.Forms app for EasyBudget app using Sqlite-net-pcl, a simple DI container and OxyPlot
 
+## Project Web Pages
+**Project Web Page** [Project Web Page](http://www.crawfordnetsolutions.com/projects/easybudget-1-0-beta/)
+**Design Notes** [Design Notes With UML and Wireframes](http://www.crawfordnetsolutions.com/projects/easybudget-1-0-beta/easybudget-design-notes-v1-0/)
+
 ## Notes
 1) This application is very much a Work In Progress and utilizes Sqlite-net-pcl and OxyPlot nuget packages.
 2) A DataServiceHelper class, registered in the Android and iOS projects with a simple IoC container, provides the EasyBudgetDataService class with the local path to the location where the Sqlite database is located. 
