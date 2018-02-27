@@ -5,7 +5,6 @@ Xamarin.Forms app for EasyBudget app using Sqlite-net-pcl, a simple DI container
 **Web Page** | **Link**
 --------|--------
 **Project Web Page** | [Project Web Page](http://www.crawfordnetsolutions.com/projects/easybudget-1-0-beta/)
-
 **Design Notes** | [Design Notes With UML and Wireframes](http://www.crawfordnetsolutions.com/projects/easybudget-1-0-beta/easybudget-design-notes-v1-0/)
 
 ## Notes
