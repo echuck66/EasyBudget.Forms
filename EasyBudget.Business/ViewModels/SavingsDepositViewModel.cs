@@ -152,7 +152,12 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                bool _canSave = false;
+                bool _canSave = BudgetItemId > 0 &&
+                                SelectedCategory != null &&
+                                SelectedBudgetItem != null &&
+                                !string.IsNullOrEmpty(this.Description) &&
+                                TransactionAmount > 0 &&
+                                TransactionDate > DateTime.MinValue;
 
                 return _canSave;
             }

@@ -13,6 +13,12 @@ namespace EasyBudget.Forms.Pages
             NavigationPage.SetHasNavigationBar(this, false);
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            (BindingContext as BankAccountViewModel).SelectedRegisterItem = null;
+        }
+
         protected void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = e.SelectedItem as AccountRegisterItemViewModel;

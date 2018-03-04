@@ -187,7 +187,8 @@ namespace EasyBudget.Business.ViewModels
         internal async Task PopulateVMAsync(BankAccount account)
         {
             this.model = account;
-
+            this.AccountRegister = new ObservableCollection<AccountRegisterItemViewModel>();
+            this.AccountRegisterGrouped = new ObservableCollection<Grouping<string, AccountRegisterItemViewModel>>();
             await LoadDepositsAsync(false);
             await LoadWithdrawalsAsync(false);
             await GroupAccountItemsAsync();
@@ -201,12 +202,18 @@ namespace EasyBudget.Business.ViewModels
             {
                 case BankAccountType.Checking:
                     vm = await AddCheckingDepositAsync();
+                    (vm as CheckingDepositViewModel).ItemUpdated += OnRegisterUpdated;
                     break;
                 case BankAccountType.Savings:
                     vm = await AddSavingsDepositAsync();
+                    (vm as SavingsDepositViewModel).ItemUpdated += OnRegisterUpdated;
                     break;
             }
+
+            this.AccountRegister.Add(vm);
+            await GroupAccountItemsAsync();
             this.SelectedRegisterItem = vm;
+
             return vm;
         }
 
@@ -217,12 +224,18 @@ namespace EasyBudget.Business.ViewModels
             {
                 case BankAccountType.Checking:
                     vm = await AddCheckingWithdrawalAsync();
+                    (vm as CheckingWithdrawalViewModel).ItemUpdated += OnRegisterUpdated;
                     break;
                 case BankAccountType.Savings:
                     vm = await AddSavingsWithdrawalAsync();
+                    (vm as SavingsWithdrawalViewModel).ItemUpdated += OnRegisterUpdated;
                     break;
             }
+
+            this.AccountRegister.Add(vm);
+            await GroupAccountItemsAsync();
             this.SelectedRegisterItem = vm;
+
             return vm;
         }
 
@@ -240,8 +253,8 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(deposit);
             
-            this.AccountRegister.Add(vm);
-            await GroupAccountItemsAsync();
+            //this.AccountRegister.Add(vm);
+            //await GroupAccountItemsAsync();
             //this.SelectedRegisterItem = vm;
 
             return vm;
@@ -261,8 +274,8 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(deposit);
 
-            this.AccountRegister.Add(vm);
-            await GroupAccountItemsAsync();
+            //this.AccountRegister.Add(vm);
+            //await GroupAccountItemsAsync();
             //this.SelectedRegisterItem = vm;
 
             return vm;
@@ -282,8 +295,8 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(withdrawal);
 
-            this.AccountRegister.Add(vm);
-            await GroupAccountItemsAsync();
+            //this.AccountRegister.Add(vm);
+            //await GroupAccountItemsAsync();
             //this.SelectedRegisterItem = vm;
 
             return vm;
@@ -303,8 +316,8 @@ namespace EasyBudget.Business.ViewModels
 
             await vm.PopulateVMAsync(withdrawal);
 
-            this.AccountRegister.Add(vm);
-            await GroupAccountItemsAsync();
+            //this.AccountRegister.Add(vm);
+            //await GroupAccountItemsAsync();
             //this.SelectedRegisterItem = vm;
 
             return vm;
@@ -321,6 +334,7 @@ namespace EasyBudget.Business.ViewModels
                     await LoadSavingsAccountAsync(accountId);
                     break;
             }
+            await GroupAccountItemsAsync();
         }
 
         public async Task LoadDepositsAsync(bool getReconciled = false)
@@ -423,6 +437,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.ItemUpdated += OnRegisterUpdated;
 
                         this.AccountRegister.Add(vm);
+                        //await GroupAccountItemsAsync();
                     }
                 }
                 else
@@ -459,9 +474,11 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanEdit = true;
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(withdrawal);
+
                         vm.ItemUpdated += OnRegisterUpdated;
 
                         this.AccountRegister.Add(vm);
+                        //await GroupAccountItemsAsync();
                     }
                 }
                 else
@@ -538,6 +555,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanDelete = true;
 
                         await vm.PopulateVMAsync(withdrawal);
+
                         vm.ItemUpdated += OnRegisterUpdated;
 
                         this.AccountRegister.Add(vm);
@@ -817,10 +835,32 @@ namespace EasyBudget.Business.ViewModels
             return _deleted;
         }
 
-        void OnRegisterUpdated(object sender, BankingItemUpdatedEventArgs e)
+        async void OnRegisterUpdated(object sender, BankingItemUpdatedEventArgs e)
         {
-            this.CurrentBalance = this.CurrentBalance + e.TransactionAmount;
-            // UoW method saving deposit/withdrawal updates the balance internally. No need to save this change.
+            // we need to retrieve the account and set the model property to the account.
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                switch (this.AccountType)
+                {
+                    case BankAccountType.Checking:
+                        var _resultsChecking = Task.Run(() => uow.GetCheckingAccountAsync(model.id)).Result;
+                        if (_resultsChecking.Successful)
+                        {
+                            this.CurrentBalance = _resultsChecking.Results.currentBalance;
+                        }
+                        break;
+                    case BankAccountType.Savings:
+                        var _resultsSavings = Task.Run(() => uow.GetSavingsAccountAsync(model.id)).Result;
+                        if (_resultsSavings.Successful)
+                        {
+                            this.CurrentBalance = _resultsSavings.Results.currentBalance;
+                        }
+                        break;
+                }
+
+                await GroupAccountItemsAsync();
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccountRegisterGrouped)));
+            }
         }
 
         public void Dispose()

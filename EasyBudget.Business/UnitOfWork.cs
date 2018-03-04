@@ -871,7 +871,16 @@ namespace EasyBudget.Business
                     throw new NullReferenceException("Deposit cannot be NULL");
                 }
                 CheckingDeposit _deposit = await repository.AddCheckingDepositAsync(deposit);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
+                var _account = await repository.GetCheckingAccountAsync(deposit.checkingAccountId);
+                if (_account != null)
+                {
+                    decimal _accountBalance = _account.currentBalance;
+                    _accountBalance = _accountBalance + deposit.transactionAmount;
+                    _account.currentBalance = _accountBalance;
+                    await repository.UpdateCheckingAccountAsync(_account);
+                }
+
                 _results.Successful = true;
                 _results.Results = _deposit;
             }
@@ -896,7 +905,16 @@ namespace EasyBudget.Business
                     throw new NullReferenceException("Withdrawal cannot be NULL");
                 }
                 CheckingWithdrawal _withdrawal = await repository.AddCheckingWithdrawalAsync(withdrawal);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
+                var _account = await repository.GetCheckingAccountAsync(withdrawal.checkingAccountId);
+                if (_account != null)
+                {
+                    decimal _accountBalance = _account.currentBalance;
+                    _accountBalance = _accountBalance - withdrawal.transactionAmount;
+                    _account.currentBalance = _accountBalance;
+                    await repository.UpdateCheckingAccountAsync(_account);
+                }
+
                 _results.Successful = true;
                 _results.Results = _withdrawal;
             }
@@ -921,7 +939,16 @@ namespace EasyBudget.Business
                     throw new NullReferenceException("Deposit cannot be NULL");
                 }
                 SavingsDeposit _deposit = await repository.AddSavingsDepositAsync(deposit);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
+                var _account = await repository.GetSavingsAccountAsync(deposit.savingsAccountId);
+                if (_account != null)
+                {
+                    decimal _accountBalance = _account.currentBalance;
+                    _accountBalance = _accountBalance + deposit.transactionAmount;
+                    _account.currentBalance = _accountBalance;
+                    await repository.UpdateSavingsAccountAsync(_account);
+                }
+
                 _results.Successful = true;
                 _results.Results = _deposit;
             }
@@ -945,8 +972,18 @@ namespace EasyBudget.Business
                 {
                     throw new NullReferenceException("Withdrawal cannot be NULL");
                 }
+
                 SavingsWithdrawal _withdrawal = await repository.AddSavingsWithdrawalAsync(withdrawal);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
+                var _account = await repository.GetSavingsAccountAsync(withdrawal.savingsAccountId);
+                if (_account != null)
+                {
+                    decimal _accountBalance = _account.currentBalance;
+                    _accountBalance = _accountBalance - withdrawal.transactionAmount;
+                    _account.currentBalance = _accountBalance;
+                    await repository.UpdateSavingsAccountAsync(_account);
+                }
+
                 _results.Successful = true;
                 _results.Results = _withdrawal;
             }
@@ -1056,8 +1093,27 @@ namespace EasyBudget.Business
                 {
                     throw new NullReferenceException("Deposit cannot be NULL");
                 }
+
+                var _original = await repository.GetCheckingDepositAsync(deposit.id);
+                decimal _originalAmount = 0;
+                if (_original != null)
+                {
+                    _originalAmount = _original.transactionAmount;
+                }
+
+                decimal _delta = deposit.transactionAmount - _originalAmount;
+
                 await repository.UpdateCheckingDepositAsync(deposit);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
+                var _account = await repository.GetCheckingAccountAsync(deposit.checkingAccountId);
+                if (_account != null)
+                {
+                    decimal _accountBalance = _account.currentBalance;
+                    _accountBalance = _accountBalance - _originalAmount + deposit.transactionAmount;
+                    _account.currentBalance = _accountBalance;
+                    await repository.UpdateCheckingAccountAsync(_account);
+                }
+
                 _results.Successful = true;
                 _results.Results = deposit;
             }
@@ -1081,8 +1137,25 @@ namespace EasyBudget.Business
                 {
                     throw new NullReferenceException("Withdrawal cannot be NULL");
                 }
+
+                var _original = await repository.GetCheckingWithdrawalAsync(withdrawal.id);
+                decimal _originalAmount = 0;
+                if (_original != null)
+                {
+                    _originalAmount = _original.transactionAmount;
+                }
+
                 await repository.UpdateCheckingWithdrawalAsync(withdrawal);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
+                var _account = await repository.GetCheckingAccountAsync(withdrawal.checkingAccountId);
+                if (_account != null)
+                {
+                    decimal _accountBalance = _account.currentBalance;
+                    _accountBalance = _accountBalance + _originalAmount - withdrawal.transactionAmount;
+                    _account.currentBalance = _accountBalance;
+                    await repository.UpdateCheckingAccountAsync(_account);
+                }
+
                 _results.Successful = true;
                 _results.Results = withdrawal;
             }
@@ -1106,8 +1179,25 @@ namespace EasyBudget.Business
                 {
                     throw new NullReferenceException("Deposit cannot be NULL");
                 }
+
+                var _original = await repository.GetSavingsDepositAsync(deposit.id);
+                decimal _originalAmount = 0;
+                if (_original != null)
+                {
+                    _originalAmount = _original.transactionAmount;
+                }
+
                 await repository.UpdateSavingsDepositAsync(deposit);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
+                var _account = await repository.GetSavingsAccountAsync(deposit.savingsAccountId);
+                if (_account != null)
+                {
+                    decimal _accountBalance = _account.currentBalance;
+                    _accountBalance = _accountBalance - _originalAmount + deposit.transactionAmount;
+                    _account.currentBalance = _accountBalance;
+                    await repository.UpdateSavingsAccountAsync(_account);
+                }
+
                 _results.Successful = true;
                 _results.Results = deposit;
             }
@@ -1131,8 +1221,25 @@ namespace EasyBudget.Business
                 {
                     throw new NullReferenceException("Withdrawal cannot be NULL");
                 }
+
+                var _original = await repository.GetSavingsWithdrawalAsync(withdrawal.id);
+                decimal _originalAmount = 0;
+                if (_original != null)
+                {
+                    _originalAmount = _original.transactionAmount;
+                }
+
                 await repository.UpdateSavingsWithdrawalAsync(withdrawal);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
+                var _account = await repository.GetSavingsAccountAsync(withdrawal.savingsAccountId);
+                if (_account != null)
+                {
+                    decimal _accountBalance = _account.currentBalance;
+                    _accountBalance = _accountBalance + _originalAmount - withdrawal.transactionAmount;
+                    _account.currentBalance = _accountBalance;
+                    await repository.UpdateSavingsAccountAsync(_account);
+                }
+
                 _results.Successful = true;
                 _results.Results = withdrawal;
             }
@@ -1184,8 +1291,9 @@ namespace EasyBudget.Business
                 {
                     throw new NullReferenceException("Checking Account cannot be NULL");
                 }
+
                 await repository.DeleteCheckingAccountAsync(account);
-                //int objectsAdded = await this.repository.SaveChangesAsync();
+
                 _results.Results = true;
                 _results.Successful = _results.Results;
             }
@@ -1211,9 +1319,19 @@ namespace EasyBudget.Business
                 }
                 else
                 {
+                    
                     await repository.DeleteCheckingDepositAsync(deposit);
+
+                    var _account = await repository.GetCheckingAccountAsync(deposit.checkingAccountId);
+                    if (_account != null)
+                    {
+                        decimal _accountBalance = _account.currentBalance;
+                        _accountBalance = _accountBalance - deposit.transactionAmount;
+                        _account.currentBalance = _accountBalance;
+                        await repository.UpdateCheckingAccountAsync(_account);
+                    }
+
                     _results.DepositId = deposit.id;
-                    //int objectsAdded = await this.repository.SaveChangesAsync();
                     _results.Results = true;
                     _results.Successful = true;
                 }
@@ -1241,8 +1359,17 @@ namespace EasyBudget.Business
                 else
                 {
                     await repository.DeleteCheckingWithdrawalAsync(withdrawal);
+
+                    var _account = await repository.GetCheckingAccountAsync(withdrawal.checkingAccountId);
+                    if (_account != null)
+                    {
+                        decimal _accountBalance = _account.currentBalance;
+                        _accountBalance = _accountBalance + withdrawal.transactionAmount;
+                        _account.currentBalance = _accountBalance;
+                        await repository.UpdateCheckingAccountAsync(_account);
+                    }
+
                     _results.WithdrawalId = withdrawal.id;
-                    //int objectsAdded = await this.repository.SaveChangesAsync();
                     _results.Results = true;
                     _results.Successful = true;
                 }
@@ -1270,8 +1397,17 @@ namespace EasyBudget.Business
                 else
                 {
                     await repository.DeleteSavingsDepositAsync(deposit);
+
+                    var _account = await repository.GetSavingsAccountAsync(deposit.savingsAccountId);
+                    if (_account != null)
+                    {
+                        decimal _accountBalance = _account.currentBalance;
+                        _accountBalance = _accountBalance - deposit.transactionAmount;
+                        _account.currentBalance = _accountBalance;
+                        await repository.UpdateSavingsAccountAsync(_account);
+                    }
+
                     _results.DepositId = deposit.id;
-                    //int objectsAdded = await this.repository.SaveChangesAsync();
                     _results.Results = true;
                     _results.Successful = true;
                 }
@@ -1299,8 +1435,17 @@ namespace EasyBudget.Business
                 else
                 {
                     await repository.DeleteSavingsWithdrawalAsync(withdrawal);
+
+                    var _account = await repository.GetSavingsAccountAsync(withdrawal.savingsAccountId);
+                    if (_account != null)
+                    {
+                        decimal _accountBalance = _account.currentBalance;
+                        _accountBalance = _accountBalance + withdrawal.transactionAmount;
+                        _account.currentBalance = _accountBalance;
+                        await repository.UpdateSavingsAccountAsync(_account);
+                    }
+
                     _results.WithdrawalId = withdrawal.id;
-                    //int objectsAdded = await this.repository.SaveChangesAsync();
                     _results.Results = true;
                     _results.Successful = true;
                 }
@@ -1336,6 +1481,7 @@ namespace EasyBudget.Business
                 // Get the most current values for the related account
                 withdrawal.checkingAccount = await repository.GetCheckingAccountAsync(withdrawal.checkingAccountId);
                 withdrawal.checkingAccount.currentBalance = withdrawal.checkingAccount.currentBalance - withdrawal.transactionAmount;
+
                 CheckingWithdrawal _withdrawal = await repository.AddCheckingWithdrawalAsync(withdrawal);
                 await repository.SaveChangesAsync();
                 _results.Successful = true;

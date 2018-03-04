@@ -200,32 +200,6 @@ namespace EasyBudget.Business.ViewModels
 
         public override event PropertyChangedEventHandler PropertyChanged;
 
-        public void PopulateVM(CheckingDeposit deposit)
-        {
-            this.model = deposit;
-            this.accountModel = deposit.checkingAccount;
-            this.ItemId = this.model.id;
-            this.ItemDescription = this.model.description;
-            this.ItemType = AccountItemType.Withdrawals;
-            this.ItemDate = model.transactionDate;
-            this.ItemAmount = model.transactionAmount;
-
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            {
-                var _results = Task.Run(() => uow.GetAllBudgetCategoriesAsync()).Result;
-                if (_results.Successful)
-                {
-                    foreach (BudgetCategory category in _results.Results)
-                    {
-                        if (category.categoryType == Models.BudgetCategoryType.Income)
-                        {
-                            this.BudgetCategories.Add(category);
-                        }
-                    }
-                }
-            }
-        }
-
         public async Task PopulateVMAsync(CheckingDeposit deposit)
         {
             this.model = deposit;
@@ -233,13 +207,8 @@ namespace EasyBudget.Business.ViewModels
             this.ItemId = this.model.id;
             this.ItemType = AccountItemType.Deposits;
 
-            //this.ItemDescription = this.model.description;
             this.Description = this.model.description;
-
-            //this.ItemDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
             this.TransactionDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
-
-            //this.ItemAmount = model.transactionAmount;
             this.TransactionAmount = model.transactionAmount;
 
             this.BudgetItemId = model.budgetIncomeId;
