@@ -14,6 +14,7 @@
 //    limitations under the License.
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using EasyBudget.Models;
@@ -69,15 +70,15 @@ namespace EasyBudget.Business.ViewModels
 
         public override event PropertyChangedEventHandler PropertyChanged;
 
-        public ICollection<BudgetCategory> BudgetCategories { get; set; }
+        public ObservableCollection<BudgetCategory> BudgetCategories { get; set; }
 
-        public ICollection<BudgetItem> BudgetItems { get; set; }
+        public ObservableCollection<BudgetItem> BudgetItems { get; set; }
 
         internal DepositViewModel(string dbFilePath)
             : base(dbFilePath)
         {
-            this.BudgetItems = new List<BudgetItem>();
-            this.BudgetCategories = new List<BudgetCategory>();
+            this.BudgetItems = new ObservableCollection<BudgetItem>();
+            this.BudgetCategories = new ObservableCollection<BudgetCategory>();
         }
 
         public abstract Task SaveChangesAsync();

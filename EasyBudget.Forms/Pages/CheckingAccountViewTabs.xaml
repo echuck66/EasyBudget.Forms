@@ -4,9 +4,9 @@
             xmlns:local="clr-namespace:EasyBudget.Forms.Pages;assembly=EasyBudget"
             x:Class="EasyBudget.Forms.Pages.CheckingAccountViewTabs">
 
-    <local:CheckingAccountView />
+    <local:CheckingAccountView Icon="checking.png" />
 
-    <NavigationPage Title="Register">
+    <NavigationPage Title="Register" Icon="account_register.png">
         <x:Arguments>
             <local:CheckingAccountRegister />
         </x:Arguments>

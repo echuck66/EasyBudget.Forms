@@ -125,6 +125,10 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
+                //if (value != null)
+                //{
+                //    Task.Run(() => OnCategorySelected());
+                //}
             }
         }
 
@@ -140,6 +144,10 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedBudgetItem = value;
                 this.BudgetItemId = value.id;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
+                if (value != null)
+                {
+                    this.BudgetItemId = value.id;
+                }
             }
         }
 
@@ -325,6 +333,36 @@ namespace EasyBudget.Business.ViewModels
             if (this.ItemUpdated != null)
             {
                 ItemUpdated(this, new EventArgs());
+            }
+        }
+
+        public async Task OnCategorySelected()
+        {
+            if (this.SelectedCategory != null)
+            {
+                if (this.BudgetItems.Count > 0)
+                {
+                    for (int i = this.BudgetItems.Count - 1; i >= 0; i--)
+                    {
+                        var itm = this.BudgetItems[i];
+
+                        this.BudgetItems.Remove(itm);
+                    }
+                }
+                int categoryId = this.SelectedCategory.id;
+
+                using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+                {
+                    var _results = await uow.GetCategoryExpenseItemsAsync(this.SelectedCategory);
+                    if (_results.Successful)
+                    {
+                        foreach (var itm in _results.Results)
+                        {
+                            this.BudgetItems.Add(itm);
+                        }
+                        this.SelectedBudgetItem = null;
+                    }
+                }
             }
         }
     }

@@ -5,10 +5,10 @@
             x:Class="EasyBudget.Forms.Pages.BudgetCategoryViewTabs">
 
 
-    <local:BudgetCategoryView />
+    <local:BudgetCategoryView Icon="category.png" />
 
 
-    <NavigationPage Title="Budget Items">
+    <NavigationPage Title="Budget Items" Icon="account_register.png">
         <x:Arguments>
             <local:BudgetCategoryItems />
         </x:Arguments>

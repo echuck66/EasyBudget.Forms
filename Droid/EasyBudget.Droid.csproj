@@ -165,8 +165,37 @@
     <AndroidResource Include="Resources\layout\Toolbar.axml" />
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\drawable\icon.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\account_register.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\category.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\checking.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\expenses.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\grid.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\income.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\list_important.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\list_warning.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\savings.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\settings.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\account_register.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\category.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\checking.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\expenses.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\grid.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\income.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\list_important.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\list_warning.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\savings.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\settings.png" />
+    <AndroidResource Include="Resources\drawable\account_register.png" />
+    <AndroidResource Include="Resources\drawable\category.png" />
+    <AndroidResource Include="Resources\drawable\checking.png" />
+    <AndroidResource Include="Resources\drawable\expenses.png" />
+    <AndroidResource Include="Resources\drawable\grid.png" />
+    <AndroidResource Include="Resources\drawable\income.png" />
+    <AndroidResource Include="Resources\drawable\list_important.png" />
+    <AndroidResource Include="Resources\drawable\list_warning.png" />
+    <AndroidResource Include="Resources\drawable\savings.png" />
+    <AndroidResource Include="Resources\drawable\settings.png" />
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +207,9 @@
       <Project>{CC6332E0-18F0-4A8E-B6EF-3044685AB100}</Project>
       <Name>EasyBudget.Business</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\drawable-xhdpi\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.26.1.0.1\build\MonoAndroid80\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.26.1.0.1\build\MonoAndroid80\Xamarin.Android.Support.Annotations.targets')" />

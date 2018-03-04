@@ -125,9 +125,28 @@
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\account_register.png.imageset\account_register.pdf" />
+    <ImageAsset Include="Assets.xcassets\account_register.png.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\category.png.imageset\category.pdf" />
+    <ImageAsset Include="Assets.xcassets\category.png.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\checking.png.imageset\checking.pdf" />
+    <ImageAsset Include="Assets.xcassets\checking.png.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\expenses.png.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\expenses.png.imageset\expenses.pdf" />
+    <ImageAsset Include="Assets.xcassets\income.png.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\income.png.imageset\income.pdf" />
+    <ImageAsset Include="Assets.xcassets\savings.png.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\savings.png.imageset\savings.pdf" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\eb_cns_icon_white_greenback.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Assets.xcassets\account_register.png.imageset\" />
+    <Folder Include="Assets.xcassets\category.png.imageset\" />
+    <Folder Include="Assets.xcassets\checking.png.imageset\" />
+    <Folder Include="Assets.xcassets\expenses.png.imageset\" />
+    <Folder Include="Assets.xcassets\income.png.imageset\" />
+    <Folder Include="Assets.xcassets\savings.png.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
