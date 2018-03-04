@@ -28,7 +28,7 @@
                     <Picker x:Name="pickerBudgetItems" ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}"></Button>
                     <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
                 </StackLayout>
 

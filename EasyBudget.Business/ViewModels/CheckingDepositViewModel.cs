@@ -26,6 +26,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionDate)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -44,6 +45,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionAmount)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -62,6 +64,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemDescription = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -80,6 +83,7 @@ namespace EasyBudget.Business.ViewModels
 
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Notation)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -97,6 +101,7 @@ namespace EasyBudget.Business.ViewModels
                     model.budgetIncomeId = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemId)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -112,6 +117,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
             }
         }
 
@@ -126,6 +132,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedBudgetItem = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 if (value != null)
                 {
                     this.BudgetItemId = _SelectedBudgetItem.id;
@@ -147,6 +154,7 @@ namespace EasyBudget.Business.ViewModels
 
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(reconciled)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -155,12 +163,12 @@ namespace EasyBudget.Business.ViewModels
         {
             get
             {
-                bool _canSave = false;
-
-                _canSave = BudgetItemId > 0 &&
-                           !string.IsNullOrEmpty(this.Description) &&
-                           TransactionAmount > 0 &&
-                           TransactionDate > DateTime.MinValue;
+                bool _canSave = BudgetItemId > 0 &&
+                                SelectedCategory != null && 
+                                SelectedBudgetItem != null && 
+                                !string.IsNullOrEmpty(this.Description) &&
+                                TransactionAmount > 0 &&
+                                TransactionDate > DateTime.MinValue;
                 
                 return _canSave;
             }
