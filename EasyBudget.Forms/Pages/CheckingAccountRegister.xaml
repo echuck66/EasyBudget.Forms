@@ -11,7 +11,6 @@
         </OnPlatform>
     </ContentPage.Padding>  
 
-    
 	<ContentPage.Content>
         <StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
@@ -23,7 +22,7 @@
             
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding ItemDescription}" Detail="{Binding ItemAmount}">
+                    <TextCell Text="{Binding Description}" Detail="{Binding TransactionAmount}">
                         <TextCell.ContextActions>
                             <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                             <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />

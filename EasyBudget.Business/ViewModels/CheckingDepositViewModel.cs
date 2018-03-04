@@ -4,6 +4,7 @@ using System.ComponentModel;
 using EasyBudget.Models.DataModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -25,6 +26,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionDate)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -43,6 +45,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionAmount)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -61,6 +64,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemDescription = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -76,8 +80,10 @@ namespace EasyBudget.Business.ViewModels
                 if (model.notation != value)
                 {
                     model.notation = value;
+
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Notation)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -95,6 +101,7 @@ namespace EasyBudget.Business.ViewModels
                     model.budgetIncomeId = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemId)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -110,11 +117,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
-                //if (value != null)
-                //{
-                //    Task.Run(() => OnCategorySelected());
-                //    int itemCount = this.BudgetItems.Count;
-                //}
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
             }
         }
 
@@ -129,9 +132,10 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedBudgetItem = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 if (value != null)
                 {
-                    this.BudgetItemId = value.id;
+                    this.BudgetItemId = _SelectedBudgetItem.id;
                 }
             }
         }
@@ -147,9 +151,44 @@ namespace EasyBudget.Business.ViewModels
                 if (model.reconciled != value)
                 {
                     model.reconciled = value;
+
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(reconciled)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
+            }
+        }
+
+        public bool CanSave
+        {
+            get
+            {
+                bool _canSave = BudgetItemId > 0 &&
+                                SelectedCategory != null && 
+                                SelectedBudgetItem != null && 
+                                !string.IsNullOrEmpty(this.Description) &&
+                                TransactionAmount > 0 &&
+                                TransactionDate > DateTime.MinValue;
+                
+                return _canSave;
+            }
+        }
+
+        public DateTime MinTransactionDate
+        {
+            get
+            {
+                DateTime _minDate = this.TransactionDate > DateTime.MinValue ? this.TransactionDate.AddYears(-1) : DateTime.Now.AddYears(-2);
+                return _minDate;
+            }
+        }
+
+        public DateTime MaxTransactionDate
+        {
+            get
+            {
+                DateTime _maxDate = DateTime.Now.AddYears(2);
+                return _maxDate;
             }
         }
 
@@ -161,41 +200,18 @@ namespace EasyBudget.Business.ViewModels
 
         public override event PropertyChangedEventHandler PropertyChanged;
 
-        public void PopulateVM(CheckingDeposit deposit)
-        {
-            this.model = deposit;
-            this.accountModel = deposit.checkingAccount;
-            this.ItemId = this.model.id;
-            this.ItemDescription = this.model.description;
-            this.ItemType = AccountItemType.Withdrawals;
-            this.ItemDate = model.transactionDate;
-            this.ItemAmount = model.transactionAmount;
-
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            {
-                var _results = Task.Run(() => uow.GetAllBudgetCategoriesAsync()).Result;
-                if (_results.Successful)
-                {
-                    foreach (BudgetCategory category in _results.Results)
-                    {
-                        if (category.categoryType == Models.BudgetCategoryType.Income)
-                        {
-                            this.BudgetCategories.Add(category);
-                        }
-                    }
-                }
-            }
-        }
-
         public async Task PopulateVMAsync(CheckingDeposit deposit)
         {
             this.model = deposit;
             this.accountModel = deposit.checkingAccount;
             this.ItemId = this.model.id;
-            this.ItemDescription = this.model.description;
-            this.ItemType = AccountItemType.Withdrawals;
-            this.ItemDate = model.transactionDate;
-            this.ItemAmount = model.transactionAmount;
+            this.ItemType = AccountItemType.Deposits;
+
+            this.Description = this.model.description;
+            this.TransactionDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
+            this.TransactionAmount = model.transactionAmount;
+
+            this.BudgetItemId = model.budgetIncomeId;
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -209,11 +225,55 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetCategories.Add(category);
                         }
                     }
+
+                    if (this.BudgetItemId > 0)
+                    {
+                        var _resultsGetBudgetItem = await uow.GetIncomeItemAsync(this.BudgetItemId);
+                        if (_resultsGetBudgetItem.Successful)
+                        {
+                            var selectedItem = _resultsGetBudgetItem.Results;
+                            if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
+                            {
+                                this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+                                this.SelectedBudgetItem = selectedItem;
+                            }
+                        }
+                        else
+                        {
+                            if (_resultsGetBudgetItem.WorkException != null)
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.WorkException);
+                            }
+                            else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.Message);
+                            }
+                            else
+                            {
+                                WriteErrorCondition("An unknown error has occurred populating deposit record");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred getting category records");
+                    }
                 }
             }
         }
     
-        public async override Task SaveChangesAsync()
+        public async override Task<bool> SaveChangesAsync()
         {
             bool _saveOk = false;
 
@@ -221,7 +281,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 if (this.IsNew)
                 {
-                    var _resultsAddWithdrawal = await uow.AddCheckingDepositAsync(model);
+                    var _resultsAddWithdrawal = await uow.DepositMoneyCheckingAsync(model);
                     _saveOk = _resultsAddWithdrawal.Successful;
                     if (_saveOk)
                     {
@@ -276,6 +336,8 @@ namespace EasyBudget.Business.ViewModels
                     }
                 }
             }
+
+            return _saveOk;
         }
 
         public async override Task<bool> DeleteAsync()
@@ -310,7 +372,7 @@ namespace EasyBudget.Business.ViewModels
             return deleted;
         }
 
-        public delegate void ItemUpdatedEventHandler(object sender, EventArgs e);
+        public delegate void ItemUpdatedEventHandler(object sender, BankingItemUpdatedEventArgs e);
 
         public event ItemUpdatedEventHandler ItemUpdated;
 
@@ -318,7 +380,10 @@ namespace EasyBudget.Business.ViewModels
         {
             if (this.ItemUpdated != null)
             {
-                ItemUpdated(this, new EventArgs());
+                var args = new BankingItemUpdatedEventArgs();
+                args.AccountType = Models.BankAccountType.Checking;
+                args.TransactionAmount = this.TransactionAmount;
+                ItemUpdated(this, args);
             }
         }
     
@@ -347,6 +412,21 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetItems.Add(itm);
                         }
                         this.SelectedBudgetItem = null;
+                    }
+                    else
+                    {
+                        if (_results.WorkException != null)
+                        {
+                            WriteErrorCondition(_results.WorkException);
+                        }
+                        else if (!string.IsNullOrEmpty(_results.Message))
+                        {
+                            WriteErrorCondition(_results.Message);
+                        }
+                        else
+                        {
+                            WriteErrorCondition("An unknown error has occurred while retrieving a list of related Budget Items");
+                        }
                     }
                 }
             }

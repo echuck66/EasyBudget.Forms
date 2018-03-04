@@ -27,37 +27,25 @@ namespace EasyBudget.Data
         {
             using (SQLite.SQLiteConnection conn = new SQLiteConnection(dbfilePath))
             {
-                
-                if (!TableExists<BankAccountFundsTransfer>(conn))
-                    conn.CreateTable<BankAccountFundsTransfer>();
-                if (!TableExists<BudgetCategory>(conn))
-                    conn.CreateTable<BudgetCategory>();
-                if (!TableExists<CheckingAccount>(conn))
-                    conn.CreateTable<CheckingAccount>();
-                if (!TableExists<SavingsAccount>(conn))
-                    conn.CreateTable<SavingsAccount>();
-                if (!TableExists<CheckingDeposit>(conn))
-                    conn.CreateTable<CheckingDeposit>();
-                if (!TableExists<CheckingWithdrawal>(conn))
-                    conn.CreateTable<CheckingWithdrawal>();
-                if (!TableExists<SavingsDeposit>(conn))
-                    conn.CreateTable<SavingsDeposit>();
-                if (!TableExists<SavingsWithdrawal>(conn))
-                    conn.CreateTable<SavingsWithdrawal>();
-                if (!TableExists<IncomeItem>(conn))
-                    conn.CreateTable<IncomeItem>();
-                if (!TableExists<ExpenseItem>(conn))
-                    conn.CreateTable<ExpenseItem>();
-                
+                conn.CreateTable<BankAccountFundsTransfer>();
+                conn.CreateTable<BudgetCategory>();
+                conn.CreateTable<CheckingAccount>();
+                conn.CreateTable<SavingsAccount>();
+                conn.CreateTable<CheckingDeposit>();
+                conn.CreateTable<CheckingWithdrawal>();
+                conn.CreateTable<SavingsDeposit>();
+                conn.CreateTable<SavingsWithdrawal>();
+                conn.CreateTable<IncomeItem>();
+                conn.CreateTable<ExpenseItem>();
             }
         }
 
-        private bool TableExists<T>(SQLiteConnection connection) 
-        { 
-            const string cmdText = "SELECT name FROM sqlite_master WHERE type='table' AND name=?"; 
-            var cmd = connection.CreateCommand(cmdText, typeof(T).Name); 
-            return cmd.ExecuteScalar<string>() != null; 
-        }
+        //private bool TableExists<T>(SQLiteConnection connection) 
+        //{ 
+        //    const string cmdText = "SELECT name FROM sqlite_master WHERE type='table' AND name=?"; 
+        //    var cmd = connection.CreateCommand(cmdText, typeof(T).Name); 
+        //    return cmd.ExecuteScalar<string>() != null; 
+        //}
 
         public async Task AddBankAccountFundsTransferAsync(BankAccountFundsTransfer fundsTransfer)
         {
