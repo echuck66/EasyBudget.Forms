@@ -26,7 +26,7 @@ namespace EasyBudget.Forms.Pages
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
             await (BindingContext as CheckingDepositViewModel).OnCategorySelected();
-            //int itemCount = (BindingContext as CheckingDepositViewModel).BudgetItems.Count;
+            //pickerBudgetItems.SetBinding(Picker.ItemsSourceProperty, "BudgetItems");
         }
     }
 }

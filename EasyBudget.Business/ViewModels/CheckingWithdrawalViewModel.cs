@@ -141,10 +141,6 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
-                //if (value != null)
-                //{
-                //    Task.Run(() => OnCategorySelected());
-                //}
             }
         }
 
@@ -374,7 +370,15 @@ namespace EasyBudget.Business.ViewModels
         {
             if (this.SelectedCategory != null)
             {
-                this.BudgetItems.Clear();
+                if (this.BudgetItems.Count > 0)
+                {
+                    for (int i = this.BudgetItems.Count - 1; i >= 0; i--)
+                    {
+                        var itm = this.BudgetItems[i];
+
+                        this.BudgetItems.Remove(itm);
+                    }
+                }
                 int categoryId = this.SelectedCategory.id;
 
                 using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))

@@ -25,7 +25,7 @@
                     <Label Text="Category" FontAttributes="Bold"></Label>
                     <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" SelectedItem="{Binding SelectedCategory}" SelectedIndexChanged="CategoryTypes_SelectedIndexChanged"></Picker>
                     <Label Text="Income Item" FontAttributes="Bold"></Label>
-                    <Picker ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
+                    <Picker x:Name="pickerBudgetItems" ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
                     <!--<Label Text="Reconciled" FontAttributes="Bold"></Label>
                     <Switch Toggled="{Binding reconciled}"></Switch>-->
                 </StackLayout>
