@@ -4,6 +4,7 @@ using System.ComponentModel;
 using EasyBudget.Models.DataModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -76,6 +77,7 @@ namespace EasyBudget.Business.ViewModels
                 if (model.notation != value)
                 {
                     model.notation = value;
+
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Notation)));
                 }
@@ -110,11 +112,6 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
-                //if (value != null)
-                //{
-                //    Task.Run(() => OnCategorySelected());
-                //    int itemCount = this.BudgetItems.Count;
-                //}
             }
         }
 
@@ -131,7 +128,7 @@ namespace EasyBudget.Business.ViewModels
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
                 if (value != null)
                 {
-                    this.BudgetItemId = value.id;
+                    this.BudgetItemId = _SelectedBudgetItem.id;
                 }
             }
         }
@@ -147,9 +144,43 @@ namespace EasyBudget.Business.ViewModels
                 if (model.reconciled != value)
                 {
                     model.reconciled = value;
+
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(reconciled)));
                 }
+            }
+        }
+
+        public bool CanSave
+        {
+            get
+            {
+                bool _canSave = false;
+
+                _canSave = BudgetItemId > 0 &&
+                           !string.IsNullOrEmpty(this.Description) &&
+                           TransactionAmount > 0 &&
+                           TransactionDate > DateTime.MinValue;
+                
+                return _canSave;
+            }
+        }
+
+        public DateTime MinTransactionDate
+        {
+            get
+            {
+                DateTime _minDate = this.TransactionDate > DateTime.MinValue ? this.TransactionDate.AddYears(-1) : DateTime.Now.AddYears(-2);
+                return _minDate;
+            }
+        }
+
+        public DateTime MaxTransactionDate
+        {
+            get
+            {
+                DateTime _maxDate = DateTime.Now.AddYears(2);
+                return _maxDate;
             }
         }
 
@@ -192,10 +223,18 @@ namespace EasyBudget.Business.ViewModels
             this.model = deposit;
             this.accountModel = deposit.checkingAccount;
             this.ItemId = this.model.id;
-            this.ItemDescription = this.model.description;
-            this.ItemType = AccountItemType.Withdrawals;
-            this.ItemDate = model.transactionDate;
-            this.ItemAmount = model.transactionAmount;
+            this.ItemType = AccountItemType.Deposits;
+
+            //this.ItemDescription = this.model.description;
+            this.Description = this.model.description;
+
+            //this.ItemDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
+            this.TransactionDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
+
+            //this.ItemAmount = model.transactionAmount;
+            this.TransactionAmount = model.transactionAmount;
+
+            this.BudgetItemId = model.budgetIncomeId;
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -209,11 +248,55 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetCategories.Add(category);
                         }
                     }
+
+                    if (this.BudgetItemId > 0)
+                    {
+                        var _resultsGetBudgetItem = await uow.GetIncomeItemAsync(this.BudgetItemId);
+                        if (_resultsGetBudgetItem.Successful)
+                        {
+                            var selectedItem = _resultsGetBudgetItem.Results;
+                            if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
+                            {
+                                this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+                                this.SelectedBudgetItem = selectedItem;
+                            }
+                        }
+                        else
+                        {
+                            if (_resultsGetBudgetItem.WorkException != null)
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.WorkException);
+                            }
+                            else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.Message);
+                            }
+                            else
+                            {
+                                WriteErrorCondition("An unknown error has occurred populating deposit record");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred getting category records");
+                    }
                 }
             }
         }
     
-        public async override Task SaveChangesAsync()
+        public async override Task<bool> SaveChangesAsync()
         {
             bool _saveOk = false;
 
@@ -221,7 +304,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 if (this.IsNew)
                 {
-                    var _resultsAddWithdrawal = await uow.AddCheckingDepositAsync(model);
+                    var _resultsAddWithdrawal = await uow.DepositMoneyCheckingAsync(model);
                     _saveOk = _resultsAddWithdrawal.Successful;
                     if (_saveOk)
                     {
@@ -276,6 +359,8 @@ namespace EasyBudget.Business.ViewModels
                     }
                 }
             }
+
+            return _saveOk;
         }
 
         public async override Task<bool> DeleteAsync()
@@ -310,7 +395,7 @@ namespace EasyBudget.Business.ViewModels
             return deleted;
         }
 
-        public delegate void ItemUpdatedEventHandler(object sender, EventArgs e);
+        public delegate void ItemUpdatedEventHandler(object sender, BankingItemUpdatedEventArgs e);
 
         public event ItemUpdatedEventHandler ItemUpdated;
 
@@ -318,7 +403,10 @@ namespace EasyBudget.Business.ViewModels
         {
             if (this.ItemUpdated != null)
             {
-                ItemUpdated(this, new EventArgs());
+                var args = new BankingItemUpdatedEventArgs();
+                args.AccountType = Models.BankAccountType.Checking;
+                args.TransactionAmount = this.TransactionAmount;
+                ItemUpdated(this, args);
             }
         }
     
@@ -347,6 +435,21 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetItems.Add(itm);
                         }
                         this.SelectedBudgetItem = null;
+                    }
+                    else
+                    {
+                        if (_results.WorkException != null)
+                        {
+                            WriteErrorCondition(_results.WorkException);
+                        }
+                        else if (!string.IsNullOrEmpty(_results.Message))
+                        {
+                            WriteErrorCondition(_results.Message);
+                        }
+                        else
+                        {
+                            WriteErrorCondition("An unknown error has occurred while retrieving a list of related Budget Items");
+                        }
                     }
                 }
             }

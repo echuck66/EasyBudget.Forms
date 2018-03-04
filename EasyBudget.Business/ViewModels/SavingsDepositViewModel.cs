@@ -109,10 +109,6 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
-                //if (value != null)
-                //{
-                //    Task.Run(() => OnCategorySelected());
-                //}
             }
         }
 
@@ -152,6 +148,34 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public bool CanSave
+        {
+            get
+            {
+                bool _canSave = false;
+
+                return _canSave;
+            }
+        }
+
+        public DateTime MinTransactionDate
+        {
+            get
+            {
+                DateTime _minDate = this.TransactionDate > DateTime.MinValue ? this.TransactionDate.AddYears(-1) : DateTime.Now.AddYears(-2);
+                return _minDate;
+            }
+        }
+
+        public DateTime MaxTransactionDate
+        {
+            get
+            {
+                DateTime _maxDate = DateTime.Now.AddYears(2);
+                return _maxDate;
+            }
+        }
+
         public SavingsDepositViewModel(string dbFilePath)
             : base(dbFilePath)
         {
@@ -166,7 +190,7 @@ namespace EasyBudget.Business.ViewModels
             this.accountModel = deposit.savingsAccount;
             this.ItemId = this.model.id;
             this.ItemDescription = this.model.description;
-            this.ItemType = AccountItemType.Withdrawals;
+            this.ItemType = AccountItemType.Deposits;
             this.ItemDate = model.transactionDate;
             this.ItemAmount = model.transactionAmount;
 
@@ -212,7 +236,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public async override Task SaveChangesAsync()
+        public async override Task<bool> SaveChangesAsync()
         {
             bool _saveOk = false;
 
@@ -275,6 +299,8 @@ namespace EasyBudget.Business.ViewModels
                     }
                 }
             }
+
+            return _saveOk;
         }
 
         public async override Task<bool> DeleteAsync()
@@ -309,7 +335,7 @@ namespace EasyBudget.Business.ViewModels
             return deleted;
         }
 
-        public delegate void ItemUpdatedEventHandler(object sender, EventArgs e);
+        public delegate void ItemUpdatedEventHandler(object sender, BankingItemUpdatedEventArgs e);
 
         public event ItemUpdatedEventHandler ItemUpdated;
 
@@ -317,7 +343,10 @@ namespace EasyBudget.Business.ViewModels
         {
             if (this.ItemUpdated != null)
             {
-                ItemUpdated(this, new EventArgs());
+                var args = new BankingItemUpdatedEventArgs();
+                args.AccountType = Models.BankAccountType.Checking;
+                args.TransactionAmount = this.TransactionAmount;
+                ItemUpdated(this, args);
             }
         }
 
@@ -346,6 +375,21 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetItems.Add(itm);
                         }
                         this.SelectedBudgetItem = null;
+                    }
+                    else
+                    {
+                        if (_results.WorkException != null)
+                        {
+                            WriteErrorCondition(_results.WorkException);
+                        }
+                        else if (!string.IsNullOrEmpty(_results.Message))
+                        {
+                            WriteErrorCondition(_results.Message);
+                        }
+                        else
+                        {
+                            WriteErrorCondition("An unknown error has occurred while retrieving a list of related Budget Items");
+                        }
                     }
                 }
             }

@@ -14,8 +14,17 @@ namespace EasyBudget.Forms.Pages
 
         protected async void OnSaveClicked(object sender, EventArgs e)
         {
-            await (this.BindingContext as CheckingDepositViewModel).SaveChangesAsync();
-            await Navigation.PopModalAsync();
+            bool itemSaved = await (this.BindingContext as CheckingDepositViewModel).SaveChangesAsync();
+            if (itemSaved)
+            {
+                await Navigation.PopModalAsync();
+            }
+            else
+            {
+                // Notify the user that save failed
+                string errorMessage = (BindingContext as CheckingDepositViewModel).ErrorCondition;
+                await DisplayAlert("Error", errorMessage, "Close");
+            }
         }
 
         protected async void OnCancelClicked(object sender, EventArgs e)
@@ -26,7 +35,6 @@ namespace EasyBudget.Forms.Pages
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
             await (BindingContext as CheckingDepositViewModel).OnCategorySelected();
-            //pickerBudgetItems.SetBinding(Picker.ItemsSourceProperty, "BudgetItems");
         }
     }
 }

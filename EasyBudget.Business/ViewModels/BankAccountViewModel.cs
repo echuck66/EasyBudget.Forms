@@ -74,7 +74,6 @@ namespace EasyBudget.Business.ViewModels
                 if (model.currentBalance != value)
                 {
                     model.currentBalance = value;
-                    this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentBalance)));
                 }
             }
@@ -420,6 +419,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanEdit = true;
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(deposit);
+
                         vm.ItemUpdated += OnRegisterUpdated;
 
                         this.AccountRegister.Add(vm);
@@ -536,6 +536,7 @@ namespace EasyBudget.Business.ViewModels
                         vm.IsNew = false;
                         vm.CanEdit = true;
                         vm.CanDelete = true;
+
                         await vm.PopulateVMAsync(withdrawal);
                         vm.ItemUpdated += OnRegisterUpdated;
 
@@ -816,29 +817,10 @@ namespace EasyBudget.Business.ViewModels
             return _deleted;
         }
 
-        private async void OnRegisterUpdated(object sender, EventArgs e)
+        void OnRegisterUpdated(object sender, BankingItemUpdatedEventArgs e)
         {
-            int accountId = model.id;
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            {
-                switch (this.AccountType)
-                {
-                    case BankAccountType.Checking:
-                        var _resultsChecking = await uow.GetCheckingAccountAsync(accountId);
-                        if (_resultsChecking.Successful)
-                        {
-                            this.CurrentBalance = _resultsChecking.Account.currentBalance;
-                        }
-                        break;
-                    case BankAccountType.Savings:
-                        var _resultsSavings = await uow.GetSavingsAccountAsync(accountId);
-                        if (_resultsSavings.Successful)
-                        {
-                            this.CurrentBalance = _resultsSavings.Account.currentBalance;
-                        }
-                        break;
-                }
-            }
+            this.CurrentBalance = this.CurrentBalance + e.TransactionAmount;
+            // UoW method saving deposit/withdrawal updates the balance internally. No need to save this change.
         }
 
         public void Dispose()
@@ -872,6 +854,13 @@ namespace EasyBudget.Business.ViewModels
                 }
             }
         }
+    }
+
+    public class BankingItemUpdatedEventArgs : EventArgs
+    {
+        public BankAccountType AccountType { get; set; }
+
+        public decimal TransactionAmount { get; set; }
     }
 
     public class BankAccountComparer : IEqualityComparer<BankAccountViewModel>

@@ -77,7 +77,7 @@ namespace EasyBudget.Business.ViewModels
             this.BudgetCategories = new ObservableCollection<BudgetCategory>();
         }
 
-        public abstract Task SaveChangesAsync();
+        public abstract Task<bool> SaveChangesAsync();
 
         public abstract Task<bool> DeleteAsync();
     }
