@@ -11,6 +11,7 @@
     </ContentPage.Padding> 
     
     <ContentPage.Content>
+        
         <StackLayout Spacing="10">
             <StackLayout VerticalOptions="FillAndExpand">
                 

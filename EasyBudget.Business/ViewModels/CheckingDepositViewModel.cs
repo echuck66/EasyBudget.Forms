@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using EasyBudget.Models.DataModels;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -81,7 +82,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public int budgetItemId 
+        public int BudgetItemId 
         {
             get
             {
@@ -93,7 +94,7 @@ namespace EasyBudget.Business.ViewModels
                 {
                     model.budgetIncomeId = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(budgetItemId)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemId)));
                 }
             }
         }
@@ -109,6 +110,11 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
+                //if (value != null)
+                //{
+                //    Task.Run(() => OnCategorySelected());
+                //    int itemCount = this.BudgetItems.Count;
+                //}
             }
         }
 
@@ -122,8 +128,11 @@ namespace EasyBudget.Business.ViewModels
             set
             {
                 _SelectedBudgetItem = value;
-                this.budgetItemId = value.id;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
+                if (value != null)
+                {
+                    this.BudgetItemId = value.id;
+                }
             }
         }
 
@@ -310,6 +319,28 @@ namespace EasyBudget.Business.ViewModels
             if (this.ItemUpdated != null)
             {
                 ItemUpdated(this, new EventArgs());
+            }
+        }
+    
+        public async Task OnCategorySelected()
+        {
+            if (this.SelectedCategory != null)
+            {
+                this.BudgetItems.Clear();
+                int categoryId = this.SelectedCategory.id;
+
+                using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+                {
+                    var _results = await uow.GetCategoryIncomeItemsAsync(this.SelectedCategory);
+                    if (_results.Successful)
+                    {
+                        foreach(var itm in _results.Results)
+                        {
+                            this.BudgetItems.Add(itm);
+                        }
+                        this.SelectedBudgetItem = null;
+                    }
+                }
             }
         }
     }

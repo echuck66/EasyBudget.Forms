@@ -11,7 +11,7 @@
     </ContentPage.Padding>  
 
     <ContentPage.Content>
-
+        <ScrollView>
             <StackLayout Spacing="10">
                 <StackLayout VerticalOptions="FillAndExpand">
                     <Label Text="Name" FontAttributes="Bold"></Label>
@@ -29,6 +29,6 @@
                 </StackLayout>
 
             </StackLayout>
-
+        </ScrollView>
 	</ContentPage.Content>
 </ContentPage>

@@ -11,9 +11,16 @@
     </ContentPage.Padding> 
     
     <ContentPage.Content>
-        <StackLayout Spacing="10">
+        <ScrollView>
+            <StackLayout Spacing="10">
                 <StackLayout VerticalOptions="FillAndExpand">
-                    
+
+                <Label Text="Category" FontAttributes="Bold"></Label>
+                <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" SelectedItem="{Binding SelectedCategory}"></Picker>
+                <Label Text="Income Item" FontAttributes="Bold"></Label>
+                <Picker ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
+                <!--<Label Text="Reconciled" FontAttributes="Bold"></Label>
+                <Switch Toggled="{Binding reconciled}"></Switch>-->
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                     <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
@@ -21,6 +28,7 @@
                 </StackLayout>
 
             </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
     
 </ContentPage>
