@@ -82,7 +82,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public string payToTheOrderOf 
+        public string PayToTheOrderOf 
         {
             get
             {
@@ -95,13 +95,13 @@ namespace EasyBudget.Business.ViewModels
                     model.payToTheOrderOf = value;
                     this.ItemDescription = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(payToTheOrderOf)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PayToTheOrderOf)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
 
-        public string memo 
+        public string Memo 
         {
             get
             {
@@ -113,7 +113,7 @@ namespace EasyBudget.Business.ViewModels
                 {
                     model.memo = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(memo)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Memo)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
@@ -213,13 +213,29 @@ namespace EasyBudget.Business.ViewModels
             get
             {
                 bool _canSave = CheckNumber > 0 &&
-                                !string.IsNullOrEmpty(payToTheOrderOf) &&
+                                !string.IsNullOrEmpty(PayToTheOrderOf) &&
                                 TransactionAmount > 0 &&
                                 TransactionDate > DateTime.MinValue &&
                                 SelectedCategory != null &&
                                 SelectedBudgetItem != null;
 
                 return _canSave;
+            }
+        }
+
+        public bool CategorySelectEnabled
+        {
+            get
+            {
+                return this.BudgetCategories.Count > 0;
+            }
+        }
+
+        public bool BudgetItemSelectEnabled
+        {
+            get
+            {
+                return this.BudgetItems.Count > 0;
             }
         }
 
@@ -256,8 +272,8 @@ namespace EasyBudget.Business.ViewModels
             this.ItemId = this.model.id;
             this.ItemType = AccountItemType.Withdrawals;
 
-            this.payToTheOrderOf = this.model.payToTheOrderOf;
-            this.TransactionDate = model.transactionDate;
+            this.PayToTheOrderOf = this.model.payToTheOrderOf;
+            this.TransactionDate = model.transactionDate > DateTime.MinValue ? model.transactionDate : DateTime.Now;
             this.TransactionAmount = model.transactionAmount;
 
             this.BudgetItemId = model.budgetExpenseId;
@@ -270,9 +286,14 @@ namespace EasyBudget.Business.ViewModels
 
                     foreach (BudgetCategory category in _results.Results)
                     {
-                        if (category.categoryType == Models.BudgetCategoryType.Expense)
+                        var _resultsItemCountCheck = await uow.GetCategoryExpenseItemsAsync(category);
+                        if (_resultsItemCountCheck.Successful && _resultsItemCountCheck.Results.Count > 0)
                         {
-                            this.BudgetCategories.Add(category);
+                            if (category.categoryType == Models.BudgetCategoryType.Expense)
+                            {
+                                this.BudgetCategories.Add(category);
+                                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
+                            }
                         }
                     }
 
@@ -461,6 +482,7 @@ namespace EasyBudget.Business.ViewModels
                         foreach (var itm in _results.Results)
                         {
                             this.BudgetItems.Add(itm);
+                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         }
                         this.SelectedBudgetItem = null;
                     }
