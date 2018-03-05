@@ -82,7 +82,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public string payToTheOrderOf 
+        public string PayToTheOrderOf 
         {
             get
             {
@@ -95,13 +95,13 @@ namespace EasyBudget.Business.ViewModels
                     model.payToTheOrderOf = value;
                     this.ItemDescription = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(payToTheOrderOf)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PayToTheOrderOf)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
 
-        public string memo 
+        public string Memo 
         {
             get
             {
@@ -113,7 +113,7 @@ namespace EasyBudget.Business.ViewModels
                 {
                     model.memo = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(memo)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Memo)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
@@ -213,7 +213,7 @@ namespace EasyBudget.Business.ViewModels
             get
             {
                 bool _canSave = CheckNumber > 0 &&
-                                !string.IsNullOrEmpty(payToTheOrderOf) &&
+                                !string.IsNullOrEmpty(PayToTheOrderOf) &&
                                 TransactionAmount > 0 &&
                                 TransactionDate > DateTime.MinValue &&
                                 SelectedCategory != null &&
@@ -256,8 +256,8 @@ namespace EasyBudget.Business.ViewModels
             this.ItemId = this.model.id;
             this.ItemType = AccountItemType.Withdrawals;
 
-            this.payToTheOrderOf = this.model.payToTheOrderOf;
-            this.TransactionDate = model.transactionDate;
+            this.PayToTheOrderOf = this.model.payToTheOrderOf;
+            this.TransactionDate = model.transactionDate > DateTime.MinValue ? model.transactionDate : DateTime.Now;
             this.TransactionAmount = model.transactionAmount;
 
             this.BudgetItemId = model.budgetExpenseId;
