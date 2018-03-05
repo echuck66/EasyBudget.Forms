@@ -223,6 +223,22 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public bool CategorySelectEnabled
+        {
+            get
+            {
+                return this.BudgetCategories.Count > 0;
+            }
+        }
+
+        public bool BudgetItemSelectEnabled
+        {
+            get
+            {
+                return this.BudgetItems.Count > 0;
+            }
+        }
+
         public DateTime MinTransactionDate
         {
             get
@@ -270,9 +286,14 @@ namespace EasyBudget.Business.ViewModels
 
                     foreach (BudgetCategory category in _results.Results)
                     {
-                        if (category.categoryType == Models.BudgetCategoryType.Expense)
+                        var _resultsItemCountCheck = await uow.GetCategoryExpenseItemsAsync(category);
+                        if (_resultsItemCountCheck.Successful && _resultsItemCountCheck.Results.Count > 0)
                         {
-                            this.BudgetCategories.Add(category);
+                            if (category.categoryType == Models.BudgetCategoryType.Expense)
+                            {
+                                this.BudgetCategories.Add(category);
+                                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
+                            }
                         }
                     }
 
@@ -461,6 +482,7 @@ namespace EasyBudget.Business.ViewModels
                         foreach (var itm in _results.Results)
                         {
                             this.BudgetItems.Add(itm);
+                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         }
                         this.SelectedBudgetItem = null;
                     }
