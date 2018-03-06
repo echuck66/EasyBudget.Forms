@@ -2,11 +2,12 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
             xmlns:local="clr-namespace:EasyBudget.Forms.Pages;assembly=EasyBudget"
-            x:Class="EasyBudget.Forms.Pages.CheckingAccountEditTabs">
+            x:Class="EasyBudget.Forms.Pages.CheckingAccountEditTabs" BarTextColor="White" BarBackgroundColor="#4db140">
 
     <local:CheckingAccountEdit Icon="checking.png" />
 
     <NavigationPage Title="Register" Icon="account_register.png">
+        
         <x:Arguments>
             <local:CheckingAccountRegister />
         </x:Arguments>

@@ -17,6 +17,8 @@ namespace EasyBudget.Forms
 
             // Toolbar
             //np.On<Windows>().SetToolbarPlacement(ToolbarPlacement.Default);
+            np.BarBackgroundColor = Color.FromHex("#4db140");
+            np.BarTextColor = Color.White;
 
             MainPage = np;
         }
