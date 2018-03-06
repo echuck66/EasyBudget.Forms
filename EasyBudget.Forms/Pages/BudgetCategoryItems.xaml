@@ -17,7 +17,7 @@
                 <ListView ItemsSource="{Binding BudgetItems}" ItemSelected="OnItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell Text="{Binding ItemDescription}" Detail="{Binding BudgetedAmount}">
+                            <TextCell Text="{Binding ItemDescription}" Detail="{Binding BudgetedAmount, StringFormat='{0:C}'}">
                                 <TextCell.ContextActions>
                                     <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                                     <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />

@@ -28,7 +28,7 @@
                     <Label Text="Type" FontAttributes="Bold"></Label>
                     <Label Text="{Binding CategoryType}"></Label>
                     <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                    <Label Text="{Binding Amount}"></Label>
+                    <Label Text="{Binding Amount, StringFormat='{0:C}'}"></Label>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                     <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>

@@ -1,4 +1,5 @@
 ﻿using EasyBudget.Forms.Pages;
+using EasyBudget.Forms.Utility;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
@@ -13,6 +14,9 @@ namespace EasyBudget.Forms
         public App()
         {
             InitializeComponent();
+            DIContainer injectionContainer = new DIContainer();
+            injectionContainer.Create<ChartUtility>();
+
             var np = new NavigationPage(new StatusPage());
 
             // Toolbar

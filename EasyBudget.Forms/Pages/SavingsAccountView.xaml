@@ -19,8 +19,8 @@
                 <Label Text="{Binding RoutingNumber}"></Label>
                 <Label Text="Account Number" FontAttributes="Bold"></Label>
                 <Label Text="{Binding AccountNumber}"></Label>
-                <Label Text="Current Balance" FontAttributes="Bold"></Label>
-                <Label Text="{Binding CurrentBalance}"></Label>
+                <Label Text="Balance" FontAttributes="Bold"></Label>
+                <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}"></Label>
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>
