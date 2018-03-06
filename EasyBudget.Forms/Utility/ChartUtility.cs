@@ -64,7 +64,10 @@ namespace EasyBudget.Forms.Utility
 
         public SKColor GetColor()
         {
-            //var idx = rnd.Next(0, 22);
+            // If we've exceeded the length of the array, start over:
+            if (currentIdx >= Colors.Length - 1)
+                currentIdx = -1;
+            
             return Colors[currentIdx++];
         }
     }
