@@ -15,7 +15,7 @@
         <ScrollView>
             <StackLayout Spacing="10">
                 <StackLayout>
-                    <charts:ChartView x:Name="chartCategory" HeightRequest="200" WidthRequest="200" Opacity="0.75" HorizontalOptions="EndAndExpand">
+                    <charts:ChartView x:Name="chartCategory" HeightRequest="200" WidthRequest="100" Opacity="0.75" HorizontalOptions="EndAndExpand">
                     </charts:ChartView>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">

@@ -18,7 +18,7 @@
                     <Label HorizontalOptions="CenterAndExpand" Text="Income" FontAttributes="Bold"></Label>
                     <Label HorizontalOptions="CenterAndExpand" Text="Expenses" FontAttributes="Bold"></Label>
                 </StackLayout>
-                <charts:ChartView x:Name="chartStatus" HeightRequest="200" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                <charts:ChartView x:Name="chartStatus" HeightRequest="100" WidthRequest="200" Opacity="0.75" HorizontalOptions="FillAndExpand">
                 </charts:ChartView>
                  
                 <StackLayout Orientation="Horizontal">
