@@ -57,7 +57,6 @@ namespace EasyBudget.Business
             return vm;
         }
 
-
         public async Task<BudgetItemsViewModel> GetBudgetItemsVM(int categoryId)
         {
             BudgetItemsViewModel vm = new BudgetItemsViewModel(this.dbFilePath);

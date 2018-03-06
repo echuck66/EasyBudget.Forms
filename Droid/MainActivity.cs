@@ -28,6 +28,7 @@ namespace EasyBudget.Droid
             container.Register<IDataServiceHelper, DataServiceHelper>();
             container.Create<EasyBudgetDataService>();
 
+
             LoadApplication(new App());
         }
     }

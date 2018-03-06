@@ -19,6 +19,7 @@
     <Folder Include="Pages\" />
     <Folder Include="Converters\" />
     <Folder Include="Assets\" />
+    <Folder Include="Utility\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\StatusPage.xaml.cs">

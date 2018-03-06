@@ -15,7 +15,7 @@
             
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding BankName}" Detail="{Binding CurrentBalance}">
+                    <TextCell Text="{Binding BankName}" Detail="{Binding CurrentBalance, StringFormat='{0:C}'}">
                         <TextCell.ContextActions>
                             <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                             <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
