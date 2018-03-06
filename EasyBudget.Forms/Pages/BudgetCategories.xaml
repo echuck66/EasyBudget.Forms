@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                x:Class="EasyBudget.Forms.Pages.BudgetCategories" Title="Categories">
+                x:Class="EasyBudget.Forms.Pages.BudgetCategories" Title="Categories"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="NewCategory" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
     </ContentPage.ToolbarItems>    
+    
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding BudgetCategoriesGrouped}" 
-                  ItemSelected="OnItemSelected" 
-                  IsGroupingEnabled="true" 
-                  GroupDisplayBinding="{Binding Key}" 
-                  SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
-            
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Name}" Detail="{Binding Amount, StringFormat='{0:C}'}">
-                        <TextCell.ContextActions>
-                            <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
-                            <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                        </TextCell.ContextActions>
-                    </TextCell>
+        <StackLayout>
+            <StackLayout>
+                <charts:ChartView x:Name="chartCategories" HeightRequest="200" WidthRequest="200" Opacity="0.75" HorizontalOptions="EndAndExpand">
+                </charts:ChartView>
+            </StackLayout>
+            <StackLayout>
+                <ListView ItemsSource="{Binding BudgetCategoriesGrouped}" 
+                          ItemSelected="OnItemSelected" 
+                          IsGroupingEnabled="true" 
+                          GroupDisplayBinding="{Binding Key}" 
+                          SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
                     
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Name}" Detail="{Binding Amount, StringFormat='{0:C}'}">
+                                <TextCell.ContextActions>
+                                    <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                    <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                                </TextCell.ContextActions>
+                            </TextCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

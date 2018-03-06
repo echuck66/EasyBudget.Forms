@@ -16,7 +16,7 @@
             <StackLayout Spacing="10">
                 
                 <StackLayout>
-                    <charts:ChartView x:Name="chartPieData" HeightRequest="150">
+                    <charts:ChartView x:Name="chartPieData" HeightRequest="200">
                         
                     </charts:ChartView>
                 </StackLayout>
