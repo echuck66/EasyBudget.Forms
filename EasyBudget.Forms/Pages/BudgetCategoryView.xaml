@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="EasyBudget.Forms.Pages.BudgetCategoryView" Title="Details">
+             x:Class="EasyBudget.Forms.Pages.BudgetCategoryView" Title="Category" 
+             xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" >
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="10,40,0,0" />
             <On Platform="Android" Value="10,0,0,0" />
         </OnPlatform>
-    </ContentPage.Padding> 
+    </ContentPage.Padding>  
 
     <ContentPage.Content>
-        <StackLayout Spacing="10">
-            <StackLayout VerticalOptions="FillAndExpand">
-                <Label Text="Name" FontAttributes="Bold"></Label>
-                <Label Text="{Binding Name}"></Label>
-                <Label Text="Description" FontAttributes="Bold"></Label>
-                <Label Text="{Binding Description}"></Label>
-                <Label Text="Type" FontAttributes="Bold"></Label>
-                <Label Text="{Binding CategoryType}"></Label>
-                <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                <Label Text="{Binding Amount}"></Label>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>
-            </StackLayout>
+        <ScrollView>
+            <StackLayout Spacing="10">
+                
+                <StackLayout>
+                    <charts:ChartView x:Name="chartPieData" HeightRequest="150">
+                        
+                    </charts:ChartView>
+                </StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <Label Text="Name" FontAttributes="Bold"></Label>
+                    <Label Text="{Binding Name}"></Label>
+                    <Label Text="Description" FontAttributes="Bold"></Label>
+                    <Label Text="{Binding Description}"></Label>
+                    <Label Text="Type" FontAttributes="Bold"></Label>
+                    <Label Text="{Binding CategoryType}"></Label>
+                    <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
+                    <Label Text="{Binding Amount}"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>
+                </StackLayout>
 
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

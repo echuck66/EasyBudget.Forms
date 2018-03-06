@@ -2,13 +2,13 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
             xmlns:local="clr-namespace:EasyBudget.Forms.Pages;assembly=EasyBudget"
-            x:Class="EasyBudget.Forms.Pages.BudgetCategoryViewTabs">
+            x:Class="EasyBudget.Forms.Pages.BudgetCategoryViewTabs" BarTextColor="White" BarBackgroundColor="#4db140">
 
 
     <local:BudgetCategoryView Icon="category.png" />
 
 
-    <NavigationPage Title="Budget Items" Icon="account_register.png">
+    <NavigationPage Title="Items" Icon="account_register.png">
         <x:Arguments>
             <local:BudgetCategoryItems />
         </x:Arguments>

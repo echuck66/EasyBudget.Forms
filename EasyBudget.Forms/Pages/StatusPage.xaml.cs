@@ -21,6 +21,8 @@ namespace EasyBudget.Forms.Pages
         {
             //DisplayAlert("Budget Categories", "You clicked Budget Categories", "Cancel");   
             await Navigation.PushAsync(new BudgetCategories());
+            //NavigationPage.BarTextColorProperty = UIColor.
+
         }
 
         protected async void btnBankAccounts_Clicked(object sender, EventArgs e)

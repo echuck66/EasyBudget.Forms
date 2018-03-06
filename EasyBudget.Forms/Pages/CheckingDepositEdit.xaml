@@ -5,10 +5,10 @@
     
 	<ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="iOS" Value="10,40,0,0" />
             <On Platform="Android" Value="10,0,0,0" />
         </OnPlatform>
-    </ContentPage.Padding> 
+    </ContentPage.Padding>  
     
     <ContentPage.Content>
         <ScrollView>
