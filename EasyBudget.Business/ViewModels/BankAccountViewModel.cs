@@ -271,6 +271,7 @@ namespace EasyBudget.Business.ViewModels
             SavingsDeposit deposit = new SavingsDeposit();
             deposit.savingsAccount = model as SavingsAccount;
             deposit.savingsAccountId = model.id;
+            deposit.transactionDate = DateTime.Now;
 
             await vm.PopulateVMAsync(deposit);
 
@@ -292,7 +293,7 @@ namespace EasyBudget.Business.ViewModels
             CheckingWithdrawal withdrawal = new CheckingWithdrawal();
             withdrawal.checkingAccount = model as CheckingAccount;
             withdrawal.checkingAccountId = model.id;
-
+            withdrawal.transactionDate = DateTime.Now;
             await vm.PopulateVMAsync(withdrawal);
 
             //this.AccountRegister.Add(vm);
@@ -313,7 +314,7 @@ namespace EasyBudget.Business.ViewModels
             SavingsWithdrawal withdrawal = new SavingsWithdrawal();
             withdrawal.savingsAccount = model as SavingsAccount;
             withdrawal.savingsAccountId = model.id;
-
+            withdrawal.transactionDate = DateTime.Now;
             await vm.PopulateVMAsync(withdrawal);
 
             //this.AccountRegister.Add(vm);

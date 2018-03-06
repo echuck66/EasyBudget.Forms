@@ -15,7 +15,7 @@
             <StackLayout Spacing="10">
                 <StackLayout VerticalOptions="FillAndExpand">
                     <Label Text="Date" FontAttributes="Bold"></Label>
-                    <DatePicker Date="{Binding TransactionDate}"></DatePicker>
+                    <DatePicker Date="{Binding TransactionDate}" MinimumDate="{Binding MinTransactionDate}" MaximumDate="{Binding MaxTransactionDate}"></DatePicker>
                     <Label Text="Amount" FontAttributes="Bold"></Label>
                     <Entry Text="{Binding TransactionAmount}"></Entry>
                     <Label Text="Description" FontAttributes="Bold"></Label>
@@ -30,7 +30,7 @@
                     <Switch Toggled="{Binding reconciled}"></Switch>-->
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}"></Button>
                     <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
                 </StackLayout>
 

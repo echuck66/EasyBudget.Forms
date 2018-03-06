@@ -6,7 +6,7 @@
 
     <local:BudgetCategoryEdit />
 
-    <NavigationPage Title="Budget Items">
+    <NavigationPage Title="Items">
         <x:Arguments>
             <local:BudgetCategoryItems />
         </x:Arguments>
