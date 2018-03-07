@@ -24,20 +24,21 @@ namespace EasyBudget.Forms.Pages
         {
             base.OnAppearing();
             vm = await ds.GetBudgetCategoriesViewModelAsync();
-            
             vm.SelectedBudgetCategory = null;
-            this.BindingContext = vm;
-
+            
             var entries = GetEntries(vm);
             var chart = new BarChart() { Entries = entries };
             chartCategories.Chart = chart;
+
+            this.BindingContext = vm;
+
 
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            vm?.Dispose();
+            //vm?.Dispose();
             vm = null;
         }
 
