@@ -25,7 +25,7 @@ namespace EasyBudget.Forms.Pages
 
             var vm = (this.BindingContext as BudgetCategoryViewModel);
 
-            this.chartPieData.Chart = ChartUtility.Instance.GetChart(vm);
+            this.chartBudget.Chart = ChartUtility.Instance.GetChart(vm);
         }
 
         public async void OnBackClicked(object sender, EventArgs e)

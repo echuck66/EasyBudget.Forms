@@ -49,6 +49,12 @@ namespace EasyBudget.Forms.Utility
             return new BarChart() { Entries = entries };
         }
 
+        public async Task<Chart> GetChartAsync(BudgetCategoriesViewModel vm)
+        {
+            var entries = GetEntries(vm);
+            return new BarChart() { Entries = entries };
+        }
+
         public Chart GetChart(BudgetCategoryViewModel vm)
         {
             var entries = GetEntries(vm);
@@ -78,6 +84,11 @@ namespace EasyBudget.Forms.Utility
         Entry[] GetEntries(BudgetCategoriesViewModel vm)
         {
             return GetCategoriesEntries(vm);
+        }
+
+        async Task<Entry[]> GetEntriesAsync(BudgetCategoriesViewModel vm)
+        {
+            return await GetCategoriesEntriesAsync(vm);
         }
 
         Entry[] GetEntries(BudgetCategoryViewModel vm)
@@ -165,19 +176,55 @@ namespace EasyBudget.Forms.Utility
             Entry _entryCatExpenseSum = new Entry(fltCatExpenseSum)
             {
                 Label = "Expenses",
-                ValueLabel = fltCatExpenseSum.ToString("C"),
-                Color = SKColors.IndianRed
+                //ValueLabel = fltCatExpenseSum.ToString("C"),
+                Color = SKColors.Red
             };
             entries.Add(_entryCatExpenseSum);
 
             Entry _entryCatIncome = new Entry(fltCatIncomeSum)
             {
                 Label = "Income",
-                ValueLabel = fltCatIncomeSum.ToString("C"),
+                //ValueLabel = fltCatIncomeSum.ToString("C"),
                 Color = SKColors.Green
             };
             entries.Add(_entryCatIncome);
             return entries.ToArray();
+        }
+
+        async Task<Entry[]> GetCategoriesEntriesAsync(BudgetCategoriesViewModel vm)
+        {
+            var context = vm.BudgetCategories;
+
+            List<Entry> entries = new List<Entry>();
+
+            var fltCatExpenseSum = (float)context.Where(c => c.CategoryType == BudgetCategoryType.Expense).Sum(c => c.Amount);
+            var fltCatIncomeSum = (float)context.Where(c => c.CategoryType == BudgetCategoryType.Income).Sum(c => c.Amount);
+
+            Entry[] _entryArray = new Entry[]
+            {
+                new Entry(fltCatExpenseSum)
+                {
+                    Label = "Expenses",
+                    //ValueLabel = fltCatExpenseSum.ToString("C"),
+                    Color = SKColors.Red
+                },
+                new Entry(fltCatIncomeSum)
+                {
+                    Label = "Income",
+                    //ValueLabel = fltCatIncomeSum.ToString("C"),
+                    Color = SKColors.Green
+                }
+            };
+            var _entries = await BuildEntryCollectionAsync(_entryArray);
+            entries.AddRange(_entries.ToList());
+
+            return entries.ToArray();
+        }
+
+        async Task<ICollection<Entry>> BuildEntryCollectionAsync(Entry[] entries)
+        {
+            List<Entry> _entries = await Task.Run(() => new List<Entry>(entries));
+            return _entries;
         }
 
         Entry[] GetCategoryEntries(BudgetCategoryViewModel vm)
@@ -190,8 +237,8 @@ namespace EasyBudget.Forms.Utility
             {
                 Entry _entryItmIncome = new Entry((float)itm.BudgetedAmount)
                 {
-                    Label = string.Empty,
-                    ValueLabel = itm.BudgetedAmount.ToString("C"),
+                    //Label = string.Empty,
+                    //ValueLabel = itm.BudgetedAmount.ToString("C"),
                     Color = ChartColors.Instance.GetColor()
                 };
                 entries.Add(_entryItmIncome);

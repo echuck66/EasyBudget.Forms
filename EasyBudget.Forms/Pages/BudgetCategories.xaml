@@ -3,6 +3,13 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 x:Class="EasyBudget.Forms.Pages.BudgetCategories" Title="Categories"
                 xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
+        </OnPlatform>
+    </ContentPage.Padding> 
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Name="NewCategory" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
@@ -12,7 +19,10 @@
         <ScrollView>
             <StackLayout>
                 <StackLayout>
-                    <charts:ChartView x:Name="chartCategories" HeightRequest="100" WidthRequest="200" Opacity="0.75" HorizontalOptions="EndAndExpand">
+                    <Label Text="Budget Categories"></Label>
+                </StackLayout>
+                <StackLayout>
+                    <charts:ChartView x:Name="chartCategories" HeightRequest="75" Opacity="0.9" HorizontalOptions="FillAndExpand">
                     </charts:ChartView>
                 </StackLayout>
                 <StackLayout>
