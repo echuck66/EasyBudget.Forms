@@ -38,7 +38,7 @@ namespace EasyBudget.Forms.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            //vm?.Dispose();
+            vm?.Dispose();
             vm = null;
         }
 
