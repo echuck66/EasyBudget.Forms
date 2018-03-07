@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EasyBudget.Business;
 using EasyBudget.Business.ViewModels;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
+using Microcharts;
 using SkiaSharp;
 using Entry = Microcharts.Entry;
 
@@ -35,7 +37,33 @@ namespace EasyBudget.Forms.Utility
             return ChartColors.Instance.GetColor();
         }
 
-        public Entry[] GetEntries(EasyBudgetStatusViewModel vm)
+        public Chart GetChart(EasyBudgetStatusViewModel vm)
+        {
+            var entries = GetEntries(vm);
+            return new BarChart() { Entries = entries };
+        }
+
+        public Chart GetChart(BudgetCategoriesViewModel vm)
+        {
+            var entries = GetEntries(vm);
+            return new BarChart() { Entries = entries };
+        }
+
+        public Chart GetChart(BudgetCategoryViewModel vm)
+        {
+            var entries = GetEntries(vm);
+            return new DonutChart() { Entries = entries };
+        }
+
+        public async Task<Chart> GetChartAsync(BankAccountViewModel vm, AccountRegisterItemViewModel.AccountItemType objectType)
+        {
+            var entries = await GetEntriesAsync(vm, objectType);
+            return new LineChart() { Entries = entries };
+        }
+
+        #region Helper Methods
+        
+        Entry[] GetEntries(EasyBudgetStatusViewModel vm)
         {
             Entry[] IncomeEntries = GetIncomeEntries(vm);
             Entry[] ExpensesEntries = GetExpensesEntries(vm);
@@ -47,22 +75,20 @@ namespace EasyBudget.Forms.Utility
 
         }
 
-        public Entry[] GetEntries(BudgetCategoriesViewModel vm)
+        Entry[] GetEntries(BudgetCategoriesViewModel vm)
         {
             return GetCategoriesEntries(vm);
         }
 
-        public Entry[] GetEntries(BudgetCategoryViewModel vm)
+        Entry[] GetEntries(BudgetCategoryViewModel vm)
         {
             return GetCategoryEntries(vm);
         }
 
-        //public Entry[] GetEntries(BankAccountsViewModel vm)
-        //{
-
-        //}
-
-        #region Helper Methods
+        async Task<Entry[]> GetEntriesAsync(BankAccountViewModel vm, AccountRegisterItemViewModel.AccountItemType objectType)
+        {
+            return await GetBankAccountEntriesAsync(vm, objectType);
+        }
 
         Entry[] GetIncomeEntries(EasyBudgetStatusViewModel vm)
         {
@@ -169,6 +195,35 @@ namespace EasyBudget.Forms.Utility
                     Color = ChartColors.Instance.GetColor()
                 };
                 entries.Add(_entryItmIncome);
+            }
+
+            return entries.ToArray();
+        }
+
+        async Task<Entry[]> GetBankAccountEntriesAsync(BankAccountViewModel vm, AccountRegisterItemViewModel.AccountItemType objectType)
+        {
+            var context = vm;
+
+            List<Entry> entries = new List<Entry>();
+
+            var chartData = await vm.GetChartData();
+            foreach (var model in chartData)
+            {
+                
+                if (objectType == model.ItemType && model.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits)
+                {
+                    entries.Add(new Entry((float)model.ItemAmount)
+                    {
+                        Color = SKColors.Green
+                    });
+                }
+                else if (objectType == model.ItemType && model.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals)
+                {
+                    entries.Add(new Entry((float)model.ItemAmount)
+                    {
+                        Color = SKColors.Red
+                    });
+                }
             }
 
             return entries.ToArray();

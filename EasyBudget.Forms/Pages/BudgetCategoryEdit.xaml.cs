@@ -18,9 +18,10 @@ namespace EasyBudget.Forms.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            var entries = GetEntries();
-            var chart = new DonutChart() { Entries = entries };
-            chartCategory.Chart = chart;
+
+            var vm = (this.BindingContext as BudgetCategoryViewModel);
+
+            chartCategory.Chart = ChartUtility.Instance.GetChart(vm);
 
         }
 
@@ -40,11 +41,6 @@ namespace EasyBudget.Forms.Pages
             
         }
 
-        protected Microcharts.Entry[] GetEntries()
-        {
-            var context = this.BindingContext as BudgetCategoryViewModel;
-            return ChartUtility.Instance.GetEntries(context);
-        }
 
     }
 }

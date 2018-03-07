@@ -25,10 +25,8 @@ namespace EasyBudget.Forms.Pages
             base.OnAppearing();
             vm = await ds.GetBudgetCategoriesViewModelAsync();
             vm.SelectedBudgetCategory = null;
-            
-            var entries = GetEntries(vm);
-            var chart = new BarChart() { Entries = entries };
-            chartCategories.Chart = chart;
+
+            chartCategories.Chart = ChartUtility.Instance.GetChart(vm);
 
             this.BindingContext = vm;
 
@@ -92,10 +90,5 @@ namespace EasyBudget.Forms.Pages
             await Navigation.PushModalAsync(editor);
         }
 
-
-        protected Microcharts.Entry[] GetEntries(BudgetCategoriesViewModel context)
-        {
-            return ChartUtility.Instance.GetEntries(context);
-        }
     }
 }

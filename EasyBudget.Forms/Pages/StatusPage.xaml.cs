@@ -27,9 +27,7 @@ namespace EasyBudget.Forms.Pages
             base.OnAppearing();
             vm = await ds.GetStatusVM();
 
-            var _entries = ChartUtility.Instance.GetEntries(vm);
-            var _chart = new BarChart() { Entries = _entries };
-            chartStatus.Chart = _chart;
+            chartStatus.Chart = ChartUtility.Instance.GetChart(vm);
         }
 
         protected override void OnDisappearing()

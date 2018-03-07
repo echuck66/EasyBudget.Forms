@@ -12,8 +12,7 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class BudgetCategoryView : ContentPage
     {
-        Microcharts.Entry[] Entries = null;
-
+        
         public BudgetCategoryView()
         {
             InitializeComponent();
@@ -23,10 +22,10 @@ namespace EasyBudget.Forms.Pages
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            var entries = GetEntries();
-            var chart = new DonutChart() { Entries = entries };
 
-            chartPieData.Chart = chart;
+            var vm = (this.BindingContext as BudgetCategoryViewModel);
+
+            this.chartPieData.Chart = ChartUtility.Instance.GetChart(vm);
         }
 
         public async void OnBackClicked(object sender, EventArgs e)
@@ -35,11 +34,6 @@ namespace EasyBudget.Forms.Pages
         }
 
 
-        protected Microcharts.Entry[] GetEntries()
-        {
-            var context = this.BindingContext as BudgetCategoryViewModel;
-            return ChartUtility.Instance.GetEntries(context);
-        }
 
 
 
