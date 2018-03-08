@@ -16,17 +16,11 @@
     </ContentPage.ToolbarItems>    
     
     <ContentPage.Content>
-        <ScrollView>
             <StackLayout>
                 <StackLayout>
-                    <Label Text="Budget Categories"></Label>
+                    <Label Text="Budget Totals"></Label>
                 </StackLayout>
                 <StackLayout>
-                    <StackLayout.BackgroundColor>
-                        <OnPlatform x:TypeArguments="Color">
-                            <On Platform="Android" Value="#4db140" />
-                        </OnPlatform>
-                    </StackLayout.BackgroundColor>
                     <charts:ChartView x:Name="chartCategories" Opacity="0.9" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
@@ -37,6 +31,17 @@
                     </charts:ChartView>
                 </StackLayout>
                 <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Total Budgeted Expenses" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding TotalBudgetedExpenses, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Total Budgeted Income" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding TotalBudgetedIncome, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <Label Text="Budget Categories"></Label>
                     <ListView ItemsSource="{Binding BudgetCategoriesGrouped}" 
                               ItemSelected="OnItemSelected" 
                               IsGroupingEnabled="true" 
@@ -55,7 +60,10 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Category" HorizontalOptions="FillAndExpand"></Button>
+                    <Button Text="Back" HorizontalOptions="FillAndExpand"></Button>
+                </StackLayout>
             </StackLayout>
-        </ScrollView>
 	</ContentPage.Content>
 </ContentPage>
