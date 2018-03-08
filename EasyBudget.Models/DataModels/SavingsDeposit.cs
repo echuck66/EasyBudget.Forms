@@ -30,6 +30,8 @@ namespace EasyBudget.Models.DataModels
 
         public decimal transactionAmount { get; set; }
 
+        public decimal endingBalance { get; set; }
+
         [MaxLength(250)]
         public string description { get; set; }
 

@@ -215,6 +215,8 @@ namespace EasyBudget.Business.ViewModels
             this.accountModel = deposit.savingsAccount;
             this.ItemId = this.model.id;
             this.ItemType = AccountItemType.Deposits;
+            this.ItemAmount = model.transactionAmount;
+            this.EndingBalance = model.endingBalance;
 
             this.Description = this.model.description;
             this.TransactionDate = model.transactionDate;

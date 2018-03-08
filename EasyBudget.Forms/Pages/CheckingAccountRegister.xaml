@@ -22,7 +22,7 @@
             
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Description}" Detail="{Binding TransactionAmount, StringFormat='{0:C} (Amount)'}">
+                    <TextCell Text="{Binding Description}" Detail="{Binding TransactionAmount, StringFormat='{0:C}'}">
                         <TextCell.ContextActions>
                             <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                             <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />

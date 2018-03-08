@@ -57,6 +57,23 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        decimal _EndingBalance;
+        public decimal EndingBalance
+        {
+            get
+            {
+                return _EndingBalance;
+            }
+            set
+            {
+                if (_EndingBalance != value)
+                {
+                    _EndingBalance = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EndingBalance)));
+                }
+            }
+        }
+
         DateTime _ItemDate;
         public DateTime ItemDate
         {
