@@ -12,7 +12,7 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class BudgetCategoryView : ContentPage
     {
-        
+        BudgetCategoryViewModel vm;
         public BudgetCategoryView()
         {
             InitializeComponent();
@@ -23,7 +23,7 @@ namespace EasyBudget.Forms.Pages
         {
             base.OnAppearing();
 
-            var vm = (this.BindingContext as BudgetCategoryViewModel);
+            vm = (this.BindingContext as BudgetCategoryViewModel);
             this.chartBudget.Chart = await ChartUtility.Instance.GetChartAsync(vm);
         }
 
@@ -33,7 +33,18 @@ namespace EasyBudget.Forms.Pages
         }
 
 
+        public async void btnNewBudgetItem_Clicked(object sender, EventArgs eventArgs)
+        {
+            if (vm == null)
+            {
+                vm = this.BindingContext as BudgetCategoryViewModel;
+            }
 
+            BudgetItemEdit editor = new BudgetItemEdit();
+            BudgetItemViewModel newItem = await vm.AddBudgetItemAsync();
+            editor.BindingContext = newItem;
+            await Navigation.PushModalAsync(editor);
+        }
 
 
     }

@@ -224,7 +224,7 @@ namespace EasyBudget.Business.ViewModels
             this.ItemType = AccountItemType.Deposits;
             this.ItemAmount = model.transactionAmount;
             this.EndingBalance = model.endingBalance;
-
+            this.ItemDescription = model.description;
             this.Description = this.model.description;
             this.TransactionDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
             this.TransactionAmount = model.transactionAmount;

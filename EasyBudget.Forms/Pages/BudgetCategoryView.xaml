@@ -35,17 +35,26 @@
                     </charts:ChartView>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
-                    <Label Text="Name" FontAttributes="Bold"></Label>
-                    <Label Text="{Binding Name}"></Label>
-                    <Label Text="Description" FontAttributes="Bold"></Label>
-                    <Label Text="{Binding Description}"></Label>
-                    <Label Text="Type" FontAttributes="Bold"></Label>
-                    <Label Text="{Binding CategoryType}"></Label>
-                    <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                    <Label Text="{Binding Amount, StringFormat='{0:C}'}"></Label>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding Name}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Description" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding Description}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Type" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding CategoryType}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Budgeted Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="btnNewBudgetItem" Text="Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
+                    <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
 
             </StackLayout>

@@ -156,6 +156,24 @@ namespace EasyBudget.Business.ViewModels
 
         public ObservableCollection<Grouping<string, AccountRegisterItemViewModel>> AccountRegisterGrouped { get; set; }
 
+        public decimal TotalDeposits
+        {
+            get
+            {
+                var _depositsTotal = this.AccountRegister.Where(itm => itm.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits).Sum(itm => itm.ItemAmount);
+                return _depositsTotal;
+            }
+        }
+
+        public decimal TotalWithdrawals
+        {
+            get
+            {
+                var _withdrawalsTotal = this.AccountRegister.Where(itm => itm.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals).Sum(itm => itm.ItemAmount);
+                return _withdrawalsTotal;
+            }
+        }
+
         internal BankAccountViewModel(string dbFilePath)
             : base(dbFilePath)
         {
@@ -883,6 +901,8 @@ namespace EasyBudget.Business.ViewModels
                 }
 
                 await GroupAccountItemsAsync();
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalDeposits)));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalWithdrawals)));
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccountRegisterGrouped)));
             }
         }
