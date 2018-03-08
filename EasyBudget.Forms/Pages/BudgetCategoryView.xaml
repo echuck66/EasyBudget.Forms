@@ -6,18 +6,32 @@
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,0,0" />
-            <On Platform="Android" Value="10,0,0,0" />
+            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding>  
 
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
+
+                <StackLayout>
+                    <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand"></Label>
+                </StackLayout>
                 
                 <StackLayout>
-                    <charts:ChartView x:Name="chartPieData" HeightRequest="150">
-                        
+                    <StackLayout.BackgroundColor>
+                        <OnPlatform x:TypeArguments="Color">
+                            <On Platform="Android" Value="#4db140" />
+                        </OnPlatform>
+                    </StackLayout.BackgroundColor>
+                    <charts:ChartView x:Name="chartBudget" HeightRequest="50" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                        <charts:ChartView.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS" Value="150" />
+                                <On Platform="Android" Value="75" />
+                            </OnPlatform>
+                        </charts:ChartView.HeightRequest>
                     </charts:ChartView>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">

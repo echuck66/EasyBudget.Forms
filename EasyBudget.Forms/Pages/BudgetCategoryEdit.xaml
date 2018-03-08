@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                x:Class="EasyBudget.Forms.Pages.BudgetCategoryEdit" Title="Category">
+                x:Class="EasyBudget.Forms.Pages.BudgetCategoryEdit" Title="Category"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -13,6 +14,10 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
+                <StackLayout>
+                    <charts:ChartView x:Name="chartCategory" HeightRequest="150" WidthRequest="150" Opacity="0.75" HorizontalOptions="EndAndExpand">
+                    </charts:ChartView>
+                </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
                     <Label Text="Name" FontAttributes="Bold"></Label>
                     <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>

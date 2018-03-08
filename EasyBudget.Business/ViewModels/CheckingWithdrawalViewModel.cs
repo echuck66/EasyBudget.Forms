@@ -484,7 +484,7 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetItems.Add(itm);
                             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         }
-                        this.SelectedBudgetItem = null;
+                        //this.SelectedBudgetItem = null;
                     }
                     else
                     {

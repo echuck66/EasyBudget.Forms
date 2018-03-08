@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyBudget.Business;
 using EasyBudget.Business.ViewModels;
+using EasyBudget.Forms.Utility;
+using Microcharts;
 using Xamarin.Forms;
 
 namespace EasyBudget.Forms.Pages
@@ -23,7 +25,12 @@ namespace EasyBudget.Forms.Pages
             base.OnAppearing();
             vm = await ds.GetBudgetCategoriesViewModelAsync();
             vm.SelectedBudgetCategory = null;
+
+            chartCategories.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+
             this.BindingContext = vm;
+
+
         }
 
         protected override void OnDisappearing()

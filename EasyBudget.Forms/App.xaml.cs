@@ -15,7 +15,9 @@ namespace EasyBudget.Forms
         {
             InitializeComponent();
             DIContainer injectionContainer = new DIContainer();
+
             injectionContainer.Create<ChartUtility>();
+            injectionContainer.Create<ChartColors>();
 
             var np = new NavigationPage(new StatusPage());
 

@@ -252,10 +252,6 @@ namespace EasyBudget.Business.ViewModels
             deposit.checkingAccountId = model.id;
 
             await vm.PopulateVMAsync(deposit);
-            
-            //this.AccountRegister.Add(vm);
-            //await GroupAccountItemsAsync();
-            //this.SelectedRegisterItem = vm;
 
             return vm;
         }
@@ -362,6 +358,48 @@ namespace EasyBudget.Business.ViewModels
                     await LoadSavingsWithdrawalsAsync(getReconciled);
                     break;
             }
+        }
+
+        public async Task<ICollection<AccountRegisterItemViewModel>> GetChartData()
+        {
+            List<AccountRegisterItemViewModel> models = new List<AccountRegisterItemViewModel>();
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                string firstOfMonthStr = DateTime.Now.Month.ToString() + "/1/" + DateTime.Now.Year.ToString();
+                DateTime fromDate = DateTime.Parse(firstOfMonthStr);
+                DateTime toDate = fromDate.AddMonths(1).AddDays(-1);
+
+                if (this.AccountType == BankAccountType.Checking)
+                {
+                    var _resultsChecking = await uow.GetLoadedCheckingAccountAsync(this.model.id, fromDate, toDate);
+                    if (_resultsChecking.Successful)
+                    {
+                        foreach (CheckingDeposit dep in _resultsChecking.Results.deposits)
+                        {
+                            var vm = new CheckingDepositViewModel(this.dbFilePath);
+                            vm.ItemAmount = dep.transactionAmount;
+                            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposits;
+                            vm.ItemDate = dep.transactionDate;
+                            models.Add(vm);
+                        }
+                        foreach (CheckingWithdrawal wid in _resultsChecking.Results.withdrawals)
+                        {
+                            var vm = new CheckingWithdrawalViewModel(this.dbFilePath);
+                            vm.ItemAmount = wid.transactionAmount;
+                            vm.ItemDate = wid.transactionDate;
+                            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawals;
+                            models.Add(vm);
+                        }
+                    }
+                }
+                else
+                {
+                    // TODO Add Savings Account Logic 
+                }
+            }
+
+            return models;
         }
 
         async Task LoadCheckingAccountAsync(int accountId)
