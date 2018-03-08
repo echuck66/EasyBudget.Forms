@@ -14,22 +14,17 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
-
                 <StackLayout>
                     <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand"></Label>
                 </StackLayout>
-                
                 <StackLayout>
                     <StackLayout.BackgroundColor>
-                        <OnPlatform x:TypeArguments="Color">
-                            <On Platform="Android" Value="#4db140" />
-                        </OnPlatform>
                     </StackLayout.BackgroundColor>
                     <charts:ChartView x:Name="chartBudget" HeightRequest="50" Opacity="0.75" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
                                 <On Platform="iOS" Value="150" />
-                                <On Platform="Android" Value="75" />
+                                <On Platform="Android" Value="150" />
                             </OnPlatform>
                         </charts:ChartView.HeightRequest>
                     </charts:ChartView>
@@ -56,7 +51,6 @@
                     <Button x:Name="btnNewBudgetItem" Text="Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
                     <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
-
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
