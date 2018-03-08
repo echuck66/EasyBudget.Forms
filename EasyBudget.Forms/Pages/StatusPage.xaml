@@ -14,13 +14,23 @@
 	<ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
-                <StackLayout Orientation="Horizontal">
-                    <Label HorizontalOptions="CenterAndExpand" Text="Income" FontAttributes="Bold"></Label>
-                    <Label HorizontalOptions="CenterAndExpand" Text="Expenses" FontAttributes="Bold"></Label>
+                <StackLayout>
+                    <Label Text="Budget Status" HorizontalOptions="FillAndExpand"></Label>
                 </StackLayout>
-                <charts:ChartView x:Name="chartStatus" HeightRequest="100" WidthRequest="200" Opacity="0.75" HorizontalOptions="FillAndExpand">
-                </charts:ChartView>
-                 
+                <StackLayout>
+                    <charts:ChartView x:Name="chartStatus" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                        <charts:ChartView.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS" Value="200" />
+                                    <On Platform="Android" Value="100" />
+                                </OnPlatform>
+                            </charts:ChartView.HeightRequest>
+                    </charts:ChartView>
+                    <StackLayout Orientation="Horizontal">
+                        <Label HorizontalOptions="CenterAndExpand" Text="Income"></Label>
+                        <Label HorizontalOptions="CenterAndExpand" Text="Expenses"></Label>
+                    </StackLayout>
+                </StackLayout>
                 <StackLayout Orientation="Horizontal">
                     <Button x:Name="btnCategories" Text="Budget" Clicked="btnBudgetCategries_Clicked" HorizontalOptions="CenterAndExpand"></Button>
                     <Button x:Name="btnBankAccounts" Text="Banking" Clicked="btnBankAccounts_Clicked" HorizontalOptions="CenterAndExpand"></Button>

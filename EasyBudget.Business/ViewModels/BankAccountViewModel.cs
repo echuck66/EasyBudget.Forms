@@ -252,10 +252,6 @@ namespace EasyBudget.Business.ViewModels
             deposit.checkingAccountId = model.id;
 
             await vm.PopulateVMAsync(deposit);
-            
-            //this.AccountRegister.Add(vm);
-            //await GroupAccountItemsAsync();
-            //this.SelectedRegisterItem = vm;
 
             return vm;
         }
@@ -500,49 +496,6 @@ namespace EasyBudget.Business.ViewModels
                 }
             }
         }
-
-        //async Task<ICollection<CheckingDepositViewModel>> _GetDepositViewModelsAsync<T, TResult>(Func<T, TResult> query)
-        //{
-            
-        //    using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-        //    {
-        //        var _results = await uow.GetCheckingDepositsAsync(model.id, getReconciled);
-        //        if (_results.Successful)
-        //        {
-        //            foreach (var deposit in _results.Results)
-        //            {
-        //                deposit.checkingAccount = model as CheckingAccount;
-
-        //                CheckingDepositViewModel vm = new CheckingDepositViewModel(this.dbFilePath);
-        //                vm.IsNew = false;
-        //                vm.CanEdit = true;
-        //                vm.CanDelete = true;
-        //                await vm.PopulateVMAsync(deposit);
-
-        //                vm.ItemUpdated += OnRegisterUpdated;
-
-        //                this.AccountRegister.Add(vm);
-        //                //await GroupAccountItemsAsync();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (_results.WorkException != null)
-        //            {
-        //                WriteErrorCondition(_results.WorkException);
-        //            }
-        //            else if (!string.IsNullOrEmpty(_results.Message))
-        //            {
-        //                WriteErrorCondition(_results.Message);
-        //            }
-        //            else
-        //            {
-        //                WriteErrorCondition("An unknown error has occurred loading deposit records");
-        //            }
-        //        }
-        //    }
-        
-        //}
 
         async Task LoadCheckingWithdrawalsAsync(bool getReconciled = false)
         {

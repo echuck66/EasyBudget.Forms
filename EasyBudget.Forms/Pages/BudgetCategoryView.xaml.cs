@@ -19,13 +19,12 @@ namespace EasyBudget.Forms.Pages
         }
 
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
             var vm = (this.BindingContext as BudgetCategoryViewModel);
-
-            this.chartBudget.Chart = ChartUtility.Instance.GetChart(vm);
+            this.chartBudget.Chart = await ChartUtility.Instance.GetChartAsync(vm);
         }
 
         public async void OnBackClicked(object sender, EventArgs e)

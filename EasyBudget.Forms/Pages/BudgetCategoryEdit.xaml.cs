@@ -15,13 +15,12 @@ namespace EasyBudget.Forms.Pages
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
 
             var vm = (this.BindingContext as BudgetCategoryViewModel);
-
-            chartCategory.Chart = ChartUtility.Instance.GetChart(vm);
+            chartCategory.Chart = await ChartUtility.Instance.GetChartAsync(vm);
 
         }
 

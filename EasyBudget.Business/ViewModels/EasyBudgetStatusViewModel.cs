@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -103,5 +104,11 @@ namespace EasyBudget.Business.ViewModels
                 }
             }
         }
+    
+        //public async Task<ICollection<ChartData>> GetBudgetStatusChartData()
+        //{
+            
+        //}
+
     }
 }
