@@ -5,15 +5,15 @@
     
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,0,0" />
-            <On Platform="Android" Value="10,0,0,0" />
+            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding> 
      
 	<ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
-                <StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand">
                     <Label Text="Category" FontAttributes="Bold"></Label>
                     <Label Text="{Binding CategoryName}"></Label>
                     <Label Text="Description" FontAttributes="Bold"></Label>
@@ -34,9 +34,9 @@
                     <DatePicker Date="{Binding EndDate}" MinimumDate="{Binding MinEndDate}"></DatePicker>-->
                     
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
-                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" HorizontalOptions="FillAndExpand"></Button>
+                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

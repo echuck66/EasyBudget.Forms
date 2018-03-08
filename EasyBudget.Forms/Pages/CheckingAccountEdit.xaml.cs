@@ -10,7 +10,8 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class CheckingAccountEdit : ContentPage
     {
-        
+        BankAccountViewModel vm;
+
         public CheckingAccountEdit()
         {
             InitializeComponent();
@@ -19,10 +20,8 @@ namespace EasyBudget.Forms.Pages
 		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
-            var vm = (this.BindingContext as BankAccountViewModel);
-
-            chartDeposits.Chart = await ChartUtility.Instance.GetChartAsync(vm, AccountRegisterItemViewModel.AccountItemType.Deposits);
-            chartWithdrawals.Chart = await ChartUtility.Instance.GetChartAsync(vm, AccountRegisterItemViewModel.AccountItemType.Withdrawals);
+            vm = (this.BindingContext as BankAccountViewModel);
+            chartAccountSummary.Chart = await ChartUtility.Instance.GetChartAsync(vm);
 		}
 
 		protected async void OnSaveClicked(object sender, EventArgs e)

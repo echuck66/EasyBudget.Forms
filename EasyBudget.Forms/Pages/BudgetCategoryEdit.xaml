@@ -6,8 +6,8 @@
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,0,0" />
-            <On Platform="Android" Value="10,0,0,0" />
+            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding>  
 
@@ -26,11 +26,11 @@
                     <Label Text="Type" FontAttributes="Bold"></Label>
                     <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}" IsEnabled="{Binding IsNew}"></Picker>
                     <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                    <Label Text="{Binding Amount}"></Label>
+                    <Label Text="{Binding Amount, StringFormat='{0:C}'}"></Label>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
-                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" HorizontalOptions="FillAndExpand"></Button>
+                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
 
             </StackLayout>

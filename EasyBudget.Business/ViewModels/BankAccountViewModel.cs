@@ -156,6 +156,24 @@ namespace EasyBudget.Business.ViewModels
 
         public ObservableCollection<Grouping<string, AccountRegisterItemViewModel>> AccountRegisterGrouped { get; set; }
 
+        public decimal TotalDeposits
+        {
+            get
+            {
+                var _depositsTotal = this.AccountRegister.Where(itm => itm.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits).Sum(itm => itm.ItemAmount);
+                return _depositsTotal;
+            }
+        }
+
+        public decimal TotalWithdrawals
+        {
+            get
+            {
+                var _withdrawalsTotal = this.AccountRegister.Where(itm => itm.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals).Sum(itm => itm.ItemAmount);
+                return _withdrawalsTotal;
+            }
+        }
+
         internal BankAccountViewModel(string dbFilePath)
             : base(dbFilePath)
         {
@@ -360,47 +378,44 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public async Task<ICollection<AccountRegisterItemViewModel>> GetChartData()
-        {
-            List<AccountRegisterItemViewModel> models = new List<AccountRegisterItemViewModel>();
-
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            {
-                string firstOfMonthStr = DateTime.Now.Month.ToString() + "/1/" + DateTime.Now.Year.ToString();
-                DateTime fromDate = DateTime.Parse(firstOfMonthStr);
-                DateTime toDate = fromDate.AddMonths(1).AddDays(-1);
-
-                if (this.AccountType == BankAccountType.Checking)
-                {
-                    var _resultsChecking = await uow.GetLoadedCheckingAccountAsync(this.model.id, fromDate, toDate);
-                    if (_resultsChecking.Successful)
-                    {
-                        foreach (CheckingDeposit dep in _resultsChecking.Results.deposits)
-                        {
-                            var vm = new CheckingDepositViewModel(this.dbFilePath);
-                            vm.ItemAmount = dep.transactionAmount;
-                            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposits;
-                            vm.ItemDate = dep.transactionDate;
-                            models.Add(vm);
-                        }
-                        foreach (CheckingWithdrawal wid in _resultsChecking.Results.withdrawals)
-                        {
-                            var vm = new CheckingWithdrawalViewModel(this.dbFilePath);
-                            vm.ItemAmount = wid.transactionAmount;
-                            vm.ItemDate = wid.transactionDate;
-                            vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawals;
-                            models.Add(vm);
-                        }
-                    }
-                }
-                else
-                {
-                    // TODO Add Savings Account Logic 
-                }
-            }
-
-            return models;
-        }
+        //public async Task<ICollection<AccountRegisterItemViewModel>> GetChartData()
+        //{
+        //    List<AccountRegisterItemViewModel> models = new List<AccountRegisterItemViewModel>();
+        //    using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+        //    {
+        //        string firstOfMonthStr = DateTime.Now.Month.ToString() + "/1/" + DateTime.Now.Year.ToString();
+        //        DateTime fromDate = DateTime.Parse(firstOfMonthStr);
+        //        DateTime toDate = fromDate.AddMonths(1).AddDays(-1);
+        //        if (this.AccountType == BankAccountType.Checking)
+        //        {
+        //            var _resultsChecking = await uow.GetLoadedCheckingAccountAsync(this.model.id, fromDate, toDate);
+        //            if (_resultsChecking.Successful)
+        //            {
+        //                foreach (CheckingDeposit dep in _resultsChecking.Results.deposits)
+        //                {
+        //                    var vm = new CheckingDepositViewModel(this.dbFilePath);
+        //                    vm.ItemAmount = dep.transactionAmount;
+        //                    vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Deposits;
+        //                    vm.ItemDate = dep.transactionDate;
+        //                    models.Add(vm);
+        //                }
+        //                foreach (CheckingWithdrawal wid in _resultsChecking.Results.withdrawals)
+        //                {
+        //                    var vm = new CheckingWithdrawalViewModel(this.dbFilePath);
+        //                    vm.ItemAmount = wid.transactionAmount;
+        //                    vm.ItemDate = wid.transactionDate;
+        //                    vm.ItemType = AccountRegisterItemViewModel.AccountItemType.Withdrawals;
+        //                    models.Add(vm);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            // TODO Add Savings Account Logic 
+        //        }
+        //    }
+        //    return models;
+        //}
 
         async Task LoadCheckingAccountAsync(int accountId)
         {
@@ -472,11 +487,8 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanEdit = true;
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(deposit);
-
                         vm.ItemUpdated += OnRegisterUpdated;
-
                         this.AccountRegister.Add(vm);
-                        //await GroupAccountItemsAsync();
                     }
                 }
                 else
@@ -513,11 +525,8 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanEdit = true;
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(withdrawal);
-
                         vm.ItemUpdated += OnRegisterUpdated;
-
                         this.AccountRegister.Add(vm);
-                        //await GroupAccountItemsAsync();
                     }
                 }
                 else
@@ -555,7 +564,6 @@ namespace EasyBudget.Business.ViewModels
                         vm.CanDelete = true;
                         await vm.PopulateVMAsync(deposit);
                         vm.ItemUpdated += OnRegisterUpdated;
-
                         this.AccountRegister.Add(vm);
                     }
                 }
@@ -587,16 +595,12 @@ namespace EasyBudget.Business.ViewModels
                     foreach (var withdrawal in _results.Results)
                     {
                         withdrawal.savingsAccount = model as SavingsAccount;
-
                         SavingsWithdrawalViewModel vm = new SavingsWithdrawalViewModel(this.dbFilePath);
                         vm.IsNew = false;
                         vm.CanEdit = true;
                         vm.CanDelete = true;
-
                         await vm.PopulateVMAsync(withdrawal);
-
                         vm.ItemUpdated += OnRegisterUpdated;
-
                         this.AccountRegister.Add(vm);
                     }
                 }
@@ -753,7 +757,6 @@ namespace EasyBudget.Business.ViewModels
                             {
                                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
                                     await (item as DepositViewModel).SaveChangesAsync();
-
                                     break;
                                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
                                     await (item as WithdrawalViewModel).SaveChangesAsync();
@@ -898,6 +901,8 @@ namespace EasyBudget.Business.ViewModels
                 }
 
                 await GroupAccountItemsAsync();
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalDeposits)));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalWithdrawals)));
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AccountRegisterGrouped)));
             }
         }
@@ -938,7 +943,6 @@ namespace EasyBudget.Business.ViewModels
     public class BankingItemUpdatedEventArgs : EventArgs
     {
         public BankAccountType AccountType { get; set; }
-
         public decimal TransactionAmount { get; set; }
     }
 

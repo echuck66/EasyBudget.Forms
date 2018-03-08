@@ -20,21 +20,18 @@
                   GroupDisplayBinding="{Binding Key}" 
                   SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
             
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Description}" Detail="{Binding TransactionAmount, StringFormat='{0:C} (Amount)'}">
-                        <TextCell.ContextActions>
-                            <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
-                            <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                        </TextCell.ContextActions>
-                    </TextCell>
-                    
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Button x:Name="btnAddItem" Text="New" Clicked="OnNewItemClicked" IsEnabled="{Binding CanAddItems}"></Button>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding ItemDescription}" Detail="{Binding TransactionAmount, StringFormat='{0:C}'}">
+                                <TextCell.ContextActions>
+                                    <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                    <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                                </TextCell.ContextActions>
+                            </TextCell>
+                            
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
         </StackLayout>
 	</ContentPage.Content>

@@ -16,35 +16,18 @@
         <ScrollView>
             <StackLayout Spacing="10">
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="Transactions" HorizontalOptions="FillAndExpand"></Label>
+                    <Label Text="Balance History" HorizontalOptions="FillAndExpand"></Label>
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
-                    <StackLayout.BackgroundColor>
-                        <OnPlatform x:TypeArguments="Color">
-                            <On Platform="Android" Value="#4db140" />
-                        </OnPlatform>
-                    </StackLayout.BackgroundColor>
-                    <charts:ChartView x:Name="chartDeposits" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                <StackLayout>
+                    <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
                                 <On Platform="iOS" Value="100" />
-                                <On Platform="Android" Value="50" />
+                                <On Platform="Android" Value="75" />
                             </OnPlatform>
                         </charts:ChartView.HeightRequest>
                     </charts:ChartView>
-                    <charts:ChartView x:Name="chartWithdrawals" Opacity="0.75" HorizontalOptions="FillAndExpand">
-                        <charts:ChartView.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="150" />
-                                <On Platform="Android" Value="50" />
-                            </OnPlatform>
-                        </charts:ChartView.HeightRequest>
-                    </charts:ChartView>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Deposits" HorizontalOptions="CenterAndExpand"></Label>
-                    <Label Text="Withdrawals" HorizontalOptions="CenterAndExpand"></Label>
                 </StackLayout>
                 
                 <StackLayout VerticalOptions="FillAndExpand">
@@ -54,11 +37,11 @@
                     <Entry Text="{Binding RoutingNumber}"></Entry>
                     <Label Text="Account Number" FontAttributes="Bold"></Label>
                     <Entry Text="{Binding AccountNumber}"></Entry>
-                    <Label Text="{Binding CurrentBalance}"></Label>
+                    <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}"></Label>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}"></Button>
-                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}" HorizontalOptions="FillAndExpand"></Button>
+                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
 
             </StackLayout>

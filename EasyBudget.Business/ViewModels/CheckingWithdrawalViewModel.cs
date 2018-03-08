@@ -271,7 +271,9 @@ namespace EasyBudget.Business.ViewModels
             this.accountModel = withdrawal.checkingAccount;
             this.ItemId = this.model.id;
             this.ItemType = AccountItemType.Withdrawals;
-
+            this.ItemAmount = model.transactionAmount;
+            this.EndingBalance = model.endingBalance;
+            this.ItemDescription = model.payToTheOrderOf;
             this.PayToTheOrderOf = this.model.payToTheOrderOf;
             this.TransactionDate = model.transactionDate > DateTime.MinValue ? model.transactionDate : DateTime.Now;
             this.TransactionAmount = model.transactionAmount;

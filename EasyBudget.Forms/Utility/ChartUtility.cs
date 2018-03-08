@@ -85,10 +85,10 @@ namespace EasyBudget.Forms.Utility
             return new DonutChart() { Entries = entries };
         }
 
-        public async Task<Chart> GetChartAsync(BankAccountViewModel vm, AccountRegisterItemViewModel.AccountItemType objectType, bool fullSize = false)
+        public async Task<Chart> GetChartAsync(BankAccountViewModel vm, bool fullSize = false)
         {
-            var entries = await GetEntriesAsync(vm, objectType, fullSize);
-            return new LineChart() { Entries = entries };
+            var entries = await GetEntriesAsync(vm, fullSize);
+            return new BarChart() { Entries = entries };
         }
 
         public enum CategoryChartType 
@@ -300,7 +300,6 @@ namespace EasyBudget.Forms.Utility
 
             Entry[] _entryArray;
 
-
             if (fullSize)
             {
                 _entryArray = new Entry[] 
@@ -415,36 +414,50 @@ namespace EasyBudget.Forms.Utility
             return entries.ToArray();
         }
 
-        async Task<Entry[]> GetEntriesAsync(BankAccountViewModel vm, AccountRegisterItemViewModel.AccountItemType objectType, bool fullSize)
+        async Task<Entry[]> GetEntriesAsync(BankAccountViewModel vm, bool fullSize)
         {
-            return await GetBankAccountEntriesAsync(vm, objectType, fullSize);
+            return await GetBankAccountEntriesAsync(vm, fullSize);
         }
 
-        async Task<Entry[]> GetBankAccountEntriesAsync(BankAccountViewModel vm, AccountRegisterItemViewModel.AccountItemType objectType, bool fullSize)
+        async Task<Entry[]> GetBankAccountEntriesAsync(BankAccountViewModel vm, bool fullSize)
         {
             var context = vm;
 
             List<Entry> entries = new List<Entry>();
 
-            var chartData = await vm.GetChartData();
+            var chartData = vm.AccountRegister;
             foreach (var model in chartData)
             {
-
-                if (objectType == model.ItemType && model.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits)
+                SKColor _color = model.EndingBalance > 0 ? SKColors.Green : SKColors.Red;
+                if (fullSize)
                 {
-                    if (fullSize)
-                    {
-                        entries.Add(EntryUtility.GetEntry((float)model.ItemAmount, SKColors.Green, model.ItemDescription, model.ItemAmount.ToString("C")));
-                    }
-                    else
-                    {
-                        entries.Add(EntryUtility.GetEntry((float)model.ItemAmount, SKColors.Green));
-                    }
+                    await Task.Run(() => entries.Add(EntryUtility.GetEntry((float)model.EndingBalance, _color, model.ItemDescription, model.EndingBalance.ToString("C"))));
                 }
-                else if (objectType == model.ItemType && model.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals)
+                else
                 {
-                    entries.Add(EntryUtility.GetEntry((float)model.ItemAmount, SKColors.Red));
+                    await Task.Run(() => entries.Add(EntryUtility.GetEntry((float)model.EndingBalance, _color)));
                 }
+                //if (objectType == model.ItemType && model.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits)
+                //{
+                //    if (fullSize)
+                //    {
+                //        await Task.Run(() => entries.Add(EntryUtility.GetEntry((float)model.EndingBalance, _color, model.ItemDescription, model.EndingBalance.ToString("C"))));
+                //    }
+                //    else
+                //    {
+                //        await Task.Run(() => entries.Add(EntryUtility.GetEntry((float)model.EndingBalance, _color)));
+                //    }
+                //}
+                //else if (objectType == model.ItemType && model.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals)
+                //{
+                //    if (fullSize)
+                //    {
+                //        await Task.Run(() => entries.Add(EntryUtility.GetEntry((float)model.EndingBalance, _color, model.ItemDescription, model.EndingBalance.ToString("C"))));
+                //    }
+                //    {
+                //        await Task.Run(() => entries.Add(EntryUtility.GetEntry((float)model.EndingBalance, _color)));
+                //    }
+                //}
             }
 
             return entries.ToArray();
