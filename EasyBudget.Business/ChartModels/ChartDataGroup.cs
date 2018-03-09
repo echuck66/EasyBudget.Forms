@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EasyBudget.Business
+namespace EasyBudget.Business.ChartModels
 {
-    public class ChartDataGroup
+    public class ChartDataGroup : IChartDataGroup
     {
         public string Title { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EasyBudget.Business
+namespace EasyBudget.Business.ChartModels
 {
     public class ChartDataPack
     {

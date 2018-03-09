@@ -24,7 +24,7 @@
                     <Entry Text="{Binding Notation}"></Entry>
                     <Label Text="Category" FontAttributes="Bold"></Label>
                     <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" IsEnabled="{Binding CategorySelectEnabled}" SelectedItem="{Binding SelectedCategory}" SelectedIndexChanged="CategoryTypes_SelectedIndexChanged"></Picker>
-                    <Label Text="Income Item" FontAttributes="Bold"></Label>
+                    <Label Text="Budget Item" FontAttributes="Bold"></Label>
                     <Picker x:Name="pickerBudgetItems" ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" IsEnabled="{Binding BudgetItemSelectEnabled}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
