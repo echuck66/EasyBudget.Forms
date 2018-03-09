@@ -1,31 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="EasyBudget.Forms.Pages.CheckingAccountView" Title="Details">
+<ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                x:Class="EasyBudget.Forms.Pages.CheckingAccountView" Title="Account"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,0,0" />
-            <On Platform="Android" Value="10,0,0,0" />
+            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding> 
     
     <ContentPage.Content>
-        <StackLayout Spacing="10">
-            <StackLayout VerticalOptions="FillAndExpand">
-                <Label Text="Bank Name" FontAttributes="Bold"></Label>
-                <Label Text="{Binding BankName}" ></Label>
-                <Label Text="Routing Number" FontAttributes="Bold"></Label>
-                <Label Text="{Binding RoutingNumber}"></Label>
-                <Label Text="Account Number" FontAttributes="Bold"></Label>
-                <Label Text="{Binding AccountNumber}"></Label>
-                <Label Text="Current Balance" FontAttributes="Bold"></Label>
-                <Label Text="{Binding CurrentBalance}"></Label>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>
-            </StackLayout>
+        <ScrollView>
+            <StackLayout Spacing="10">
 
-        </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Balance History" HorizontalOptions="FillAndExpand"></Label>
+                </StackLayout>
+                
+                <StackLayout>
+                    <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                        <charts:ChartView.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS" Value="100" />
+                                <On Platform="Android" Value="75" />
+                            </OnPlatform>
+                        </charts:ChartView.HeightRequest>
+                    </charts:ChartView>
+                </StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Bank Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding BankName}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Routing Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding RoutingNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Account Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding AccountNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Total Deposits" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
+                        <Label Text="{Binding TotalDeposits, StringFormat='{0:C}'}" TextColor="Green" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Total Withdrawals" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
+                        <Label Text="{Binding TotalWithdrawals, StringFormat='({0:C})'}" TextColor="Red" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Current Balance" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button Text="Deposit" HorizontalOptions="FillAndExpand" Clicked="btnNewDeposit_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
+                    <Button Text="Withdrawal" HorizontalOptions="FillAndExpand" Clicked="btnNewWithdrawal_Clicked" IsEnabled="{Binding CanAddItems}"></Button> 
+                    <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" HorizontalOptions="FillAndExpand"></Button>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
 	</ContentPage.Content>
 </ContentPage>

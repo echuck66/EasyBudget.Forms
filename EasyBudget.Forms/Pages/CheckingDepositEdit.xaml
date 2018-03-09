@@ -5,10 +5,10 @@
     
 	<ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="iOS" Value="10,40,0,0" />
             <On Platform="Android" Value="10,0,0,0" />
         </OnPlatform>
-    </ContentPage.Padding> 
+    </ContentPage.Padding>  
     
     <ContentPage.Content>
         <ScrollView>
@@ -24,12 +24,12 @@
                     <Entry Text="{Binding Notation}"></Entry>
                     <Label Text="Category" FontAttributes="Bold"></Label>
                     <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" IsEnabled="{Binding CategorySelectEnabled}" SelectedItem="{Binding SelectedCategory}" SelectedIndexChanged="CategoryTypes_SelectedIndexChanged"></Picker>
-                    <Label Text="Income Item" FontAttributes="Bold"></Label>
+                    <Label Text="Budget Item" FontAttributes="Bold"></Label>
                     <Picker x:Name="pickerBudgetItems" ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" IsEnabled="{Binding BudgetItemSelectEnabled}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}"></Button>
-                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}" HorizontalOptions="FillAndExpand"></Button>
+                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
 
             </StackLayout>

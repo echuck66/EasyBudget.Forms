@@ -21,6 +21,7 @@ namespace EasyBudget.iOS
             container.Register<IDataServiceHelper, DataServiceHelper>();
             container.Create<EasyBudgetDataService>();
 
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

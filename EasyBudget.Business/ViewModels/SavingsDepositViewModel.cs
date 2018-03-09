@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
 
@@ -94,6 +95,7 @@ namespace EasyBudget.Business.ViewModels
                     model.budgetIncomeId = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemId)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -109,6 +111,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
             }
         }
 
@@ -124,6 +127,7 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedBudgetItem = value;
                 this.BudgetItemId = value.id;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 if (value != null)
                 {
                     this.BudgetItemId = value.id;
@@ -205,41 +209,20 @@ namespace EasyBudget.Business.ViewModels
 
         public override event PropertyChangedEventHandler PropertyChanged;
 
-        public void PopulateVM(SavingsDeposit deposit)
-        {
-            this.model = deposit;
-            this.accountModel = deposit.savingsAccount;
-            this.ItemId = this.model.id;
-            this.ItemDescription = this.model.description;
-            this.ItemType = AccountItemType.Deposits;
-            this.ItemDate = model.transactionDate;
-            this.ItemAmount = model.transactionAmount;
-
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            {
-                var _results = Task.Run(() => uow.GetAllBudgetCategoriesAsync()).Result;
-                if (_results.Successful)
-                {
-                    foreach (BudgetCategory category in _results.Results)
-                    {
-                        if (category.categoryType == Models.BudgetCategoryType.Expense)
-                        {
-                            this.BudgetCategories.Add(category);
-                        }
-                    }
-                }
-            }
-        }
-
         public async Task PopulateVMAsync(SavingsDeposit deposit)
         {
             this.model = deposit;
             this.accountModel = deposit.savingsAccount;
             this.ItemId = this.model.id;
-            this.ItemDescription = this.model.description;
-            this.ItemType = AccountItemType.Withdrawals;
-            this.ItemDate = model.transactionDate;
+            this.ItemType = AccountItemType.Deposits;
             this.ItemAmount = model.transactionAmount;
+            this.EndingBalance = model.endingBalance;
+            this.ItemDescription = model.description;
+            this.Description = this.model.description;
+            this.TransactionDate = model.transactionDate;
+            this.TransactionAmount = model.transactionAmount;
+
+            this.BudgetItemId = model.budgetIncomeId;
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -257,6 +240,52 @@ namespace EasyBudget.Business.ViewModels
                                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
                             }
                         }
+                    }
+
+                    if (this.BudgetItemId > 0)
+                    {
+                        var _resultsGetBudgetItem = await uow.GetIncomeItemAsync(this.BudgetItemId);
+                        if (_resultsGetBudgetItem.Successful)
+                        {
+                            var selectedItem = _resultsGetBudgetItem.Results;
+                            if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
+                            {
+                                this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+                                this.SelectedBudgetItem = selectedItem;
+                            }
+                        }
+                        else
+                        {
+                            if (_resultsGetBudgetItem.WorkException != null)
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.WorkException);
+                            }
+                            else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.Message);
+                            }
+                            else
+                            {
+                                WriteErrorCondition("An unknown error has occurred populating deposit record");
+                            }
+                        }
+                    }
+
+                }
+
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred getting category records");
                     }
                 }
             }

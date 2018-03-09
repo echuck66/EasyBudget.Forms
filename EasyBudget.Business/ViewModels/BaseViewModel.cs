@@ -15,6 +15,7 @@
 using System;
 using System.ComponentModel;
 using System.Text;
+using EasyBudget.Business.ChartModels;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -126,6 +127,9 @@ namespace EasyBudget.Business.ViewModels
                 WriteErrorCondition(ex.InnerException);
             }
         }
+
+        public abstract IChartDataPack GetChartData();
+
     }
 
 }

@@ -34,6 +34,7 @@ namespace EasyBudget.Forms.Pages
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
                     CheckingDepositEdit depEditor = new CheckingDepositEdit();
+                    depEditor.BindingContext = regItem;
                     await Navigation.PushModalAsync(depEditor);
                     break;
                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:

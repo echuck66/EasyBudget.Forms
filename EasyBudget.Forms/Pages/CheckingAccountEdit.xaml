@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="EasyBudget.Forms.Pages.CheckingAccountEdit" Title="Details">
+<ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                x:Class="EasyBudget.Forms.Pages.CheckingAccountEdit" 
+                Title="Account"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,0,0" />
-            <On Platform="Android" Value="10,0,0,0" />
+            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding> 
     
     <ContentPage.Content>
-        <StackLayout Spacing="10">
-            <StackLayout VerticalOptions="FillAndExpand">
-                <Label Text="Bank Name" FontAttributes="Bold"></Label>
-                <Entry Text="{Binding BankName}" ></Entry>
-                <Label Text="Routing Number" FontAttributes="Bold"></Label>
-                <Entry Text="{Binding RoutingNumber}"></Entry>
-                <Label Text="Account Number" FontAttributes="Bold"></Label>
-                <Entry Text="{Binding AccountNumber}"></Entry>
-                <Label Text="{Binding CurrentBalance}"></Label>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}"></Button>
-                <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
-            </StackLayout>
+        <ScrollView>
+            <StackLayout Spacing="10">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Balance History" HorizontalOptions="FillAndExpand"></Label>
+                </StackLayout>
 
-        </StackLayout>
+                <StackLayout>
+                    <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                        <charts:ChartView.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS" Value="100" />
+                                <On Platform="Android" Value="75" />
+                            </OnPlatform>
+                        </charts:ChartView.HeightRequest>
+                    </charts:ChartView>
+                </StackLayout>
+                
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <Label Text="Bank Name" FontAttributes="Bold"></Label>
+                    <Entry Text="{Binding BankName}" ></Entry>
+                    <Label Text="Routing Number" FontAttributes="Bold"></Label>
+                    <Entry Text="{Binding RoutingNumber}"></Entry>
+                    <Label Text="Account Number" FontAttributes="Bold"></Label>
+                    <Entry Text="{Binding AccountNumber}"></Entry>
+                    <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}" HorizontalOptions="FillAndExpand"></Button>
+                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
 	</ContentPage.Content>
     
 </ContentPage>

@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="EasyBudget.Forms.Pages.StatusPage" Title="EasyBudget">
+    x:Class="EasyBudget.Forms.Pages.StatusPage" Title="EasyBudget"
+    xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
+    
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
+        </OnPlatform>
+    </ContentPage.Padding> 
+    
 	<ContentPage.Content>
-        <StackLayout>
-            <Button x:Name="btnCategories" Text="Budget Categories" Clicked="btnBudgetCategries_Clicked"></Button>
-            <Button x:Name="btnBankAccounts" Text="Bank Accounts" Clicked="btnBankAccounts_Clicked"></Button>
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Spacing="10">
+                <StackLayout>
+                    <Label Text="Budget Status" HorizontalOptions="FillAndExpand"></Label>
+                </StackLayout>
+                <StackLayout>
+                    <charts:ChartView x:Name="chartStatus" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                        <charts:ChartView.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS" Value="200" />
+                                    <On Platform="Android" Value="100" />
+                                </OnPlatform>
+                            </charts:ChartView.HeightRequest>
+                    </charts:ChartView>
+                    <StackLayout Orientation="Horizontal">
+                        <Label HorizontalOptions="CenterAndExpand" Text="Income"></Label>
+                        <Label HorizontalOptions="CenterAndExpand" Text="Expenses"></Label>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Button x:Name="btnCategories" Text="Budget" Clicked="btnBudgetCategries_Clicked" HorizontalOptions="CenterAndExpand"></Button>
+                    <Button x:Name="btnBankAccounts" Text="Banking" Clicked="btnBankAccounts_Clicked" HorizontalOptions="CenterAndExpand"></Button>
+                </StackLayout>
+
+            </StackLayout>      
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

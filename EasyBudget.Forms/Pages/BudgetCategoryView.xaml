@@ -1,31 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="EasyBudget.Forms.Pages.BudgetCategoryView" Title="Details">
+             x:Class="EasyBudget.Forms.Pages.BudgetCategoryView" Title="Category" 
+             xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" >
 
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,0,0" />
-            <On Platform="Android" Value="10,0,0,0" />
+            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
-    </ContentPage.Padding> 
+    </ContentPage.Padding>  
 
     <ContentPage.Content>
-        <StackLayout Spacing="10">
-            <StackLayout VerticalOptions="FillAndExpand">
-                <Label Text="Name" FontAttributes="Bold"></Label>
-                <Label Text="{Binding Name}"></Label>
-                <Label Text="Description" FontAttributes="Bold"></Label>
-                <Label Text="{Binding Description}"></Label>
-                <Label Text="Type" FontAttributes="Bold"></Label>
-                <Label Text="{Binding CategoryType}"></Label>
-                <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                <Label Text="{Binding Amount}"></Label>
+        <ScrollView>
+            <StackLayout Spacing="10">
+                <StackLayout>
+                    <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand"></Label>
+                </StackLayout>
+                <StackLayout>
+                    <StackLayout.BackgroundColor>
+                    </StackLayout.BackgroundColor>
+                    <charts:ChartView x:Name="chartBudget" HeightRequest="50" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                        <charts:ChartView.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS" Value="150" />
+                                <On Platform="Android" Value="150" />
+                            </OnPlatform>
+                        </charts:ChartView.HeightRequest>
+                    </charts:ChartView>
+                </StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding Name}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Description" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding Description}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Type" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding CategoryType}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Budgeted Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="btnNewBudgetItem" Text="Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
+                    <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" HorizontalOptions="FillAndExpand"></Button>
+                </StackLayout>
             </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" WidthRequest="150"></Button>
-            </StackLayout>
-
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

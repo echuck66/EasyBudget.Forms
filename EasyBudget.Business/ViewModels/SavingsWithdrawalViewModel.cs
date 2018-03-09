@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using EasyBudget.Models.DataModels;
 
@@ -39,6 +40,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionDate)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -57,6 +59,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionAmount)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -74,12 +77,13 @@ namespace EasyBudget.Business.ViewModels
                     model.notation = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(notation)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
 
 
-        public string description
+        public string Description
         {
             get
             {
@@ -92,7 +96,8 @@ namespace EasyBudget.Business.ViewModels
                     model.description = value;
                     this.ItemDescription = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(description)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -110,6 +115,7 @@ namespace EasyBudget.Business.ViewModels
                     model.budgetExpenseId = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemId)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -125,6 +131,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
             }
         }
 
@@ -140,6 +147,7 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedBudgetItem = value;
                 this.BudgetItemId = value.id;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 if (value != null)
                 {
                     this.BudgetItemId = value.id;
@@ -220,10 +228,16 @@ namespace EasyBudget.Business.ViewModels
         {
             this.model = withdrawal;
             this.accountModel = withdrawal.savingsAccount;
-            this.ItemDescription = this.model.description;
+            this.ItemId = this.model.id;
             this.ItemType = AccountItemType.Withdrawals;
-            this.ItemDate = model.transactionDate;
             this.ItemAmount = model.transactionAmount;
+            this.EndingBalance = model.endingBalance;
+            this.ItemDescription = model.description;
+            this.Description = this.model.description;
+            this.TransactionDate = model.transactionDate;
+            this.TransactionAmount = model.transactionAmount;
+
+            this.BudgetItemId = model.budgetExpenseId;
 
             using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
             {
@@ -241,6 +255,51 @@ namespace EasyBudget.Business.ViewModels
                                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
                             }
                         }
+                    }
+
+                    if (this.BudgetItemId > 0)
+                    {
+                        var _resultsGetBudgetItem = await uow.GetExpenseItemAsync(this.BudgetItemId);
+                        if (_resultsGetBudgetItem.Successful)
+                        {
+                            var selectedItem = _resultsGetBudgetItem.Results;
+                            if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
+                            {
+                                this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+                                this.SelectedBudgetItem = selectedItem;
+                            }
+                        }
+                        else
+                        {
+                            if (_resultsGetBudgetItem.WorkException != null)
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.WorkException);
+                            }
+                            else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.Message);
+                            }
+                            else
+                            {
+                                WriteErrorCondition("An unknown error has occurred populating withdrawal record");
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred getting category records");
                     }
                 }
             }

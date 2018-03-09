@@ -14,8 +14,10 @@
   <ItemGroup>
     <Folder Include="UoWResults\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="ChartModels\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
+    <PackageReference Include="Microcharts" Version="0.7.1" />
   </ItemGroup>
 </Project>

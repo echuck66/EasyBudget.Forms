@@ -67,6 +67,24 @@ namespace EasyBudget.Business.ViewModels
             this.CurrentMonth = DateTime.Now.Month;
         }
 
+        public decimal TotalBudgetedExpenses
+        {
+            get
+            {
+                var _total = this.BudgetCategories.Where(c => c.CategoryType == Models.BudgetCategoryType.Expense).Sum(c => c.Amount);
+                return _total;
+            }
+        }
+
+        public decimal TotalBudgetedIncome
+        {
+            get
+            {
+                var _total = this.BudgetCategories.Where(c => c.CategoryType == Models.BudgetCategoryType.Income).Sum(c => c.Amount);
+                return _total;
+            }
+        }
+
         public override event PropertyChangedEventHandler PropertyChanged;
 
         internal async Task LoadVMAsync()

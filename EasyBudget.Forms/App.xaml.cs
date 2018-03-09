@@ -1,4 +1,5 @@
 ﻿using EasyBudget.Forms.Pages;
+using EasyBudget.Forms.Utility;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
@@ -13,10 +14,17 @@ namespace EasyBudget.Forms
         public App()
         {
             InitializeComponent();
+            DIContainer injectionContainer = new DIContainer();
+
+            injectionContainer.Create<ChartUtility>();
+            injectionContainer.Create<ChartColors>();
+
             var np = new NavigationPage(new StatusPage());
 
             // Toolbar
             //np.On<Windows>().SetToolbarPlacement(ToolbarPlacement.Default);
+            np.BarBackgroundColor = Color.FromHex("#4db140");
+            np.BarTextColor = Color.White;
 
             MainPage = np;
         }
