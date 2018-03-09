@@ -123,21 +123,51 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\account_register.png.imageset\account_register.pdf" />
-    <ImageAsset Include="Assets.xcassets\account_register.png.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\category.png.imageset\category.pdf" />
-    <ImageAsset Include="Assets.xcassets\category.png.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\checking.png.imageset\checking.pdf" />
-    <ImageAsset Include="Assets.xcassets\checking.png.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\expenses.png.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\expenses.png.imageset\expenses.pdf" />
-    <ImageAsset Include="Assets.xcassets\income.png.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\income.png.imageset\income.pdf" />
-    <ImageAsset Include="Assets.xcassets\savings.png.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\savings.png.imageset\savings.pdf" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\eb_cns_icon_white_greenback.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\account_register.png.imageset\account_register.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\account_register.png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\category.png.imageset\category.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\category.png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\checking.png.imageset\checking.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\checking.png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\expenses.png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\expenses.png.imageset\expenses.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\income.png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\income.png.imageset\income.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\savings.png.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\savings.png.imageset\savings.pdf">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\eb_cns_icon_white_greenback.png">
+      <Visible>false</Visible>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
