@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyBudget.Business.ChartModels;
+using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
@@ -204,7 +205,13 @@ namespace EasyBudget.Business.ViewModels
 
         public override IChartDataPack GetChartData()
         {
-            throw new NotImplementedException();
+            var dataPack = new ChartDataPack();
+
+            // Expense vs Income Category Totals
+            var fltCatExpenseSum = (float)this.BudgetCategories.Where(c => c.CategoryType == BudgetCategoryType.Expense).Sum(c => c.Amount);
+            var fltCatIncomeSum = (float)this.BudgetCategories.Where(c => c.CategoryType == BudgetCategoryType.Income).Sum(c => c.Amount);
+
+            return dataPack;
         }
     }
 

@@ -109,10 +109,8 @@ namespace EasyBudget.Business.ViewModels
         public override IChartDataPack GetChartData()
         {
             var dataPack = new ChartDataPack();
-            dataPack.Charts = new List<ChartDataGroup>();
             // Income Group Chart Data
             var budgetIncomeGroup = new ChartDataGroup();
-            budgetIncomeGroup.ChartDataItems = new List<ChartDataEntry>();
             budgetIncomeGroup.ChartDisplayType = ChartType.Pie;
             budgetIncomeGroup.ChartDisplayOrder = 0;
             // Construct and build the data points
