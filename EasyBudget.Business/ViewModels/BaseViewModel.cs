@@ -128,7 +128,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public abstract IChartDataPack GetChartData();
+        //public abstract IChartDataPack GetChartData();
 
     }
 
