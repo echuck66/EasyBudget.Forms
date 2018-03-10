@@ -19,6 +19,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyBudget.Business.ChartModels;
 using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
@@ -209,6 +210,11 @@ namespace EasyBudget.Business.ViewModels
             {
                 vm.Dispose();
             }
+        }
+
+        public override IChartDataPack GetChartData()
+        {
+            throw new NotImplementedException();
         }
     }
 

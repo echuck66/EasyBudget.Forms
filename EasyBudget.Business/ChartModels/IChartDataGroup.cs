@@ -7,6 +7,15 @@ namespace EasyBudget.Business.ChartModels
     {
         string Title { get; set; }
 
-        ICollection<ChartData> ChartDataItems { get; set; }
+        ICollection<ChartDataEntry> ChartDataItems { get; set; }
+
+        ChartType ChartDisplayType { get; set; }
+    }
+
+    public enum ChartType
+    {
+        Bar,
+        Line,
+        Pie
     }
 }

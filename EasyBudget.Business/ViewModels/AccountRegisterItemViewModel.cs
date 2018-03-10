@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using EasyBudget.Business.ChartModels;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -121,7 +122,12 @@ namespace EasyBudget.Business.ViewModels
             Deposits,
             Withdrawals
         }
-    }
+
+		public override IChartDataPack GetChartData()
+		{
+			throw new NotImplementedException();
+		}
+	}
 
     public class AccountRegisterItemViewModelComparer : IEqualityComparer<AccountRegisterItemViewModel>
     {

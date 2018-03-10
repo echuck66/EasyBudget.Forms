@@ -1,7 +1,7 @@
 ﻿using System;
 namespace EasyBudget.Business.ChartModels
 {
-    public interface IChartData
+    public interface IChartDataEntry
     {
         float FltValue { get; set; }
 

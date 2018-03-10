@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EasyBudget.Business.ChartModels
 {
-    public class ChartDataPack
+    public class ChartDataPack : IChartDataPack
     {
         public ICollection<ChartDataGroup> Charts { get; set; }
 

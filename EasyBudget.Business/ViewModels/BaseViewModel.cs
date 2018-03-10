@@ -26,8 +26,8 @@ namespace EasyBudget.Business.ViewModels
 
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
+        // Error tracking
         StringBuilder sbErrorBuilder { get; set; }
-
         public string ErrorCondition 
         {
             get
@@ -37,6 +37,15 @@ namespace EasyBudget.Business.ViewModels
         }
 
         // Transitional Properties ****************
+        public IChartDataPack ChartDataPack 
+        {
+            get
+            {
+                return GetChartData();
+            }
+        }
+
+
         bool _IsDirty;
         public bool IsDirty 
         {
@@ -128,7 +137,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        //public abstract IChartDataPack GetChartData();
+        public abstract IChartDataPack GetChartData();
 
     }
 

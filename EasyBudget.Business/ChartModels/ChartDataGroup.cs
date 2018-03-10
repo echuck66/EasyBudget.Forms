@@ -7,16 +7,21 @@ namespace EasyBudget.Business.ChartModels
     {
         public string Title { get; set; }
 
-        public ICollection<ChartData> ChartDataItems { get; set; }
+        public ICollection<ChartDataEntry> ChartDataItems { get; set; }
+
+        public ChartType ChartDisplayType { get; set; }
+
+        public int ChartDisplayOrder { get; set; }
 
         public ChartDataGroup()
         {
-            ChartDataItems = new List<ChartData>();
+            ChartDataItems = new List<ChartDataEntry>();
         }
 
-        public ChartDataGroup(string title, ICollection<ChartData> chartData){
+        public ChartDataGroup(string title, ICollection<ChartDataEntry> chartData, ChartType chartDispayType){
             this.Title = title;
-            this.ChartDataItems = new List<ChartData>(chartData);
+            this.ChartDataItems = new List<ChartDataEntry>(chartData);
+            this.ChartDisplayType = chartDispayType;
         }
     }
 }

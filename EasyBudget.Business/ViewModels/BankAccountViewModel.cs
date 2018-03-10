@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
+using EasyBudget.Business.ChartModels;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -937,6 +938,11 @@ namespace EasyBudget.Business.ViewModels
                         break;
                 }
             }
+        }
+
+        public override IChartDataPack GetChartData()
+        {
+            throw new NotImplementedException();
         }
     }
 
