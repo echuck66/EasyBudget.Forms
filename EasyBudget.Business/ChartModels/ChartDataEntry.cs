@@ -10,6 +10,8 @@ namespace EasyBudget.Business.ChartModels
 
         public string ValueLabel { get; set; }
 
+        public string ColorCode { get; set; }
+
         public ChartDataEntry()
         {
             
@@ -20,18 +22,20 @@ namespace EasyBudget.Business.ChartModels
             FltValue = fltValue;
         }
 
-        public ChartDataEntry(float value, string label = null, string valueLabel = null)
+        public ChartDataEntry(float value, string colorCode, string label = null, string valueLabel = null)
         {
             FltValue = value;
             Label = label;
             ValueLabel = valueLabel;
+            ColorCode = colorCode;
         }
 
-        public ChartDataEntry(DateTime value, string label = null, string valueLabel = null)
+        public ChartDataEntry(DateTime value, string colorCode, string label = null, string valueLabel = null)
         {
             FltValue = (float)value.ToOADate();
             Label = label;
             ValueLabel = valueLabel;
+            ColorCode = colorCode;
         }
     }
 

@@ -193,7 +193,7 @@ namespace EasyBudget.Business.ViewModels
                         var _resultsExpenseItems = await uow.GetCategoryExpenseItemsAsync(category);
                         if (_resultsExpenseItems.Successful)
                         {
-                            foreach (var item in _resultsExpenseItems.Results)
+                            foreach (var item in _resultsExpenseItems.Results.OrderByDescending(x => x.BudgetedAmount))
                             {
                                 item.ItemType = BudgetItemType.Expense;
                                 item.budgetCategory = category;
@@ -227,7 +227,7 @@ namespace EasyBudget.Business.ViewModels
                         var _resultsIncomeItems = await uow.GetCategoryIncomeItemsAsync(category);
                         if (_resultsIncomeItems.Successful)
                         {
-                            foreach (var item in _resultsIncomeItems.Results)
+                            foreach (var item in _resultsIncomeItems.Results.OrderByDescending(i => i.BudgetedAmount))
                             {
                                 item.ItemType = BudgetItemType.Income;
                                 item.budgetCategory = category;
@@ -469,7 +469,24 @@ namespace EasyBudget.Business.ViewModels
 
         public override IChartDataPack GetChartData()
         {
-            throw new NotImplementedException();
+            var dataPack = new ChartDataPack();
+
+            var budgetItemsGroup = new ChartDataGroup();
+            budgetItemsGroup.ChartDisplayType = ChartType.Pie;
+            budgetItemsGroup.ChartDisplayOrder = 0;
+            foreach (var cat in this.BudgetItems.OrderBy(c => c.BudgetedAmount))
+            {
+                budgetItemsGroup.ChartDataItems.Add(new ChartDataEntry()
+                {
+                    FltValue = (float)cat.BudgetedAmount,
+                    Label = cat.ItemDescription,
+                    ValueLabel = cat.BudgetedAmount.ToString("C"),
+                    ColorCode = cat.ColorCode
+                });
+            }
+            dataPack.Charts.Add(budgetItemsGroup);
+
+            return dataPack;
         }
     }
 

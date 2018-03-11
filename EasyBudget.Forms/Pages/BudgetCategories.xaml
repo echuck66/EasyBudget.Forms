@@ -29,25 +29,34 @@
                 <StackLayout>
                     <Label Text="Budget Totals"></Label>
                 </StackLayout>
-                <StackLayout>
-                    <charts:ChartView x:Name="chartCategories" Opacity="0.9" HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal">
+                    <charts:ChartView x:Name="chartExpenses" Opacity="0.9" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
                                 <On Platform="iOS" Value="150" />
-                                <On Platform="Android" Value="75" />
+                                <On Platform="Android" Value="150" />
+                                <On Platform="UWP" Value="150" />
+                        </OnPlatform>
+                        </charts:ChartView.HeightRequest>
+                    </charts:ChartView>
+                    <charts:ChartView x:Name="chartIncome" Opacity="0.9" HorizontalOptions="FillAndExpand">
+                        <charts:ChartView.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS" Value="150" />
+                                <On Platform="Android" Value="150" />
                                 <On Platform="UWP" Value="150" />
                         </OnPlatform>
                         </charts:ChartView.HeightRequest>
                     </charts:ChartView>
                 </StackLayout>
-                <StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Total Budgeted Expenses" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                        <Label Text="{Binding TotalBudgetedExpenses, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
+                <StackLayout Padding="5">
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Total Budgeted Income" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                         <Label Text="{Binding TotalBudgetedIncome, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Total Budgeted Expenses" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="{Binding TotalBudgetedExpenses, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
                     </StackLayout>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
@@ -66,13 +75,13 @@
                                     <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
                                 </ViewCell.ContextActions>
                                     <ContentView Padding="1">
-                                        <StackLayout Orientation="Horizontal">
-                                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
                                                      WidthRequest="25"
                                                      HeightRequest="25" VerticalOptions="Center" />
-                                            <StackLayout>
-                                                <Label Text="{Binding Name}"/>
-                                                <Label Text="{Binding Amount, StringFormat='{0:C}'}" />
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                                <Label Text="{Binding Name}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Start"/>
+                                                <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="CenterAndExpand" />
                                             </StackLayout>
                                         </StackLayout>
                                     </ContentView>

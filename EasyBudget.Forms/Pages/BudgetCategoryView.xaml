@@ -29,7 +29,7 @@
                 <StackLayout>
                     <StackLayout.BackgroundColor>
                     </StackLayout.BackgroundColor>
-                    <charts:ChartView x:Name="chartBudget" HeightRequest="50" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                    <charts:ChartView x:Name="chartCategory" HeightRequest="50" Opacity="0.75" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
                                 <On Platform="iOS" Value="150" />

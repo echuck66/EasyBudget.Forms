@@ -97,7 +97,7 @@ namespace EasyBudget.Business.ViewModels
                 var _tempList = new List<BudgetCategoryViewModel>();
                 if (_results.Successful)
                 {
-                    foreach (var category in _results.Results)
+                    foreach (var category in _results.Results.OrderByDescending(c => c.budgetAmount))
                     {
                         var vm = new BudgetCategoryViewModel(this.dbFilePath);
                         vm.CanEdit = true;
@@ -130,7 +130,7 @@ namespace EasyBudget.Business.ViewModels
         public void GroupCategories()
         {
             var grouped = from cat in this.BudgetCategories
-                          orderby cat.Name
+                          orderby cat.Amount descending 
                           group cat by cat.CategoryType into Group
                           select new Grouping<string, BudgetCategoryViewModel>(Group.Key.ToString(), Group);
             
@@ -140,7 +140,7 @@ namespace EasyBudget.Business.ViewModels
         public async Task GroupCategoriesAsync()
         {
             var grouped = from cat in this.BudgetCategories
-                          orderby cat.Name
+                          orderby cat.Amount descending
                           group cat by cat.CategoryType into Group
                           select new Grouping<string, BudgetCategoryViewModel>(Group.Key.ToString(), Group);
 
@@ -207,9 +207,35 @@ namespace EasyBudget.Business.ViewModels
         {
             var dataPack = new ChartDataPack();
 
-            // Expense vs Income Category Totals
-            var fltCatExpenseSum = (float)this.BudgetCategories.Where(c => c.CategoryType == BudgetCategoryType.Expense).Sum(c => c.Amount);
-            var fltCatIncomeSum = (float)this.BudgetCategories.Where(c => c.CategoryType == BudgetCategoryType.Income).Sum(c => c.Amount);
+            var budgetExpenseGroup = new ChartDataGroup();
+            budgetExpenseGroup.ChartDisplayType = ChartType.Pie;
+            budgetExpenseGroup.ChartDisplayOrder = 0;
+            foreach(var cat in this.BudgetCategories.Where(c => c.CategoryType == BudgetCategoryType.Expense).OrderBy(c => c.Amount))
+            {
+                budgetExpenseGroup.ChartDataItems.Add(new ChartDataEntry()
+                {
+                    FltValue = (float)cat.Amount,
+                    Label = cat.Name,
+                    ValueLabel = cat.Amount.ToString("C"),
+                    ColorCode = cat.ColorCode
+                });
+            }
+            dataPack.Charts.Add(budgetExpenseGroup);
+
+            var budgetIncomeGroup = new ChartDataGroup();
+            budgetIncomeGroup.ChartDisplayType = ChartType.Pie;
+            budgetIncomeGroup.ChartDisplayOrder = 1;
+            foreach(var cat in this.BudgetCategories.Where(c => c.CategoryType == BudgetCategoryType.Income).OrderBy(c => c.Amount))
+            {
+                budgetIncomeGroup.ChartDataItems.Add(new ChartDataEntry()
+                {
+                    FltValue = (float)cat.Amount,
+                    Label = cat.Name,
+                    ValueLabel = cat.Amount.ToString("C"),
+                    ColorCode = cat.ColorCode
+                });
+            }
+            dataPack.Charts.Add(budgetIncomeGroup);
 
             return dataPack;
         }

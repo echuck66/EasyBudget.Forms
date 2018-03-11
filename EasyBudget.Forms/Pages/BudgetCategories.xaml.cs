@@ -26,7 +26,10 @@ namespace EasyBudget.Forms.Pages
             vm = await ds.GetBudgetCategoriesViewModelAsync();
             vm.SelectedBudgetCategory = null;
 
-            chartCategories.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+            //chartCategories.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+            var provider = new MicrochartsProvider<BudgetCategoriesViewModel>();
+            chartIncome.Chart = await provider.GetChartAsync(vm, 0, true);
+            chartExpenses.Chart = await provider.GetChartAsync(vm, 1, true);
 
             this.BindingContext = vm;
 

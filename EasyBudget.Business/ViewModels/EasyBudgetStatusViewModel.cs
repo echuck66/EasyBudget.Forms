@@ -126,17 +126,19 @@ namespace EasyBudget.Business.ViewModels
             {
                 FltValue = fltIncome,
                 Label = "Budgeted",
-                ValueLabel = fltIncome.ToString("C")
+                ValueLabel = fltIncome.ToString("C"),
+                ColorCode = "#C8E6C9"
             };
             var actualIncomeEntry = new ChartDataEntry()
             {
                 FltValue = fltIncomeActual,
                 Label = "Actual",
-                ValueLabel = fltIncomeActual.ToString("C")
+                ValueLabel = fltIncomeActual.ToString("C"),
+                ColorCode = "#4CAF50"
             };
             budgetIncomeGroup.ChartDataItems.Add(budgetIncomeEntry);
             budgetIncomeGroup.ChartDataItems.Add(actualIncomeEntry);
-            dataPack.Charts.Add(budgetIncomeGroup);
+
             // Expense Group Chart Data
             var budgetExpenseGroup = new ChartDataGroup();
             budgetExpenseGroup.ChartDataItems = new List<ChartDataEntry>();
@@ -155,13 +157,15 @@ namespace EasyBudget.Business.ViewModels
             {
                 FltValue = fltExpenses,
                 Label = "Budgeted",
-                ValueLabel = fltExpenses.ToString("C")
+                ValueLabel = fltExpenses.ToString("C"),
+                ColorCode = "#F48FB1"
             };
             var actualExpenseEntry = new ChartDataEntry()
             {
                 FltValue = fltExpenseActual,
                 Label = "Actual",
-                ValueLabel = fltExpenseActual.ToString("C")
+                ValueLabel = fltExpenseActual.ToString("C"),
+                ColorCode = "#F44336"
             };
             budgetExpenseGroup.ChartDataItems.Add(budgetExpenseEntry);
             budgetExpenseGroup.ChartDataItems.Add(actualExpenseEntry);
