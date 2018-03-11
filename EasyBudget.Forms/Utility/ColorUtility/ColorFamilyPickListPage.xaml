@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="EasyBudget.Forms.Utility.ColorUtility.ColorFamilyPickListPage"
+             xmlns:local="clr-namespace:EasyBudget.Forms.Utility.ColorUtility">
+    <ContentPage.Content>
+        <ListView   SeparatorVisibility="None" 
+                    ItemsSource="{x:Static local:AppColor.PrimaryColors}">
+            <ListView.RowHeight>
+                <OnPlatform x:TypeArguments="x:Int32">
+                    <On Platform="iOS, Android" Value="80" />
+                    <On Platform="UWP" Value="90" />
+                </OnPlatform>
+            </ListView.RowHeight>
+            <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Tapped="PrimaryColorTapped">
+                            <ContentView Padding="5">
+                                <Frame OutlineColor="Accent" Padding="10">
+                                    <StackLayout Orientation="Horizontal">
+                                        <BoxView Color="{Binding Color}"
+                                                 WidthRequest="50"
+                                                 HeightRequest="50" />
+                                        <StackLayout>
+                                            <Label Text="{Binding FriendlyName}"
+                                                   FontSize="22"
+                                                   VerticalOptions="StartAndExpand" />
+                                            <Label Text="{Binding Name, StringFormat='Hex = {0}'}"
+                                                   FontSize="16"
+                                                   VerticalOptions="CenterAndExpand" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </ContentView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

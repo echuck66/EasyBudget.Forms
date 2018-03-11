@@ -28,38 +28,49 @@ namespace EasyBudget.Forms.Utility
         static readonly SKColor[] Colors =
         {
 
-            SKColors.Aquamarine,
-            SKColors.BurlyWood,
-            SKColors.Cyan,
-            SKColors.Olive,
-            SKColors.BlueViolet,
-            SKColors.ForestGreen,
-            SKColors.Goldenrod,
-            SKColors.IndianRed,
-            SKColors.Khaki,
-            SKColor.Parse("#C43DB6"),
-            SKColor.Parse("#A04997"),
-            SKColor.Parse("#ffb200"),
-            SKColor.Parse("#0EF6F9"),
-            SKColor.Parse("#F6FF00"),
-            SKColor.Parse("#FFC000"),
-            SKColor.Parse("#257C19"),
-            SKColor.Parse("#76846E"),
-            SKColor.Parse("#DABFAF"),
-            SKColor.Parse("#A65B69"),
-            SKColor.Parse("#97A69D"),
-            SKColor.Parse("#B6D7EA"),
-            SKColor.Parse("#1E9835"),
-            SKColor.Parse("#3CE5E7"),
-            SKColor.Parse("#44A5A6"),
-            SKColor.Parse("#266489"),
-            SKColor.Parse("#68B9C0"),
-            SKColor.Parse("#90D585"),
-            SKColor.Parse("#F3C151"),
-            SKColor.Parse("#F37F64"),
-            SKColor.Parse("#424856"),
+            SKColor.Parse("#9C27B0"),
+            SKColor.Parse("#E1BEE7"),
+            SKColor.Parse("#673AB7"),
+            SKColor.Parse("#D1C4E9"),
+
+            SKColor.Parse("#2196F3"),
+            SKColor.Parse("#90CAF9"),
+            SKColor.Parse("#009688"),
+            SKColor.Parse("#80CBC4"),
+
+            SKColor.Parse("#4CAF50"),
+            SKColor.Parse("#A5D6A7"),
+            SKColor.Parse("#76FF03"),
+            SKColor.Parse("#CCFF90"),
+
+            SKColor.Parse("#FF9800"),
+            SKColor.Parse("#FFCC80"),
+            SKColor.Parse("#FFC107"),
+            SKColor.Parse("#FFE082"),
+
+            SKColor.Parse("#FFEB3B"),
+            SKColor.Parse("#FFF176"),
+            SKColor.Parse("#FFD600"),
+            SKColor.Parse("#FFFF8D"),
+
+            SKColor.Parse("#795548"),
+            SKColor.Parse("#BCAAA4"),
+            SKColor.Parse("#3E2723"),
+            SKColor.Parse("#795548"),
+
+            // Blacks and Greys
+            SKColor.Parse("#9E9E9E"),
+            SKColor.Parse("#E0E0E0"),
+            SKColor.Parse("#757575"),
+            SKColor.Parse("#000000"),
+            // Reds and Pinks
+            SKColor.Parse("#F44336"),
+            SKColor.Parse("#FFCDD2"),
+            SKColor.Parse("#E91E63"),
+            SKColor.Parse("#F8BBD0"),
 
         };
+        
 
 
 

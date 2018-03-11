@@ -20,10 +20,213 @@
     <Folder Include="Converters\" />
     <Folder Include="Assets\" />
     <Folder Include="Utility\" />
+    <Folder Include="Views\" />
+    <Folder Include="Utility\ColorUtility\" />
+  </ItemGroup>
+    
+  <ItemGroup>
+      <!--<Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
+      <EmbeddedResource Include="**\*.xaml" SubType="Designer" Generator="MSBuild:UpdateDesignTimeXaml" LogicalName="%(Filename)%(Extension)" />-->
+
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
+        <DependentUpon>App.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BankAccounts.xaml.cs">
+        <DependentUpon>Pages\BankAccounts.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BudgetCategories.xaml.cs">
+        <DependentUpon>Pages\BudgetCategories.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BudgetCategoryEdit.xaml.cs">
+        <DependentUpon>Pages\BudgetCategoryEdit.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BudgetCategoryEditTabs.xaml.cs">
+        <DependentUpon>Pages\BudgetCategoryEditTabs.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BudgetCategoryItems.xaml.cs">
+        <DependentUpon>Pages\BudgetCategoryItems.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BudgetCategoryView.xaml.cs">
+        <DependentUpon>Pages\BudgetCategoryView.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BudgetCategoryViewTabs.xaml.cs">
+        <DependentUpon>Pages\BudgetCategoryViewTabs.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BudgetItemEdit.xaml.cs">
+        <DependentUpon>Pages\BudgetItemEdit.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\BudgetItemView.xaml.cs">
+        <DependentUpon>Pages\BudgetItemView.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingAccountEdit.xaml.cs">
+        <DependentUpon>Pages\CheckingAccountEdit.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingAccountEditTabs.xaml.cs">
+        <DependentUpon>Pages\CheckingAccountEditTabs.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingAccountRegister.xaml.cs">
+        <DependentUpon>Pages\CheckingAccountRegister.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingAccountView.xaml.cs">
+        <DependentUpon>Pages\CheckingAccountView.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingAccountViewTabs.xaml.cs">
+        <DependentUpon>Pages\CheckingAccountViewTabs.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingDepositEdit.xaml.cs">
+        <DependentUpon>Pages\CheckingDepositEdit.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingDepositView.xaml.cs">
+        <DependentUpon>Pages\CheckingDepositView.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingWithdrawalEdit.xaml.cs">
+        <DependentUpon>Pages\CheckingWithdrawalEdit.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\CheckingWithdrawalView.xaml.cs">
+        <DependentUpon>Pages\CheckingWithdrawalView.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsAccountEdit.xaml.cs">
+        <DependentUpon>Pages\SavingsAccountEdit.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsAccountEditTabs.xaml.cs">
+        <DependentUpon>Pages\SavingsAccountEditTabs.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsAccountRegister.xaml.cs">
+        <DependentUpon>Pages\SavingsAccountRegister.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsAccountView.xaml.cs">
+        <DependentUpon>Pages\SavingsAccountView.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsAccountViewTabs.xaml.cs">
+        <DependentUpon>Pages\SavingsAccountViewTabs.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsDepositEdit.xaml.cs">
+        <DependentUpon>Pages\SavingsDepositEdit.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsDepositView.xaml.cs">
+        <DependentUpon>Pages\SavingsDepositView.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsWithdrawalEdit.xaml.cs">
+        <DependentUpon>Pages\SavingsWithdrawalEdit.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\SavingsWithdrawalView.xaml.cs">
+        <DependentUpon>Pages\SavingsWithdrawalView.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\StatusPage.xaml.cs">
+        <DependentUpon>Pages\StatusPage.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utility\ColorUtility\ColorFamilyPickListPage.xaml.cs">
+        <DependentUpon>Utility\ColorUtility\ColorFamilyPickListPage.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utility\ColorUtility\ColorPickListPage.xaml.cs">
+        <DependentUpon>Utility\ColorUtility\ColorPickListPage.xaml</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\ColorPickerView.xaml.cs">
+        <DependentUpon>Views\ColorPickerView.xaml</DependentUpon>
+      </Compile>
+  </ItemGroup>
+    
+  <ItemGroup>
+    <EmbeddedResource Remove="Utility\ColorUtility\ColorFamilyPickListPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\StatusPage.xaml.cs">
-      <DependentUpon>StatusPage.xaml</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="Utility\ColorUtility\ColorFamilyPickListPage.xaml">
+        <LogicalName>ColorFamilyPickListPage.xaml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="App.xaml">
+      <LogicalName>App.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BankAccounts.xaml">
+      <LogicalName>BankAccounts.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BudgetCategories.xaml">
+      <LogicalName>BudgetCategories.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BudgetCategoryEdit.xaml">
+      <LogicalName>BudgetCategoryEdit.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BudgetCategoryEditTabs.xaml">
+      <LogicalName>BudgetCategoryEditTabs.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BudgetCategoryItems.xaml">
+      <LogicalName>BudgetCategoryItems.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BudgetCategoryView.xaml">
+      <LogicalName>BudgetCategoryView.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BudgetCategoryViewTabs.xaml">
+      <LogicalName>BudgetCategoryViewTabs.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BudgetItemEdit.xaml">
+      <LogicalName>BudgetItemEdit.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BudgetItemView.xaml">
+      <LogicalName>BudgetItemView.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingAccountEdit.xaml">
+      <LogicalName>CheckingAccountEdit.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingAccountEditTabs.xaml">
+      <LogicalName>CheckingAccountEditTabs.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingAccountRegister.xaml">
+      <LogicalName>CheckingAccountRegister.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingAccountView.xaml">
+      <LogicalName>CheckingAccountView.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingAccountViewTabs.xaml">
+      <LogicalName>CheckingAccountViewTabs.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingDepositEdit.xaml">
+      <LogicalName>CheckingDepositEdit.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingDepositView.xaml">
+      <LogicalName>CheckingDepositView.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingWithdrawalEdit.xaml">
+      <LogicalName>CheckingWithdrawalEdit.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\CheckingWithdrawalView.xaml">
+      <LogicalName>CheckingWithdrawalView.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsAccountEdit.xaml">
+      <LogicalName>SavingsAccountEdit.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsAccountEditTabs.xaml">
+      <LogicalName>SavingsAccountEditTabs.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsAccountRegister.xaml">
+      <LogicalName>SavingsAccountRegister.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsAccountView.xaml">
+      <LogicalName>SavingsAccountView.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsAccountViewTabs.xaml">
+      <LogicalName>SavingsAccountViewTabs.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsDepositEdit.xaml">
+      <LogicalName>SavingsDepositEdit.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsDepositView.xaml">
+      <LogicalName>SavingsDepositView.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsWithdrawalEdit.xaml">
+      <LogicalName>SavingsWithdrawalEdit.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\SavingsWithdrawalView.xaml">
+      <LogicalName>SavingsWithdrawalView.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\StatusPage.xaml">
+      <LogicalName>StatusPage.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Utility\ColorUtility\ColorPickListPage.xaml">
+      <LogicalName>ColorPickListPage.xaml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ColorPickerView.xaml">
+      <LogicalName>ColorPickerView.xaml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
