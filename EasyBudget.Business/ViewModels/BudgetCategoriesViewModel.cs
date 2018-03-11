@@ -19,6 +19,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyBudget.Business.ChartModels;
+using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
 
 namespace EasyBudget.Business.ViewModels
@@ -59,14 +61,6 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public BudgetCategoriesViewModel(string dbFilePath)
-            : base(dbFilePath)
-        {
-            this.BudgetCategories = new ObservableCollection<BudgetCategoryViewModel>();
-            this.BudgetCategoriesGrouped = new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>();
-            this.CurrentMonth = DateTime.Now.Month;
-        }
-
         public decimal TotalBudgetedExpenses
         {
             get
@@ -86,6 +80,14 @@ namespace EasyBudget.Business.ViewModels
         }
 
         public override event PropertyChangedEventHandler PropertyChanged;
+
+        public BudgetCategoriesViewModel(string dbFilePath)
+            : base(dbFilePath)
+        {
+            this.BudgetCategories = new ObservableCollection<BudgetCategoryViewModel>();
+            this.BudgetCategoriesGrouped = new ObservableCollection<Grouping<string, BudgetCategoryViewModel>>();
+            this.CurrentMonth = DateTime.Now.Month;
+        }
 
         internal async Task LoadVMAsync()
         {
@@ -199,6 +201,17 @@ namespace EasyBudget.Business.ViewModels
             {
                 vm.Dispose();
             }
+        }
+
+        public override IChartDataPack GetChartData()
+        {
+            var dataPack = new ChartDataPack();
+
+            // Expense vs Income Category Totals
+            var fltCatExpenseSum = (float)this.BudgetCategories.Where(c => c.CategoryType == BudgetCategoryType.Expense).Sum(c => c.Amount);
+            var fltCatIncomeSum = (float)this.BudgetCategories.Where(c => c.CategoryType == BudgetCategoryType.Income).Sum(c => c.Amount);
+
+            return dataPack;
         }
     }
 

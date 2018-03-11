@@ -23,6 +23,7 @@
                             <OnPlatform x:TypeArguments="x:Double">
                                 <On Platform="iOS" Value="100" />
                                 <On Platform="Android" Value="75" />
+                                <On Platform="UWP" Value="100" />
                             </OnPlatform>
                         </charts:ChartView.HeightRequest>
                     </charts:ChartView>

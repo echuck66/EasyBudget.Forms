@@ -15,6 +15,7 @@
 using System;
 using System.ComponentModel;
 using System.Text;
+using EasyBudget.Business.ChartModels;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -25,8 +26,8 @@ namespace EasyBudget.Business.ViewModels
 
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
+        // Error tracking
         StringBuilder sbErrorBuilder { get; set; }
-
         public string ErrorCondition 
         {
             get
@@ -36,6 +37,15 @@ namespace EasyBudget.Business.ViewModels
         }
 
         // Transitional Properties ****************
+        public IChartDataPack ChartDataPack 
+        {
+            get
+            {
+                return GetChartData();
+            }
+        }
+
+
         bool _IsDirty;
         public bool IsDirty 
         {
@@ -126,6 +136,9 @@ namespace EasyBudget.Business.ViewModels
                 WriteErrorCondition(ex.InnerException);
             }
         }
+
+        public abstract IChartDataPack GetChartData();
+
     }
 
 }

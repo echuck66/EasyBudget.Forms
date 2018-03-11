@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
+using EasyBudget.Business.ChartModels;
+using EasyBudget.Models;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -69,8 +72,6 @@ namespace EasyBudget.Business.ViewModels
 
         }
 
-
-
         public EasyBudgetStatusViewModel(string dbFilePath)
             : base(dbFilePath)
         {
@@ -104,11 +105,80 @@ namespace EasyBudget.Business.ViewModels
                 }
             }
         }
-    
-        //public async Task<ICollection<ChartData>> GetBudgetStatusChartData()
-        //{
-            
-        //}
+
+        public override IChartDataPack GetChartData()
+        {
+            var dataPack = new ChartDataPack();
+            // Income Group Chart Data
+            var budgetIncomeGroup = new ChartDataGroup();
+            budgetIncomeGroup.ChartDisplayType = ChartType.Pie;
+            budgetIncomeGroup.ChartDisplayOrder = 0;
+            // Construct and build the data points
+            // Collect the income values
+            var fltIncome = (float)this.vmCategories.BudgetCategories
+                                          .Where(c => c.CategoryType == BudgetCategoryType.Income)
+                                          .Sum(c => c.Amount);
+            var fltIncomeActual = (float)this.vmAccounts.BankAccounts
+                                                .Sum(bk => bk.AccountRegister
+                                                     .Where(ar => ar.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits)
+                                                     .Sum(d => d.ItemAmount));
+            var budgetIncomeEntry = new ChartDataEntry()
+            {
+                FltValue = fltIncome,
+                Label = "Budgeted",
+                ValueLabel = fltIncome.ToString("C")
+            };
+            var actualIncomeEntry = new ChartDataEntry()
+            {
+                FltValue = fltIncomeActual,
+                Label = "Actual",
+                ValueLabel = fltIncomeActual.ToString("C")
+            };
+            budgetIncomeGroup.ChartDataItems.Add(budgetIncomeEntry);
+            budgetIncomeGroup.ChartDataItems.Add(actualIncomeEntry);
+            dataPack.Charts.Add(budgetIncomeGroup);
+            // Expense Group Chart Data
+            var budgetExpenseGroup = new ChartDataGroup();
+            budgetExpenseGroup.ChartDataItems = new List<ChartDataEntry>();
+            budgetExpenseGroup.ChartDisplayType = ChartType.Pie;
+            budgetExpenseGroup.ChartDisplayOrder = 1;
+            // Construct and build the data points
+            // Collect the expense values
+            var fltExpenses = (float)this.vmCategories.BudgetCategories
+                                            .Where(c => c.CategoryType == Models.BudgetCategoryType.Expense)
+                                            .Sum(c => c.Amount);
+            var fltExpenseActual = (float)this.vmAccounts.BankAccounts
+                                                 .Sum(bk => bk.AccountRegister
+                                                      .Where(ar => ar.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals)
+                                                      .Sum(d => d.ItemAmount));
+            var budgetExpenseEntry = new ChartDataEntry()
+            {
+                FltValue = fltExpenses,
+                Label = "Budgeted",
+                ValueLabel = fltExpenses.ToString("C")
+            };
+            var actualExpenseEntry = new ChartDataEntry()
+            {
+                FltValue = fltExpenseActual,
+                Label = "Actual",
+                ValueLabel = fltExpenseActual.ToString("C")
+            };
+            budgetExpenseGroup.ChartDataItems.Add(budgetExpenseEntry);
+            budgetExpenseGroup.ChartDataItems.Add(actualExpenseEntry);
+
+            dataPack.Charts.Add(budgetIncomeGroup);
+            dataPack.Charts.Add(budgetExpenseGroup);
+
+            //var accountsStatusGroup = new ChartDataGroup();
+            //accountsStatusGroup.ChartDataItems = new List<ChartDataEntry>();
+            //accountsStatusGroup.ChartDisplayType = ChartType.Line;
+            //accountsStatusGroup.ChartDisplayOrder = 1;
+            // Construct and build the data points
+
+            //dataPack.Charts.Add(accountsStatusGroup);
+
+            return dataPack;
+        }
 
     }
 }

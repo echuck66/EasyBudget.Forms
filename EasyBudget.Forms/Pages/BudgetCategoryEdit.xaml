@@ -19,6 +19,8 @@
                     </charts:ChartView>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
+                    <Label Text="Chart Color"></Label>
+                    <Button x:Name="btnPickColor" Clicked="btnPickColor_Clicked" Text="Pick Color"></Button>
                     <Label Text="Name" FontAttributes="Bold"></Label>
                     <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
                     <Label Text="Description" FontAttributes="Bold"></Label>

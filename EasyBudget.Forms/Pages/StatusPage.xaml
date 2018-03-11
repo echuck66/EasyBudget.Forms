@@ -18,14 +18,26 @@
                     <Label Text="Budget Status" HorizontalOptions="FillAndExpand"></Label>
                 </StackLayout>
                 <StackLayout>
-                    <charts:ChartView x:Name="chartStatus" Opacity="0.75" HorizontalOptions="FillAndExpand">
-                        <charts:ChartView.HeightRequest>
-                                <OnPlatform x:TypeArguments="x:Double">
-                                    <On Platform="iOS" Value="200" />
-                                    <On Platform="Android" Value="100" />
+                    <StackLayout Orientation="Horizontal">
+                        <charts:ChartView x:Name="chartIncome" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                            <charts:ChartView.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS" Value="200" />
+                                        <On Platform="Android" Value="100" />
+                                        <On Platform="UWP" Value="200" />
                                 </OnPlatform>
-                            </charts:ChartView.HeightRequest>
-                    </charts:ChartView>
+                                </charts:ChartView.HeightRequest>
+                        </charts:ChartView>
+                        <charts:ChartView x:Name="chartExpenses" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                            <charts:ChartView.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS" Value="200" />
+                                        <On Platform="Android" Value="100" />
+                                        <On Platform="UWP" Value="200" />
+                                </OnPlatform>
+                                </charts:ChartView.HeightRequest>
+                        </charts:ChartView>
+                    </StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label HorizontalOptions="CenterAndExpand" Text="Income"></Label>
                         <Label HorizontalOptions="CenterAndExpand" Text="Expenses"></Label>

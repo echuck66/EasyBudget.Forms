@@ -19,6 +19,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyBudget.Business.ChartModels;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
 
@@ -446,6 +447,11 @@ namespace EasyBudget.Business.ViewModels
             {
                 item.ItemUpdated -= OnItemUpdate;
             }
+        }
+
+        public override IChartDataPack GetChartData()
+        {
+            throw new NotImplementedException();
         }
     }
 

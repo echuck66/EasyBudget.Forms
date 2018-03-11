@@ -40,6 +40,10 @@ namespace EasyBudget.Forms.Pages
             
         }
 
-
+        protected async void btnPickColor_Clicked(object sender, EventArgs e)
+        {
+            var pkr = new Utility.ColorUtility.ColorFamilyPickListPage();
+            await Navigation.PushModalAsync(pkr);
+        }
     }
 }
