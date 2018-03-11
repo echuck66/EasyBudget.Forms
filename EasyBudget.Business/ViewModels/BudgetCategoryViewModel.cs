@@ -30,6 +30,7 @@ namespace EasyBudget.Business.ViewModels
     {
         BudgetCategory model { get; set; }
 
+
         public int CategoryId 
         {
             get
@@ -51,6 +52,23 @@ namespace EasyBudget.Business.ViewModels
                     model.categoryName = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+                }
+            }
+        }
+
+        public string ColorCode
+        {
+            get
+            {
+                return model.ColorCode;
+            }
+            set
+            {
+                if (model.ColorCode != value)
+                {
+                    model.ColorCode = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorCode)));
                 }
             }
         }

@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Globalization;
-using System.Reflection;
 using Xamarin.Forms;
 
-namespace EasyBudget.Forms
+namespace EasyBudget.Forms.Converters
 {
-    public class CurrencyConverter : IValueConverter
+    public class ColorConverter : IValueConverter
     {
-        public CurrencyConverter()
+        public ColorConverter()
         {
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            string colorcode = (string)value;
+            if (string.IsNullOrEmpty(colorcode))
+                colorcode = "#ffffff";
+
+            return Color.FromHex(colorcode);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="EasyBudget.Forms.Utility.ColorUtility.ColorPickListPage">
+             x:Class="EasyBudget.Forms.Utility.ColorUtility.ColorPickListPage" Title="Colors">
     <ContentPage.Content>
         <ListView   SeparatorVisibility="None" ItemsSource="{Binding AccentColors}">
             <ListView.RowHeight>
@@ -12,7 +12,7 @@
             </ListView.RowHeight>
             <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell Tapped="PrimaryColorTapped">
+                        <ViewCell Tapped="AccentColorTapped">
                             <ContentView Padding="5">
                                 <Frame OutlineColor="Accent" Padding="10">
                                     <StackLayout Orientation="Horizontal">

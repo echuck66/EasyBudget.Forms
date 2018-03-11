@@ -2,8 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="EasyBudget.Forms.Pages.BudgetCategoryView" Title="Category" 
-             xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" >
+             xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters" >
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cvt:ColorConverter x:Key="colorCvt"/> 
+            <cvt:ColorCodeConverter x:Key="codeCvt"/>
+            <cvt:ColorNameConverter x:Key="nameCvt"/>>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="10,40,10,10" />
@@ -31,6 +40,27 @@
                     </charts:ChartView>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
+                    <StackLayout>
+                        <Label Text="Chart Color"></Label>
+                        <ContentView>
+                            <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
+                                <StackLayout Orientation="Horizontal">
+                                    <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
+                                             WidthRequest="50"
+                                             HeightRequest="50">
+                                    </BoxView>
+                                    <StackLayout>
+                                        <Label Text="{Binding ColorCode, Converter={StaticResource nameCvt}}"
+                                               FontSize="22"
+                                               VerticalOptions="StartAndExpand" />
+                                        <Label Text="{Binding ColorCode, Converter={StaticResource codeCvt}, StringFormat='Hex = {0}'}"
+                                               FontSize="16"
+                                               VerticalOptions="CenterAndExpand" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </ContentView>
+                    </StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                         <Label Text="{Binding Name}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
@@ -49,8 +79,9 @@
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="btnBudgetItems" Text="Items" HorizontalOptions="FillAndExpand" Clicked="btnBudgetItems_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
                     <Button x:Name="btnNewBudgetItem" Text="Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
-                    <Button x:Name="Back" Text="Close" Clicked="OnBackClicked" HorizontalOptions="FillAndExpand"></Button>
+                    <!--<Button x:Name="Back" Text="Close" Clicked="OnBackClicked" HorizontalOptions="FillAndExpand"></Button>-->
                 </StackLayout>
             </StackLayout>
         </ScrollView>

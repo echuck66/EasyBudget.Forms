@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -487,6 +488,41 @@ namespace EasyBudget.Forms.Utility.ColorUtility
                 new AppColor(Color.FromHex("#ffffff"), "White", "#ffffff"),
             };
             return _colors;
+        }
+
+        public static AppColor FindAppColor(string colorCode)
+        {
+            AppColor _color = GetAllColors().Any(c => c.Name == colorCode) ? 
+                                            GetAllColors().FirstOrDefault(c => c.Name == colorCode) : 
+                                            null;
+
+            return _color;
+        }
+
+        public static IList<AppColor> GetAllColors()
+        {
+            List<AppColor> _allColors = new List<AppColor>();
+            _allColors.AddRange(GetRedColors());
+            _allColors.AddRange(GetBlueColors());
+            _allColors.AddRange(GetCyanColors());
+            _allColors.AddRange(GetGreyColors());
+            _allColors.AddRange(GetLimeColors());
+            _allColors.AddRange(GetPinkColors());
+            _allColors.AddRange(GetTealColors());
+            _allColors.AddRange(GetAmberColors());
+            _allColors.AddRange(GetBrownColors());
+            _allColors.AddRange(GetGreenColors());
+            _allColors.AddRange(GetIndigoColors());
+            _allColors.AddRange(GetOrangeColors());
+            _allColors.AddRange(GetPurpleColors());
+            _allColors.AddRange(GetYellowColors());
+            _allColors.AddRange(GetBlueGreyColors());
+            _allColors.AddRange(GetLightBlueColors());
+            _allColors.AddRange(GetBlackWhiteColors());
+            _allColors.AddRange(GetDeepOrangeColors());
+            _allColors.AddRange(GetDeepPurpleColors());
+            _allColors.AddRange(GetLightGreenColors());
+            return _allColors;
         }
     }
 

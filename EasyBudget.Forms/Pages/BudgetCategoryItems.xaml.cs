@@ -10,15 +10,23 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class BudgetCategoryItems : ContentPage
     {
+        BudgetCategoryViewModel vm;
+
         public BudgetCategoryItems()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
+            //NavigationPage.SetHasNavigationBar(this, false);
         }
 
-        protected void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+            vm = this.BindingContext as BudgetCategoryViewModel;
+		}
+
+		protected void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            (this.BindingContext as BudgetCategoryViewModel).SelectedBudgetItem = e.SelectedItem as BudgetItemViewModel;
+            vm.SelectedBudgetItem = e.SelectedItem as BudgetItemViewModel;
         }
 
         protected async void OnItemEdit(object sender, EventArgs e)
@@ -26,7 +34,7 @@ namespace EasyBudget.Forms.Pages
             var btn = sender as MenuItem;
             BudgetItemEdit editor = new BudgetItemEdit();
             editor.BindingContext = btn.BindingContext;
-            await Navigation.PushModalAsync(editor);
+            await Navigation.PushAsync(editor);
         }
 
         protected async void OnItemDelete(object sender, EventArgs e)
@@ -52,10 +60,20 @@ namespace EasyBudget.Forms.Pages
         protected async void OnNewItemClicked(object sender, EventArgs e)
         {
             BudgetItemEdit editor = new BudgetItemEdit();
-            BudgetItemViewModel newItem = await (this.BindingContext as BudgetCategoryViewModel).AddBudgetItemAsync();
-            editor.BindingContext = newItem;
-            await Navigation.PushModalAsync(editor);
+            BudgetItemViewModel newItem = await vm.AddBudgetItemAsync();
+            editor.BindingContext = vm.SelectedBudgetItem;
+            await Navigation.PushAsync(editor);
         }
 
+        protected async void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var budgetItemViewModel = e.Item as BudgetItemViewModel;
+            //BudgetCategoryViewTabs viewer = new BudgetCategoryViewTabs();
+            //viewer.BindingContext = categoryViewModel;
+            //await Navigation.PushModalAsync(viewer);
+            BudgetItemView viewer = new BudgetItemView();
+            viewer.BindingContext = budgetItemViewModel;
+            await Navigation.PushAsync(viewer);
+        }
     }
 }

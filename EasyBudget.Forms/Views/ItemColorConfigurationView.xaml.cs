@@ -4,9 +4,9 @@ using Xamarin.Forms;
 
 namespace EasyBudget.Forms.Views
 {
-    public partial class ColorPickerView : ContentView
+    public partial class ItemColorConfigurationView : ContentView
     {
-        public ColorPickerView()
+        public ItemColorConfigurationView()
         {
             InitializeComponent();
         }

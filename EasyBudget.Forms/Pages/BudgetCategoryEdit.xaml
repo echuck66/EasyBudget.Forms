@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                x:Class="EasyBudget.Forms.Pages.BudgetCategoryEdit" Title="Category"
-                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
+                x:Class="EasyBudget.Forms.Pages.BudgetCategoryEdit" Title="Edit Category"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cvt:ColorConverter x:Key="colorCvt"/> 
+            <cvt:ColorCodeConverter x:Key="codeCvt"/>
+            <cvt:ColorNameConverter x:Key="nameCvt"/>>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="10,40,10,10" />
@@ -12,30 +21,52 @@
     </ContentPage.Padding>  
 
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Spacing="10">
-                <StackLayout>
-                    <charts:ChartView x:Name="chartCategory" HeightRequest="150" WidthRequest="150" Opacity="0.75" HorizontalOptions="EndAndExpand">
-                    </charts:ChartView>
-                </StackLayout>
-                <StackLayout VerticalOptions="FillAndExpand">
-                    <Label Text="Chart Color"></Label>
-                    <Button x:Name="btnPickColor" Clicked="btnPickColor_Clicked" Text="Pick Color"></Button>
-                    <Label Text="Name" FontAttributes="Bold"></Label>
-                    <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
-                    <Label Text="Description" FontAttributes="Bold"></Label>
-                    <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
-                    <Label Text="Type" FontAttributes="Bold"></Label>
-                    <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}" IsEnabled="{Binding IsNew}"></Picker>
-                    <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                    <Label Text="{Binding Amount, StringFormat='{0:C}'}"></Label>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+            <StackLayout Spacing="10" VerticalOptions="FillAndExpand">
+
+                    <StackLayout HeightRequest="150">
+                        <charts:ChartView x:Name="chartCategory" HeightRequest="150" WidthRequest="150" Opacity="0.75" HorizontalOptions="EndAndExpand">
+                        </charts:ChartView>
+                    </StackLayout>
+                    <StackLayout VerticalOptions="FillAndExpand">
+                        <StackLayout>
+                            <Label Text="Chart Color"></Label>
+                            <ContentView>
+                                <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
+                                    <StackLayout Orientation="Horizontal">
+                                        <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
+                                                 WidthRequest="50"
+                                                 HeightRequest="50">
+                                            <BoxView.GestureRecognizers>
+                                                <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnItemColorTapped"></TapGestureRecognizer>
+                                            </BoxView.GestureRecognizers>
+                                        </BoxView>
+                                        <StackLayout>
+                                            <Label Text="{Binding ColorCode, Converter={StaticResource nameCvt}}"
+                                                   FontSize="22"
+                                                   VerticalOptions="StartAndExpand" />
+                                            <Label Text="{Binding ColorCode, Converter={StaticResource codeCvt}, StringFormat='Hex = {0}'}"
+                                                   FontSize="16"
+                                                   VerticalOptions="CenterAndExpand" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </ContentView>
+                        </StackLayout>
+                        <Label Text="Name" FontAttributes="Bold"></Label>
+                        <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
+                        <Label Text="Description" FontAttributes="Bold"></Label>
+                        <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
+                        <Label Text="Type" FontAttributes="Bold"></Label>
+                        <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}" IsEnabled="{Binding IsNew}"></Picker>
+                        <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
+                        <Label Text="{Binding Amount, StringFormat='{0:C}'}"></Label>
+                    </StackLayout>
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand">
                     <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" HorizontalOptions="FillAndExpand"></Button>
                     <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
-
             </StackLayout>
-        </ScrollView>
+
 	</ContentPage.Content>
 </ContentPage>

@@ -121,9 +121,6 @@
       <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Utility\ColorUtility\ColorPickListPage.xaml.cs">
         <DependentUpon>Utility\ColorUtility\ColorPickListPage.xaml</DependentUpon>
       </Compile>
-      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\ColorPickerView.xaml.cs">
-        <DependentUpon>Views\ColorPickerView.xaml</DependentUpon>
-      </Compile>
   </ItemGroup>
     
   <ItemGroup>
@@ -224,9 +221,6 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Utility\ColorUtility\ColorPickListPage.xaml">
       <LogicalName>ColorPickListPage.xaml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\ColorPickerView.xaml">
-      <LogicalName>ColorPickerView.xaml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

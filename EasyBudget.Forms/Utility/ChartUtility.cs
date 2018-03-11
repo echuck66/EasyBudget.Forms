@@ -368,11 +368,11 @@ namespace EasyBudget.Forms.Utility
 
         async Task<Entry[]> GetCategoryEntriesAsync(BudgetCategoryViewModel vm, bool fullSize)
         {
-            var context = vm.BudgetItems;
+            var context = vm;
 
             List<Entry> entries = new List<Entry>();
 
-            foreach (var itm in context)
+            foreach (var itm in context.BudgetItems)
             {
                 if (fullSize)
                 {
@@ -394,11 +394,11 @@ namespace EasyBudget.Forms.Utility
 
         async Task<Entry[]> GetCategoryEntriesAsync(BudgetCategoryViewModel vm, CategoryChartType chartType, bool fullSize)
         {
-            var context = vm.BudgetItems;
+            var context = vm;
 
             List<Entry> entries = new List<Entry>();
 
-            foreach (var itm in context)
+            foreach (var itm in context.BudgetItems)
             {
                 if (fullSize)
                 {
