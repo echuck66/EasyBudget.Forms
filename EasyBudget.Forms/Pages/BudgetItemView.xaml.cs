@@ -10,14 +10,14 @@ namespace EasyBudget.Forms.Pages
     public partial class BudgetItemView : ContentPage
     {
 
-        public BudgetItemView(int itemId, BudgetItemType itemType)
+        public BudgetItemView()
         {
             InitializeComponent();
         }
 
         public async void OnBackClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
     }
 }

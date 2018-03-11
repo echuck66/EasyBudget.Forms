@@ -24,13 +24,16 @@ namespace EasyBudget.Forms.Pages
             base.OnAppearing();
 
             vm = (this.BindingContext as BudgetCategoryViewModel);
-            this.chartBudget.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+            //this.chartBudget.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+
+            var provider = new MicrochartsProvider<BudgetCategoryViewModel>();
+            chartCategory.Chart = await provider.GetChartAsync(vm, 0, true);
         }
 
-        public async void OnBackClicked(object sender, EventArgs e)
-        {
-            await Navigation.PopModalAsync();
-        }
+        //public async void OnBackClicked(object sender, EventArgs e)
+        //{
+        //    await Navigation.PopModalAsync();
+        //}
 
 
         public async void btnNewBudgetItem_Clicked(object sender, EventArgs eventArgs)
@@ -43,9 +46,16 @@ namespace EasyBudget.Forms.Pages
             BudgetItemEdit editor = new BudgetItemEdit();
             BudgetItemViewModel newItem = await vm.AddBudgetItemAsync();
             editor.BindingContext = newItem;
-            await Navigation.PushModalAsync(editor);
+            await Navigation.PushAsync(editor);
+            //await Navigation.PushModalAsync(editor);
         }
 
+        public async void btnBudgetItems_Clicked(object sender, EventArgs e)
+        {
+            BudgetCategoryItems itemsView = new BudgetCategoryItems();
+            itemsView.BindingContext = vm;
+            await Navigation.PushAsync(itemsView);
+        }
 
     }
 }

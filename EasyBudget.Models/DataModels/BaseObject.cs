@@ -27,12 +27,7 @@ namespace EasyBudget.Models.DataModels
 
         public DateTime dateModified { get; set; }
 
-        //public bool CanEdit { get; set; }
-
-        //public bool CanDelete { get; set; }
-
-        //[SQLite.Ignore]
-        //public bool IsNew { get; set; }
+        public string ColorCode { get; set; }
 
         public BaseObject()
         {

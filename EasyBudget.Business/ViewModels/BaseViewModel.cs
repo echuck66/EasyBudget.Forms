@@ -24,6 +24,7 @@ namespace EasyBudget.Business.ViewModels
     {
         internal string dbFilePath;
 
+
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
         // Error tracking

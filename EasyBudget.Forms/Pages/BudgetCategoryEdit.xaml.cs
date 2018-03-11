@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using EasyBudget.Business;
 using EasyBudget.Business.ViewModels;
+using EasyBudget.Forms.Converters;
 using EasyBudget.Forms.Utility;
+using EasyBudget.Forms.Utility.ColorUtility;
 using Microcharts;
 using Xamarin.Forms;
 
@@ -10,6 +12,8 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class BudgetCategoryEdit : ContentPage
     {
+        BudgetCategoryViewModel vm;
+
         public BudgetCategoryEdit()
         {
             InitializeComponent();
@@ -19,20 +23,22 @@ namespace EasyBudget.Forms.Pages
         {
             base.OnAppearing();
 
-            var vm = (this.BindingContext as BudgetCategoryViewModel);
-            chartCategory.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+            vm = this.BindingContext as BudgetCategoryViewModel;
+            //chartCategory.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+            var provider = new MicrochartsProvider<BudgetCategoryViewModel>();
+            chartCategory.Chart = await provider.GetChartAsync(vm, 0, true);
 
         }
 
         protected async void OnSaveClicked(object sender, EventArgs e)
         {
             await (this.BindingContext as BudgetCategoryViewModel).SaveChangesAsync();
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         protected async void OnCancelClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         protected  void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
@@ -43,7 +49,24 @@ namespace EasyBudget.Forms.Pages
         protected async void btnPickColor_Clicked(object sender, EventArgs e)
         {
             var pkr = new Utility.ColorUtility.ColorFamilyPickListPage();
-            await Navigation.PushModalAsync(pkr);
+            await Navigation.PushAsync(pkr);
+        }
+
+        protected async void OnItemColorTapped(object sender, TappedEventArgs e)
+        {
+            var pkr = new Utility.ColorUtility.ColorFamilyPickListPage();
+            pkr.OnItemColorSelected += CategoryItemColorSelected;
+
+            await Navigation.PushAsync(pkr);
+        }
+
+        protected async void CategoryItemColorSelected(object sender, ItemColorSelectedEventArgs e)
+        {
+            (sender as ColorFamilyPickListPage).OnItemColorSelected -= CategoryItemColorSelected;
+            //await Navigation.PopAsync();
+
+            vm.ColorCode = e.colorCode;
+            await vm.SaveChangesAsync();
         }
     }
 }

@@ -80,8 +80,7 @@ namespace EasyBudget.Forms.Utility
             }
             foreach (var item in _selectedGroup.ChartDataItems)
             {
-                // For now, we'll use a random color
-                SKColor color = ChartUtility.Instance.GetColor();
+                SKColor color = !string.IsNullOrEmpty(item.ColorCode) ? SKColor.Parse(item.ColorCode) : ChartUtility.Instance.GetColor();
                 if (fullSize)
                 {
                     await Task.Run(() => entries.Add(EntryUtility.GetEntry(item.FltValue, color, item.Label, item.ValueLabel)));

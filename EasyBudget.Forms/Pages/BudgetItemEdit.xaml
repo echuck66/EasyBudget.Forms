@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                x:Class="EasyBudget.Forms.Pages.BudgetItemEdit">
+                x:Class="EasyBudget.Forms.Pages.BudgetItemEdit" Title="Edit Budget Item"
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cvt:ColorConverter x:Key="colorCvt"/> 
+            <cvt:ColorCodeConverter x:Key="codeCvt"/>
+            <cvt:ColorNameConverter x:Key="nameCvt"/>>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -13,7 +23,49 @@
 	<ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
+                <StackLayout>
+                    <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand"></Label>
+                </StackLayout>
+                <StackLayout>
+                    <StackLayout.BackgroundColor>
+                    </StackLayout.BackgroundColor>
+                    <charts:ChartView x:Name="chartParentBudget" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                        <charts:ChartView.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS" Value="150" />
+                                <On Platform="Android" Value="150" />
+                                <On Platform="UWP" Value="150" />
+                            </OnPlatform>
+                        </charts:ChartView.HeightRequest>
+                    </charts:ChartView>
+                </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
+
+                    <StackLayout>
+                        <Label Text="Chart Color"></Label>
+                        <ContentView>
+                            <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
+                                <StackLayout Orientation="Horizontal">
+                                    <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
+                                             WidthRequest="50"
+                                             HeightRequest="50">
+                                        <BoxView.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnItemColorTapped"></TapGestureRecognizer>
+                                        </BoxView.GestureRecognizers>
+                                    </BoxView>
+                                    <StackLayout>
+                                        <Label Text="{Binding ColorCode, Converter={StaticResource nameCvt}}"
+                                               FontSize="22"
+                                               VerticalOptions="StartAndExpand" />
+                                        <Label Text="{Binding ColorCode, Converter={StaticResource codeCvt}, StringFormat='Hex = {0}'}"
+                                               FontSize="16"
+                                               VerticalOptions="CenterAndExpand" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </ContentView>
+                    </StackLayout>
+                    
                     <Label Text="Category" FontAttributes="Bold"></Label>
                     <Label Text="{Binding CategoryName}"></Label>
                     <Label Text="Description" FontAttributes="Bold"></Label>

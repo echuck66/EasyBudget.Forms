@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                x:Class="EasyBudget.Forms.Pages.BudgetCategoryItems">
+                x:Class="EasyBudget.Forms.Pages.BudgetCategoryItems" Title="Budget Items"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
 
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cvt:ColorConverter x:Key="colorCvt"/> 
+            <cvt:ColorCodeConverter x:Key="codeCvt"/>
+            <cvt:ColorNameConverter x:Key="nameCvt"/>>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS" Value="10,40,0,0" />
@@ -14,15 +24,32 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
-                <ListView ItemsSource="{Binding BudgetItems}" ItemSelected="OnItemSelected">
+                <ListView ItemsSource="{Binding BudgetItems}" ItemSelected="OnItemSelected" ItemTapped="OnItemTapped">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextCell Text="{Binding ItemDescription}" Detail="{Binding BudgetedAmount, StringFormat='{0:C}'}">
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                    <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                                </ViewCell.ContextActions>
+                                    <ContentView Padding="1">
+                                        <StackLayout Orientation="Horizontal">
+                                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                                     WidthRequest="25"
+                                                     HeightRequest="25" VerticalOptions="Center" />
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                                <Label Text="{Binding ItemDescription}" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" VerticalOptions="CenterAndExpand"/>
+                                                <Label Text="{Binding BudgetedAmount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="CenterAndExpand" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </ContentView>
+                                </ViewCell>
+                            <!--<TextCell Text="{Binding ItemDescription}" Detail="{Binding BudgetedAmount, StringFormat='{0:C}'}">
                                 <TextCell.ContextActions>
                                     <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                                     <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
                                  </TextCell.ContextActions>
-                            </TextCell>
+                            </TextCell>-->
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

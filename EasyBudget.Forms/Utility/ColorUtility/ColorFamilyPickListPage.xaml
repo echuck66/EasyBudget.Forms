@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="EasyBudget.Forms.Utility.ColorUtility.ColorFamilyPickListPage"
-             xmlns:local="clr-namespace:EasyBudget.Forms.Utility.ColorUtility">
+             xmlns:local="clr-namespace:EasyBudget.Forms.Utility.ColorUtility" Title="Color Families">
     <ContentPage.Content>
         <ListView   SeparatorVisibility="None" 
                     ItemsSource="{x:Static local:AppColor.PrimaryColors}">

@@ -26,7 +26,10 @@ namespace EasyBudget.Forms.Pages
             vm = await ds.GetBudgetCategoriesViewModelAsync();
             vm.SelectedBudgetCategory = null;
 
-            chartCategories.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+            //chartCategories.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+            var provider = new MicrochartsProvider<BudgetCategoriesViewModel>();
+            chartIncome.Chart = await provider.GetChartAsync(vm, 0, true);
+            chartExpenses.Chart = await provider.GetChartAsync(vm, 1, true);
 
             this.BindingContext = vm;
 
@@ -49,9 +52,10 @@ namespace EasyBudget.Forms.Pages
         protected async void OnItemEdit(object sender, EventArgs e)
         {
             var btn = sender as MenuItem;
-            BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
-            editor.BindingContext = btn.BindingContext; 
-            await Navigation.PushModalAsync(editor);
+            BudgetCategoryEdit editor = new BudgetCategoryEdit();
+            editor.BindingContext = btn.BindingContext;
+            //await Navigation.PushModalAsync(editor);
+            await Navigation.PushAsync(editor);
         }
 
         protected async void OnItemDelete(object sender, EventArgs e)
@@ -77,17 +81,23 @@ namespace EasyBudget.Forms.Pages
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var categoryViewModel = e.Item as BudgetCategoryViewModel;
-            BudgetCategoryViewTabs viewer = new BudgetCategoryViewTabs();
+            //BudgetCategoryViewTabs viewer = new BudgetCategoryViewTabs();
+            //viewer.BindingContext = categoryViewModel;
+            //await Navigation.PushModalAsync(viewer);
+            BudgetCategoryView viewer = new BudgetCategoryView();
             viewer.BindingContext = categoryViewModel;
-            await Navigation.PushModalAsync(viewer);
+            await Navigation.PushAsync(viewer);
         }
 
         protected async void OnNewItemClicked(object sender, EventArgs e)
         {
             await vm.AddNewBudgetCategoryAsync();
-            BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
+            //BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
+            //editor.BindingContext = vm.SelectedBudgetCategory;
+            //await Navigation.PushModalAsync(editor);
+            BudgetCategoryEdit editor = new BudgetCategoryEdit();
             editor.BindingContext = vm.SelectedBudgetCategory;
-            await Navigation.PushModalAsync(editor);
+            await Navigation.PushAsync(editor);
         }
 
     }
