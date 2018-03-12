@@ -21,7 +21,7 @@
     </ContentPage.Padding>  
 
     <ContentPage.Content>
-        <ScrollView>
+
             <StackLayout Spacing="10">
                 <StackLayout Orientation="Horizontal">
                     <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
@@ -40,9 +40,9 @@
                     <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                         <Frame.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                    <On Platform="iOS" Value="150" />
-                                    <On Platform="Android" Value="150" />
-                                    <On Platform="UWP" Value="150" />
+                                    <On Platform="iOS" Value="100" />
+                                    <On Platform="Android" Value="100" />
+                                    <On Platform="UWP" Value="100" />
                                 </OnPlatform>
                         </Frame.HeightRequest>
                         <charts:ChartView x:Name="chartCategory" Opacity="0.75" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
@@ -70,12 +70,35 @@
                             </StackLayout>
                         </StackLayout>
                     </Frame>
+                    <ListView ItemsSource="{Binding BudgetItems}" ItemSelected="OnItemSelected" ItemTapped="OnItemTapped">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                        <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                                    </ViewCell.ContextActions>
+                                        <ContentView Padding="1">
+                                            <StackLayout Orientation="Horizontal">
+                                                <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                                         WidthRequest="25"
+                                                         HeightRequest="25" VerticalOptions="Center" />
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                                    <Label Text="{Binding ItemDescription}" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start" VerticalOptions="CenterAndExpand"/>
+                                                    <Label Text="{Binding BudgetedAmount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="CenterAndExpand" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </ContentView>
+                                    </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                   
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                    <Button x:Name="btnBudgetItems" Text="Items" HorizontalOptions="FillAndExpand" Clicked="btnBudgetItems_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
-                    <Button x:Name="btnNewBudgetItem" Text="Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
+                    <Button x:Name="btnNewBudgetItem" Text="New Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
                 </StackLayout>
             </StackLayout>
-        </ScrollView>
+
     </ContentPage.Content>
 </ContentPage>

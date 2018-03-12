@@ -23,12 +23,20 @@
 	<ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
-                <StackLayout>
-                    <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand"></Label>
+                <StackLayout Orientation="Horizontal">
+                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                     WidthRequest="25"
+                                     HeightRequest="25">
+                            </BoxView>
+                            <StackLayout>
+                                <Label Text="{Binding Name}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
                 </StackLayout>
                 <StackLayout>
-                    <StackLayout.BackgroundColor>
-                    </StackLayout.BackgroundColor>
                     <charts:ChartView x:Name="chartParentBudget" Opacity="0.75" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">

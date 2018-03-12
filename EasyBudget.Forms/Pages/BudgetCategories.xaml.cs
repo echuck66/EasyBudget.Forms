@@ -28,8 +28,8 @@ namespace EasyBudget.Forms.Pages
 
             //chartCategories.Chart = await ChartUtility.Instance.GetChartAsync(vm);
             var provider = new MicrochartsProvider<BudgetCategoriesViewModel>();
-            chartIncome.Chart = await provider.GetChartAsync(vm, 0, true);
-            chartExpenses.Chart = await provider.GetChartAsync(vm, 1, true);
+            chartIncome.Chart = await provider.GetChartAsync(vm, 0, false);
+            chartExpenses.Chart = await provider.GetChartAsync(vm, 1, false);
 
             this.BindingContext = vm;
 
@@ -89,16 +89,20 @@ namespace EasyBudget.Forms.Pages
             await Navigation.PushAsync(viewer);
         }
 
-        protected async void OnNewItemClicked(object sender, EventArgs e)
+        //protected async void OnNewItemClicked(object sender, EventArgs e)
+        //{
+        //    await vm.AddNewBudgetCategoryAsync();
+        //    BudgetCategoryEdit editor = new BudgetCategoryEdit();
+        //    editor.BindingContext = vm.SelectedBudgetCategory;
+        //    await Navigation.PushAsync(editor);
+        //}
+
+        protected async void btnNewCategory_Clicked(object sender, EventArgs e)
         {
             await vm.AddNewBudgetCategoryAsync();
-            //BudgetCategoryEditTabs editor = new BudgetCategoryEditTabs();
-            //editor.BindingContext = vm.SelectedBudgetCategory;
-            //await Navigation.PushModalAsync(editor);
             BudgetCategoryEdit editor = new BudgetCategoryEdit();
             editor.BindingContext = vm.SelectedBudgetCategory;
             await Navigation.PushAsync(editor);
         }
-
     }
 }
