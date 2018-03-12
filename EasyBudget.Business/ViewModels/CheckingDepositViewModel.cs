@@ -228,6 +228,7 @@ namespace EasyBudget.Business.ViewModels
             this.ItemDescription = model.description;
             this.Description = this.model.description;
             this.TransactionDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
+            this.ItemDate = this.TransactionDate;
             this.TransactionAmount = model.transactionAmount;
 
             this.BudgetItemId = model.budgetIncomeId;

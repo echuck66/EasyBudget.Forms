@@ -277,6 +277,7 @@ namespace EasyBudget.Business.ViewModels
             this.ItemDescription = model.payToTheOrderOf;
             this.PayToTheOrderOf = this.model.payToTheOrderOf;
             this.TransactionDate = model.transactionDate > DateTime.MinValue ? model.transactionDate : DateTime.Now;
+            this.ItemDate = this.TransactionDate;
             this.TransactionAmount = model.transactionAmount;
 
             this.BudgetItemId = model.budgetExpenseId;

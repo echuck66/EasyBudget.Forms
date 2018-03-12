@@ -221,6 +221,7 @@ namespace EasyBudget.Business.ViewModels
             this.ItemDescription = model.description;
             this.Description = this.model.description;
             this.TransactionDate = model.transactionDate;
+            this.ItemDate = model.transactionDate;
             this.TransactionAmount = model.transactionAmount;
 
             this.BudgetItemId = model.budgetIncomeId;

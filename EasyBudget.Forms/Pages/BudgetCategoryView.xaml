@@ -23,8 +23,18 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
-                <StackLayout>
-                    <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand"></Label>
+                <StackLayout Orientation="Horizontal">
+                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                     WidthRequest="25"
+                                     HeightRequest="25">
+                            </BoxView>
+                            <StackLayout>
+                                <Label Text="{Binding Name}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
                 </StackLayout>
                 <StackLayout>
                     <StackLayout.BackgroundColor>
@@ -40,7 +50,7 @@
                     </charts:ChartView>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
-                    <StackLayout>
+                    <!--<StackLayout>
                         <Label Text="Chart Color"></Label>
                         <ContentView>
                             <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
@@ -60,7 +70,7 @@
                                 </StackLayout>
                             </Frame>
                         </ContentView>
-                    </StackLayout>
+                    </StackLayout>-->
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                         <Label Text="{Binding Name}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
