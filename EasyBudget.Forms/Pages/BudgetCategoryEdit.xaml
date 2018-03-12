@@ -21,12 +21,37 @@
     </ContentPage.Padding>  
 
     <ContentPage.Content>
-            <StackLayout Spacing="10" VerticalOptions="FillAndExpand">
-
-                    <StackLayout HeightRequest="150">
-                        <charts:ChartView x:Name="chartCategory" HeightRequest="150" WidthRequest="150" Opacity="0.75" HorizontalOptions="EndAndExpand">
-                        </charts:ChartView>
+        <ScrollView>
+        <StackLayout Spacing="10" VerticalOptions="FillAndExpand">
+            <StackLayout Orientation="Horizontal">
+                <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                 WidthRequest="25"
+                                 HeightRequest="25">
+                            <BoxView.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnItemColorTapped"></TapGestureRecognizer>
+                            </BoxView.GestureRecognizers>
+                        </BoxView>
+                        <StackLayout>
+                            <Label Text="{Binding Name}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                        </StackLayout>
                     </StackLayout>
+                </Frame>
+            </StackLayout>
+            <StackLayout>
+                <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                    <Frame.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS" Value="150" />
+                                <On Platform="Android" Value="150" />
+                                <On Platform="UWP" Value="150" />
+                            </OnPlatform>
+                    </Frame.HeightRequest>
+                    <charts:ChartView x:Name="chartCategory" HeightRequest="150" WidthRequest="150" Opacity="0.75" HorizontalOptions="EndAndExpand">
+                    </charts:ChartView>
+                </Frame>
+            </StackLayout>
                     <StackLayout VerticalOptions="FillAndExpand">
                         <StackLayout>
                             <Label Text="Chart Color"></Label>
@@ -67,6 +92,6 @@
                     <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
             </StackLayout>
-
+        </ScrollView>
 	</ContentPage.Content>
 </ContentPage>

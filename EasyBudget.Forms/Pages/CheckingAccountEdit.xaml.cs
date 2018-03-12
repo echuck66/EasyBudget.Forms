@@ -27,12 +27,12 @@ namespace EasyBudget.Forms.Pages
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             await (this.BindingContext as BankAccountViewModel).SaveChangesAsync();
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         protected async void OnCancelClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
     }

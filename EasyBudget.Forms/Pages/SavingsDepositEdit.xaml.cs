@@ -31,7 +31,7 @@ namespace EasyBudget.Forms.Pages
 
         protected async void OnCancelClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)

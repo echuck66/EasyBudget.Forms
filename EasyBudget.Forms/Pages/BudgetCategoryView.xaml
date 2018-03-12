@@ -37,61 +37,43 @@
                     </Frame>
                 </StackLayout>
                 <StackLayout>
-                    <StackLayout.BackgroundColor>
-                    </StackLayout.BackgroundColor>
-                    <charts:ChartView x:Name="chartCategory" HeightRequest="50" Opacity="0.75" HorizontalOptions="FillAndExpand">
-                        <charts:ChartView.HeightRequest>
+                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                        <Frame.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="150" />
-                                <On Platform="Android" Value="150" />
-                                <On Platform="UWP" Value="150" />
-                            </OnPlatform>
-                        </charts:ChartView.HeightRequest>
-                    </charts:ChartView>
+                                    <On Platform="iOS" Value="150" />
+                                    <On Platform="Android" Value="150" />
+                                    <On Platform="UWP" Value="150" />
+                                </OnPlatform>
+                        </Frame.HeightRequest>
+                        <charts:ChartView x:Name="chartCategory" Opacity="0.75" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                        </charts:ChartView>
+                    </Frame>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
-                    <!--<StackLayout>
-                        <Label Text="Chart Color"></Label>
-                        <ContentView>
-                            <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
-                                <StackLayout Orientation="Horizontal">
-                                    <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
-                                             WidthRequest="50"
-                                             HeightRequest="50">
-                                    </BoxView>
-                                    <StackLayout>
-                                        <Label Text="{Binding ColorCode, Converter={StaticResource nameCvt}}"
-                                               FontSize="22"
-                                               VerticalOptions="StartAndExpand" />
-                                        <Label Text="{Binding ColorCode, Converter={StaticResource codeCvt}, StringFormat='Hex = {0}'}"
-                                               FontSize="16"
-                                               VerticalOptions="CenterAndExpand" />
-                                    </StackLayout>
-                                </StackLayout>
-                            </Frame>
-                        </ContentView>
-                    </StackLayout>-->
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                        <Label Text="{Binding Name}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Description" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                        <Label Text="{Binding Description}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Type" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                        <Label Text="{Binding CategoryType}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Budgeted Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                        <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                    </StackLayout>
+                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding Name}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Description" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding Description}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Type" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding CategoryType}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Budgeted Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                     <Button x:Name="btnBudgetItems" Text="Items" HorizontalOptions="FillAndExpand" Clicked="btnBudgetItems_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
                     <Button x:Name="btnNewBudgetItem" Text="Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
-                    <!--<Button x:Name="Back" Text="Close" Clicked="OnBackClicked" HorizontalOptions="FillAndExpand"></Button>-->
                 </StackLayout>
             </StackLayout>
         </ScrollView>

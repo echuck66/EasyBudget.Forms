@@ -17,7 +17,7 @@ namespace EasyBudget.Forms.Pages
             bool itemSaved = await (this.BindingContext as CheckingWithdrawalViewModel).SaveChangesAsync();
             if (itemSaved)
             {
-                await Navigation.PopModalAsync();
+                await Navigation.PopAsync();
             }
             else
             {
@@ -29,7 +29,7 @@ namespace EasyBudget.Forms.Pages
 
         protected async void OnCancelClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)

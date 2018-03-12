@@ -27,9 +27,20 @@
     <ContentPage.Content>
             <StackLayout>
                 <StackLayout>
-                    <Label Text="Budget Totals"></Label>
+                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                        <Label Text="Budget Totals"></Label>
+                    </Frame>
                 </StackLayout>
+                <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                 <StackLayout Orientation="Horizontal">
+                            <Frame.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS" Value="150" />
+                                        <On Platform="Android" Value="150" />
+                                        <On Platform="UWP" Value="150" />
+                                    </OnPlatform>
+                            </Frame.HeightRequest>
+                    
                     <charts:ChartView x:Name="chartExpenses" Opacity="0.9" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
@@ -49,18 +60,25 @@
                         </charts:ChartView.HeightRequest>
                     </charts:ChartView>
                 </StackLayout>
+                    </Frame>
                 <StackLayout Padding="5">
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Total Budgeted Income" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                        <Label Text="{Binding TotalBudgetedIncome, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Total Budgeted Income" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding TotalBudgetedIncome, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Total Budgeted Expenses" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding TotalBudgetedExpenses, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Total Budgeted Expenses" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                        <Label Text="{Binding TotalBudgetedExpenses, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
+                    </Frame>
                 </StackLayout>
                 <StackLayout VerticalOptions="FillAndExpand">
+                <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                     <Label Text="Budget Categories"></Label>
+                </Frame>
                     <ListView ItemsSource="{Binding BudgetCategoriesGrouped}" 
                               ItemSelected="OnItemSelected" 
                               IsGroupingEnabled="true" 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="EasyBudget.Forms.Pages.CheckingWithdrawalEdit">
+    x:Class="EasyBudget.Forms.Pages.CheckingWithdrawalEdit"
+             Title="Edit Withdrawal">
     
 	<ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -14,22 +15,26 @@
         <ScrollView>
             <StackLayout Spacing="10">
                 <StackLayout VerticalOptions="FillAndExpand">
-                    <Label Text="Date" FontAttributes="Bold"></Label>  
-                    <DatePicker Date="{Binding TransactionDate}" MinimumDate="{Binding MinTransactionDate}" MaximumDate="{Binding MaxTransactionDate}"></DatePicker>
-                    <Label Text="Check Number" FontAttributes="Bold"></Label>
-                    <Entry Text="{Binding CheckNumber}"></Entry>  
-                    <Label Text="Amount" FontAttributes="Bold"></Label>
-                    <Entry Text="{Binding TransactionAmount}"></Entry>
-                    <Label Text="Pay to Order of" FontAttributes="Bold"></Label>
-                    <Entry Text="{Binding PayToTheOrderOf}"></Entry>
-                    <Label Text="Memo" FontAttributes="Bold"></Label>
-                    <Entry Text="{Binding Memo}"></Entry>
-                    <Label Text="Category" FontAttributes="Bold"></Label>
-                    <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" SelectedItem="{Binding SelectedCategory}" SelectedIndexChanged="CategoryTypes_SelectedIndexChanged"></Picker>
-                    <Label Text="Budget Item" FontAttributes="Bold"></Label>
-                    <Picker ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
-                    <!--<Label Text="Reconciled" FontAttributes="Bold"></Label>
-                    <Switch Toggled="{Binding reconciled}"></Switch>-->
+                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
+                        <StackLayout>
+                            <Label Text="Date" FontAttributes="Bold"></Label>  
+                            <DatePicker Date="{Binding TransactionDate}" MinimumDate="{Binding MinTransactionDate}" MaximumDate="{Binding MaxTransactionDate}"></DatePicker>
+                            <Label Text="Check Number" FontAttributes="Bold"></Label>
+                            <Entry Text="{Binding CheckNumber}"></Entry>  
+                            <Label Text="Amount" FontAttributes="Bold"></Label>
+                            <Entry Text="{Binding TransactionAmount}"></Entry>
+                            <Label Text="Pay to Order of" FontAttributes="Bold"></Label>
+                            <Entry Text="{Binding PayToTheOrderOf}"></Entry>
+                            <Label Text="Memo" FontAttributes="Bold"></Label>
+                            <Entry Text="{Binding Memo}"></Entry>
+                            <Label Text="Category" FontAttributes="Bold"></Label>
+                            <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" SelectedItem="{Binding SelectedCategory}" SelectedIndexChanged="CategoryTypes_SelectedIndexChanged"></Picker>
+                            <Label Text="Budget Item" FontAttributes="Bold"></Label>
+                            <Picker ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
+                            <!--<Label Text="Reconciled" FontAttributes="Bold"></Label>
+                            <Switch Toggled="{Binding reconciled}"></Switch>-->
+                        </StackLayout>
+                    </Frame>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                     <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" IsEnabled="{Binding CanSave}" HorizontalOptions="FillAndExpand"></Button>
