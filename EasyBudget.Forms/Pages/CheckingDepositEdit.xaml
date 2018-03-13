@@ -24,6 +24,20 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
+                <StackLayout Orientation="Horizontal">
+                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                     WidthRequest="25"
+                                     HeightRequest="25">
+                            </BoxView>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Checking: " VerticalOptions="CenterAndExpand"></Label> <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                
                 <StackLayout VerticalOptions="FillAndExpand">
                     <Label Text="Date" FontAttributes="Bold"></Label>
                     <DatePicker Date="{Binding TransactionDate}" MinimumDate="{Binding MinTransactionDate}" MaximumDate="{Binding MaxTransactionDate}"></DatePicker>

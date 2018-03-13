@@ -138,6 +138,23 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public string ColorCode
+        {
+            get
+            {
+                return model.ColorCode;
+            }
+            set
+            {
+                if (model.ColorCode != value)
+                {
+                    model.ColorCode = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorCode)));
+                }
+            }
+        }
+
         BudgetCategory _SelectedCategory;
         public BudgetCategory SelectedCategory
         {
@@ -150,6 +167,15 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
+            }
+        }
+
+        public string SelectedCategoryName
+        {
+            get
+            {
+                return this.SelectedCategory?.categoryName;
             }
         }
 

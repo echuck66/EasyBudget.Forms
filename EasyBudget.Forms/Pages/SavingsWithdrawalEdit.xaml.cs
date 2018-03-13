@@ -7,15 +7,22 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class SavingsWithdrawalEdit : ContentPage
     {
+        SavingsWithdrawalViewModel vm;
         public SavingsWithdrawalEdit()
         {
             InitializeComponent();
         }
 
-        protected async void OnSaveClicked(object sender, EventArgs e)
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+            vm = this.BindingContext as SavingsWithdrawalViewModel;
+
+		}
+		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             //await (this.BindingContext as SavingsWithdrawalViewModel).SaveChangesAsync();
-            bool itemSaved = await (this.BindingContext as SavingsWithdrawalViewModel).SaveChangesAsync();
+            bool itemSaved = await vm.SaveChangesAsync();
             if (itemSaved)
             {
                 await Navigation.PopAsync();
@@ -26,7 +33,6 @@ namespace EasyBudget.Forms.Pages
                 string errorMessage = (BindingContext as SavingsWithdrawalViewModel).ErrorCondition;
                 await DisplayAlert("Error", errorMessage, "Close");
             }
-            await Navigation.PopAsync();
         }
 
         protected async void OnCancelClicked(object sender, EventArgs e)
@@ -36,7 +42,7 @@ namespace EasyBudget.Forms.Pages
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            await (BindingContext as SavingsWithdrawalViewModel).CategorySelected();
+            await vm.CategorySelected();
         }
     }
 }

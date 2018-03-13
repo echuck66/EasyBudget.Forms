@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="EasyBudget.Forms.Pages.SavingsDepositView" Title="Deposit">
+<ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                x:Class="EasyBudget.Forms.Pages.SavingsDepositView" 
+                Title="Deposit"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cvt:ColorConverter x:Key="colorCvt"/> 
+            <cvt:ColorCodeConverter x:Key="codeCvt"/>
+            <cvt:ColorNameConverter x:Key="nameCvt"/>>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
 	<ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -12,10 +23,55 @@
     
     <ContentPage.Content>
         <StackLayout Spacing="10">
-            <StackLayout VerticalOptions="FillAndExpand">
-                
+            <StackLayout Orientation="Horizontal">
+                <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView Color="{Binding ColorCode, 
+                                 Converter={StaticResource colorCvt}}" 
+                                 HorizontalOptions="Start"
+                                 WidthRequest="25"
+                                 HeightRequest="25">
+                        </BoxView>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Checking Withdrawal: " VerticalOptions="CenterAndExpand"></Label> 
+                            <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
             </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand">
+                <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Date" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding TransactionDate, StringFormat='{0:MM/dd/yyyy}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Description" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding Description}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Note" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding Notation}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Category" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding SelectedCategory.categoryName}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" ></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Budget Item" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding SelectedBudgetItem.description}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
         </StackLayout>
+
     </ContentPage.Content>
     
 </ContentPage>

@@ -21,7 +21,6 @@
     </ContentPage.Padding> 
     
 	<ContentPage.Content>
-        <ScrollView>
             <StackLayout Spacing="10">
                 <StackLayout Orientation="Horizontal">
                     <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
@@ -81,12 +80,30 @@
                             </StackLayout>
                         </StackLayout>
                     </Frame>
+                    <ListView   ItemsSource="{Binding AccountRegisterGrouped}" 
+                                ItemSelected="OnItemSelected" 
+                                IsGroupingEnabled="true" 
+                                GroupDisplayBinding="{Binding Key}" 
+                                SeparatorColor="#90C0C0C0" 
+                                ItemTapped="OnItemTapped" 
+                                SelectedItem="{Binding SelectedRegisterItem}">
+                
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextCell Text="{Binding ItemDescription}" Detail="{Binding TransactionAmount, StringFormat='{0:C}'}">
+                                    <TextCell.ContextActions>
+                                        <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                        <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                                    </TextCell.ContextActions>
+                                </TextCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                     <Button x:Name="btnNewDeposit" Text="New Deposit" HorizontalOptions="FillAndExpand" Clicked="btnNewDeposit_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
                     <Button x:Name="btnNewWithdrawal" Text="New Withdrawal" HorizontalOptions="FillAndExpand" Clicked="btnNewWithdrawal_Clicked" IsEnabled="{Binding CanAddItems}"></Button> 
                 </StackLayout>
             </StackLayout>
-        </ScrollView>
 	</ContentPage.Content>
 </ContentPage>
