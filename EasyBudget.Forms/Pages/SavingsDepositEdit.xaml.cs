@@ -7,26 +7,33 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class SavingsDepositEdit : ContentPage
     {
+        SavingsDepositViewModel vm;
+
         public SavingsDepositEdit()
         {
             InitializeComponent();
         }
 
-        protected async void OnSaveClicked(object sender, EventArgs e)
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+            vm = this.BindingContext as SavingsDepositViewModel;
+		}
+
+		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             //await (this.BindingContext as SavingsDepositViewModel).SaveChangesAsync();
-            bool itemSaved = await (this.BindingContext as SavingsDepositViewModel).SaveChangesAsync();
+            bool itemSaved = await vm.SaveChangesAsync();
             if (itemSaved)
             {
-                await Navigation.PopModalAsync();
+                await Navigation.PopAsync();
             }
             else
             {
                 // Notify the user that save failed
-                string errorMessage = (BindingContext as SavingsDepositViewModel).ErrorCondition;
+                string errorMessage = vm.ErrorCondition;
                 await DisplayAlert("Error", errorMessage, "Close");
             }
-            await Navigation.PopModalAsync();
         }
 
         protected async void OnCancelClicked(object sender, EventArgs e)

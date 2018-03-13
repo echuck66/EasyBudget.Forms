@@ -416,6 +416,18 @@ namespace EasyBudget.Forms.Utility
 
         async Task<Entry[]> GetEntriesAsync(BankAccountViewModel vm, bool fullSize)
         {
+            Entry[] _entries = new Entry[] { };
+
+            try
+            {
+                _entries = await GetBankAccountEntriesAsync(vm, fullSize);
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                Console.WriteLine("Error after saving deposit: " + ex.Message);
+#endif
+            }
             return await GetBankAccountEntriesAsync(vm, fullSize);
         }
 

@@ -92,11 +92,13 @@
                         </Label>
                     </StackLayout>
                 </Frame>
-                <ListView ItemsSource="{Binding AccountRegisterGrouped}" 
-                  ItemSelected="OnItemSelected" 
-                  IsGroupingEnabled="true" 
-                  GroupDisplayBinding="{Binding Key}" 
-                  SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
+                <ListView   ItemsSource="{Binding AccountRegisterGrouped}" 
+                            ItemSelected="OnItemSelected" 
+                            IsGroupingEnabled="true" 
+                            GroupDisplayBinding="{Binding Key}" 
+                            SeparatorColor="#90C0C0C0" 
+                            ItemTapped="OnItemTapped" 
+                            SelectedItem="{Binding SelectedRegisterItem}">
             
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -106,7 +108,6 @@
                                     <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
                                 </TextCell.ContextActions>
                             </TextCell>
-                            
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

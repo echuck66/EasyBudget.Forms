@@ -10,7 +10,7 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class CheckingAccountView : ContentPage
     {
-        BankAccountViewModel vm;
+        BankAccountViewModel vm = null;
 
         public CheckingAccountView()
         {
@@ -21,8 +21,8 @@ namespace EasyBudget.Forms.Pages
         {
             base.OnAppearing();
             vm = (this.BindingContext as BankAccountViewModel);
-            vm.SelectedRegisterItem = null;
             chartAccountSummary.Chart = await ChartUtility.Instance.GetChartAsync(vm);
+            vm.SelectedRegisterItem = null;
         }
 
         public async void OnBackClicked(object sender, EventArgs e)
@@ -125,7 +125,7 @@ namespace EasyBudget.Forms.Pages
         public async void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var itemVM = e.Item as AccountRegisterItemViewModel;
-            (this.BindingContext as BankAccountViewModel).SelectedRegisterItem = itemVM;
+            vm.SelectedRegisterItem = itemVM;
             switch (itemVM.ItemType)
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:

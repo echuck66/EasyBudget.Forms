@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="EasyBudget.Forms.Pages.SavingsDepositEdit" Title="Edit Deposit">
+<ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                x:Class="EasyBudget.Forms.Pages.SavingsDepositEdit" Title="Edit Deposit"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cvt:ColorConverter x:Key="colorCvt"/> 
+            <cvt:ColorCodeConverter x:Key="codeCvt"/>
+            <cvt:ColorNameConverter x:Key="nameCvt"/>>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
 	<ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -14,6 +24,23 @@
         <ScrollView>
             <StackLayout Spacing="10">
                 <StackLayout VerticalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                            <StackLayout Orientation="Horizontal">
+                                <BoxView Color="{Binding ColorCode, 
+                                         Converter={StaticResource colorCvt}}" 
+                                         HorizontalOptions="Start"
+                                         WidthRequest="25"
+                                         HeightRequest="25">
+                                </BoxView>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Checking Withdrawal: " VerticalOptions="CenterAndExpand"></Label> 
+                                    <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                    
                     <Label Text="Date" FontAttributes="Bold"></Label>
                     <DatePicker Date="{Binding TransactionDate}" MinimumDate="{Binding MinTransactionDate}" MaximumDate="{Binding MaxTransactionDate}"></DatePicker>
                     <Label Text="Amount" FontAttributes="Bold"></Label>
