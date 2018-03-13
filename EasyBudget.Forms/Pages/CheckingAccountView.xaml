@@ -22,90 +22,100 @@
     </ContentPage.Padding> 
     
     <ContentPage.Content>
-            <StackLayout Spacing="10">
-                <StackLayout Orientation="Horizontal">
-                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
-                        <StackLayout Orientation="Horizontal">
-                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
-                                     WidthRequest="25"
-                                     HeightRequest="25">
-                            </BoxView>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Checking: " VerticalOptions="CenterAndExpand"></Label> <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
-                            </StackLayout>
+        <StackLayout Spacing="10">
+            <StackLayout Orientation="Horizontal">
+                <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                 WidthRequest="25"
+                                 HeightRequest="25">
+                        </BoxView>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Checking: " VerticalOptions="CenterAndExpand"></Label> <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="Edit" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnAccountEditTapped"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
                         </StackLayout>
-                    </Frame>
-                </StackLayout>
-
-                <StackLayout>
-                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
-                        <Frame.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                    <On Platform="iOS" Value="100" />
-                                    <On Platform="Android" Value="100" />
-                                    <On Platform="UWP" Value="100" />
-                                </OnPlatform>
-                        </Frame.HeightRequest>
-                        <StackLayout>
-                            <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            </charts:ChartView>
-                            <Label Text="Balance History" HorizontalOptions="FillAndExpand"></Label>
-                        </StackLayout>
-                    </Frame>
-                </StackLayout>
-                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <Frame OutlineColor="Accent" Padding="5" BackgroundColor="White">
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Bank Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding BankName}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Routing Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding RoutingNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Account Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding AccountNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Total Deposits" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
-                                <Label Text="{Binding TotalDeposits, StringFormat='{0:C}'}" TextColor="Green" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Total Withdrawals" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
-                                <Label Text="{Binding TotalWithdrawals, StringFormat='({0:C})'}" TextColor="Red" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Current Balance" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                        </StackLayout>
-                    </Frame>
-                    <ListView ItemsSource="{Binding AccountRegisterGrouped}" 
-                      ItemSelected="OnItemSelected" 
-                      IsGroupingEnabled="true" 
-                      GroupDisplayBinding="{Binding Key}" 
-                      SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
-                
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextCell Text="{Binding ItemDescription}" Detail="{Binding TransactionAmount, StringFormat='{0:C}'}">
-                                    <TextCell.ContextActions>
-                                        <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
-                                        <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                                    </TextCell.ContextActions>
-                                </TextCell>
-                                
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
-                
-                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                    <Button Text="New Deposit" HorizontalOptions="FillAndExpand" Clicked="btnNewDeposit_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
-                    <Button Text="New Withdrawal" HorizontalOptions="FillAndExpand" Clicked="btnNewWithdrawal_Clicked" IsEnabled="{Binding CanAddItems}"></Button> 
-                </StackLayout>
+                    </StackLayout>
+                </Frame>
             </StackLayout>
+
+            <StackLayout>
+                <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                    <Frame.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS" Value="100" />
+                                <On Platform="Android" Value="100" />
+                                <On Platform="UWP" Value="100" />
+                            </OnPlatform>
+                    </Frame.HeightRequest>
+                    <StackLayout>
+                        <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        </charts:ChartView>
+                        <Label Text="Balance History" HorizontalOptions="FillAndExpand"></Label>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Frame OutlineColor="Accent" Padding="5" BackgroundColor="White">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Bank Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding BankName}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" x:Name="stackRoutingNumber" IsVisible="false">
+                            <Label Text="Routing Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding RoutingNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" x:Name="stackAccountNumber" IsVisible="false">
+                            <Label Text="Account Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding AccountNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Total Deposits" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
+                            <Label Text="{Binding TotalDeposits, StringFormat='{0:C}'}" TextColor="Green" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Total Withdrawals" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
+                            <Label Text="{Binding TotalWithdrawals, StringFormat='({0:C})'}" TextColor="Red" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Current Balance" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <Label x:Name="lblShowMoreLess" Text="Show More" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnShowMoreTapped"></TapGestureRecognizer>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </Frame>
+                <ListView ItemsSource="{Binding AccountRegisterGrouped}" 
+                  ItemSelected="OnItemSelected" 
+                  IsGroupingEnabled="true" 
+                  GroupDisplayBinding="{Binding Key}" 
+                  SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
+            
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding ItemDescription}" Detail="{Binding TransactionAmount, StringFormat='{0:C}'}">
+                                <TextCell.ContextActions>
+                                    <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                    <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                                </TextCell.ContextActions>
+                            </TextCell>
+                            
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Button Text="Deposit" HorizontalOptions="FillAndExpand" Clicked="btnNewDeposit_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
+                <Button Text="Withdrawal" HorizontalOptions="FillAndExpand" Clicked="btnNewWithdrawal_Clicked" IsEnabled="{Binding CanAddItems}"></Button> 
+            </StackLayout>
+        </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

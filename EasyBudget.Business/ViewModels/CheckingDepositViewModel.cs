@@ -119,6 +119,15 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
+            }
+        }
+
+        public string SelectedCategoryName
+        {
+            get
+            {
+                return this.SelectedCategory?.categoryName;
             }
         }
 
@@ -134,10 +143,19 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedBudgetItem = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItemName)));
                 if (value != null)
                 {
                     this.BudgetItemId = _SelectedBudgetItem.id;
                 }
+            }
+        }
+
+        public string SelectedBudgetItemName
+        {
+            get
+            {
+                return this.SelectedBudgetItem?.description;
             }
         }
 
@@ -260,7 +278,9 @@ namespace EasyBudget.Business.ViewModels
                             if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
                             {
                                 this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+                                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
                                 this.SelectedBudgetItem = selectedItem;
+                                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItemName)));
                             }
                         }
                         else
