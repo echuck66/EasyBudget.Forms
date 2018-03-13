@@ -26,7 +26,7 @@ namespace EasyBudget.Forms.Pages
 
         public async void OnBackClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         public async void btnNewDeposit_Clicked(object sender, EventArgs eventArgs)
@@ -42,7 +42,7 @@ namespace EasyBudget.Forms.Pages
             {
                 SavingsDepositEdit depositViewer = new SavingsDepositEdit();
                 depositViewer.BindingContext = depositVM as SavingsDepositViewModel;
-                await Navigation.PushModalAsync(depositViewer);
+                await Navigation.PushAsync(depositViewer);
             }
         }
 
@@ -58,7 +58,7 @@ namespace EasyBudget.Forms.Pages
             {
                 SavingsWithdrawalEdit withdrawalViewer = new SavingsWithdrawalEdit();
                 withdrawalViewer.BindingContext = withdrawalVM as SavingsWithdrawalViewModel;
-                await Navigation.PushModalAsync(withdrawalViewer);
+                await Navigation.PushAsync(withdrawalViewer);
             }
         }
     }

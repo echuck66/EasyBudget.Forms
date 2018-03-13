@@ -212,9 +212,87 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        //IList<AccountRegisterItemViewModel> GetAllTransactions(int accountId)
+        //{
+        //    List<AccountRegisterItemViewModel> _transactions = new List<AccountRegisterItemViewModel>();
+
+        //    using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+        //    {
+        //        var _resultsDeposits = Task.Run(() => uow.ge)
+        //    }
+
+        //    return _transactions;
+        //}
+
         public override IChartDataPack GetChartData()
         {
-            throw new NotImplementedException();
+            ChartDataPack chartPack = new ChartDataPack();
+
+            ChartDataGroup accountBalanceGroup = new ChartDataGroup();
+            accountBalanceGroup.ChartDisplayType = ChartType.Line;
+            accountBalanceGroup.ChartDisplayOrder = 0;
+
+            int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+
+            // Initialize the time-series chart with an entry for each day in the month
+            List<ChartDataEntry> _chartData = new List<ChartDataEntry>();
+            for (int i = 0; i < daysInMonth; i++)
+            {
+                ChartDataEntry _chartEntry = new ChartDataEntry();
+                _chartEntry.ColorCode = "#4CAF50";
+                _chartEntry.Label = DateTime.Now.Month.ToString().PadLeft(2, '0') + "/" + (i + 1).ToString().PadLeft(2, '0') + "/" + DateTime.Now.Year.ToString();
+                _chartData.Add(_chartEntry);
+            }
+
+            // Find the data for the charts. We want the sum of balances for each day in the graph up to and including
+            // the current date.
+            List<AccountRegisterItemViewModel> _masterRegister = new List<AccountRegisterItemViewModel>();
+            foreach(BankAccountViewModel _accountVM in this.BankAccounts)
+            {
+                _masterRegister.AddRange(_accountVM.AccountRegister);
+            }
+
+            foreach(ChartDataEntry _chartEntry in _chartData)
+            {
+                int idx = _chartData.IndexOf(_chartEntry);
+                int day = idx + 1;
+                string dateToParse = DateTime.Now.Month.ToString() + "/" + day.ToString() + "/" + DateTime.Now.Year.ToString();
+                DateTime _testDate = DateTime.Parse(dateToParse);
+                if (_masterRegister.Any(itm => itm.ItemDate.Date ==_testDate.Date))
+                {
+                    decimal _maxEndingBalance = _masterRegister.Where(itm => itm.ItemDate.Date == _testDate.Date).Max(r => r.EndingBalance);
+                    _chartEntry.FltValue = (float)_maxEndingBalance;
+                    _chartEntry.ValueLabel = _maxEndingBalance.ToString("C");
+                }
+                else
+                {
+                    if (_masterRegister.Count() == 0)
+                    {
+                        _chartEntry.FltValue = (float)this.BankAccounts.Max(b => b.CurrentBalance);
+                        _chartEntry.ValueLabel = _chartEntry.FltValue.ToString("C");
+                    }
+                    else
+                    {
+                        //_chartEntry.FltValue = (float)0M;
+                        //_chartEntry.ValueLabel = string.Format("{0:C}", 0);
+                        if (day <= DateTime.Now.Day)
+                        {
+                            _chartEntry.FltValue = idx > 0 ? _chartData[idx - 1].FltValue : (float)0M;
+                            _chartEntry.ValueLabel = _chartEntry.FltValue.ToString("C");
+                        }
+                        else
+                        {
+                            _chartEntry.FltValue = (float)0M;
+                            _chartEntry.ValueLabel = _chartEntry.FltValue.ToString("C");
+                        }
+                    }
+                }
+                accountBalanceGroup.ChartDataItems.Add(_chartEntry);
+            }
+
+            chartPack.Charts.Add(accountBalanceGroup);
+
+            return chartPack;
         }
     }
 

@@ -15,41 +15,54 @@
     
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="iOS" Value="10,10,10,10" />
             <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding> 
     
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Name="NewCategory" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
-    </ContentPage.ToolbarItems>    
+    </ContentPage.ToolbarItems>-->    
     
     <ContentPage.Content>
+        <StackLayout>
             <StackLayout>
-                <StackLayout>
-                    <Label Text="Budget Totals"></Label>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal">
+                <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <Label Text="Budget Totals" VerticalOptions="CenterAndExpand"></Label>
+                </Frame>
+            </StackLayout>
+            <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                <Frame.HeightRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS" Value="100" />
+                            <On Platform="Android" Value="100" />
+                            <On Platform="UWP" Value="100" />
+                        </OnPlatform>
+                </Frame.HeightRequest>  
+                <StackLayout Orientation="Horizontal">   
                     <charts:ChartView x:Name="chartExpenses" Opacity="0.9" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="150" />
-                                <On Platform="Android" Value="150" />
-                                <On Platform="UWP" Value="150" />
+                                <On Platform="iOS" Value="100" />
+                                <On Platform="Android" Value="100" />
+                                <On Platform="UWP" Value="100" />
                         </OnPlatform>
                         </charts:ChartView.HeightRequest>
                     </charts:ChartView>
                     <charts:ChartView x:Name="chartIncome" Opacity="0.9" HorizontalOptions="FillAndExpand">
                         <charts:ChartView.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="150" />
-                                <On Platform="Android" Value="150" />
-                                <On Platform="UWP" Value="150" />
-                        </OnPlatform>
+                                <On Platform="iOS" Value="100" />
+                                <On Platform="Android" Value="100" />
+                                <On Platform="UWP" Value="100" />
+                            </OnPlatform>
                         </charts:ChartView.HeightRequest>
                     </charts:ChartView>
                 </StackLayout>
-                <StackLayout Padding="5">
+            </Frame>
+            <StackLayout HorizontalOptions="FillAndExpand">
+            <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
+                <StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Total Budgeted Income" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                         <Label Text="{Binding TotalBudgetedIncome, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
@@ -59,43 +72,50 @@
                         <Label Text="{Binding TotalBudgetedExpenses, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
                     </StackLayout>
                 </StackLayout>
-                <StackLayout VerticalOptions="FillAndExpand">
+                </Frame>
+            </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand">
+                <!--<Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                     <Label Text="Budget Categories"></Label>
-                    <ListView ItemsSource="{Binding BudgetCategoriesGrouped}" 
-                              ItemSelected="OnItemSelected" 
-                              IsGroupingEnabled="true" 
-                              GroupDisplayBinding="{Binding Key}" 
-                              SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
-                        
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                <ViewCell.ContextActions>
+                </Frame>-->
+                <ListView ItemsSource="{Binding BudgetCategoriesGrouped}" 
+                          ItemSelected="OnItemSelected" 
+                          IsGroupingEnabled="true" 
+                          GroupDisplayBinding="{Binding Key}" 
+                          SeparatorColor="#90C0C0C0" ItemTapped="OnItemTapped">
+                    
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                            </ViewCell.ContextActions>
+                                <ContentView Padding="1">
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                        <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                                 WidthRequest="25"
+                                                 HeightRequest="25" VerticalOptions="Center" />
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                            <Label Text="{Binding Name}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Start"/>
+                                            <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="CenterAndExpand" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ContentView>
+                            </ViewCell>
+                            <!--<TextCell Text="{Binding Name}" Detail="{Binding Amount, StringFormat='{0:C}'}">
+                                <TextCell.ContextActions>
                                     <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                                     <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                                </ViewCell.ContextActions>
-                                    <ContentView Padding="1">
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
-                                                     WidthRequest="25"
-                                                     HeightRequest="25" VerticalOptions="Center" />
-                                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                                <Label Text="{Binding Name}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Start"/>
-                                                <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="CenterAndExpand" />
-                                            </StackLayout>
-                                        </StackLayout>
-                                    </ContentView>
-                                </ViewCell>
-                                <!--<TextCell Text="{Binding Name}" Detail="{Binding Amount, StringFormat='{0:C}'}">
-                                    <TextCell.ContextActions>
-                                        <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
-                                        <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                                    </TextCell.ContextActions>
-                                </TextCell>-->
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
+                                </TextCell.ContextActions>
+                            </TextCell>-->
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Button x:Name="btnNewCategory" Text="New Category" HorizontalOptions="FillAndExpand" Clicked="btnNewCategory_Clicked"></Button>
+            </StackLayout>
+        </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

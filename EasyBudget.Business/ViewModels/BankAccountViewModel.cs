@@ -153,6 +153,23 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        public string ColorCode
+        {
+            get
+            {
+                return model.ColorCode;
+            }
+            set
+            {
+                if (model.ColorCode != value)
+                {
+                    model.ColorCode = value;
+                    this.IsDirty = true;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorCode)));
+                }
+            }
+        }
+
         public ObservableCollection<AccountRegisterItemViewModel> AccountRegister { get; set; }
 
         public ObservableCollection<Grouping<string, AccountRegisterItemViewModel>> AccountRegisterGrouped { get; set; }

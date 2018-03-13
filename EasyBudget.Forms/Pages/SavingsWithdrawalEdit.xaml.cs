@@ -18,7 +18,7 @@ namespace EasyBudget.Forms.Pages
             bool itemSaved = await (this.BindingContext as SavingsWithdrawalViewModel).SaveChangesAsync();
             if (itemSaved)
             {
-                await Navigation.PopModalAsync();
+                await Navigation.PopAsync();
             }
             else
             {
@@ -26,17 +26,17 @@ namespace EasyBudget.Forms.Pages
                 string errorMessage = (BindingContext as SavingsWithdrawalViewModel).ErrorCondition;
                 await DisplayAlert("Error", errorMessage, "Close");
             }
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         protected async void OnCancelClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            await (BindingContext as SavingsWithdrawalViewModel).OnCategorySelected();
+            await (BindingContext as SavingsWithdrawalViewModel).CategorySelected();
         }
     }
 }

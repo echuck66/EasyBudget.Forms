@@ -119,6 +119,15 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
+            }
+        }
+
+        public string SelectedCategoryName
+        {
+            get
+            {
+                return this.SelectedCategory?.categoryName;
             }
         }
 
@@ -134,10 +143,19 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedBudgetItem = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItemName)));
                 if (value != null)
                 {
                     this.BudgetItemId = _SelectedBudgetItem.id;
                 }
+            }
+        }
+
+        public string SelectedBudgetItemName
+        {
+            get
+            {
+                return this.SelectedBudgetItem?.description;
             }
         }
 
@@ -228,6 +246,7 @@ namespace EasyBudget.Business.ViewModels
             this.ItemDescription = model.description;
             this.Description = this.model.description;
             this.TransactionDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
+            this.ItemDate = this.TransactionDate;
             this.TransactionAmount = model.transactionAmount;
 
             this.BudgetItemId = model.budgetIncomeId;
@@ -259,7 +278,9 @@ namespace EasyBudget.Business.ViewModels
                             if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
                             {
                                 this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+                                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
                                 this.SelectedBudgetItem = selectedItem;
+                                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItemName)));
                             }
                         }
                         else
@@ -411,7 +432,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
     
-        public async Task OnCategorySelected()
+        public async Task CategorySelected()
         {
             if (this.SelectedCategory != null)
             {
@@ -420,7 +441,6 @@ namespace EasyBudget.Business.ViewModels
                     for (int i = this.BudgetItems.Count - 1; i >= 0; i--)
                     {
                         var itm = this.BudgetItems[i];
-
                         this.BudgetItems.Remove(itm);
                     }
                 }
@@ -436,7 +456,11 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetItems.Add(itm);
                             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         }
-                        this.SelectedBudgetItem = null;
+                        //this.SelectedBudgetItem = null;
+                        if (this.BudgetItemId > 0 && this.BudgetItems.Any(i => i.id == this.BudgetItemId))
+                        {
+                            this.SelectedBudgetItem = this.BudgetItems.FirstOrDefault(i => i.id == this.BudgetItemId);
+                        }
                     }
                     else
                     {

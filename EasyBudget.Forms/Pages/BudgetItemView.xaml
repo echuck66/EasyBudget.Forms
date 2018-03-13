@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="EasyBudget.Forms.Pages.BudgetItemView" Title="Budget Item"
@@ -15,7 +15,7 @@
     
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="iOS" Value="10,10,10,10" />
             <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding> 
@@ -23,8 +23,18 @@
 	<ContentPage.Content>
         <ScrollView>
             <StackLayout Spacing="10">
-                <StackLayout>
-                    <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand"></Label>
+                <StackLayout Orientation="Horizontal">
+                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                     WidthRequest="25"
+                                     HeightRequest="25">
+                            </BoxView>
+                            <StackLayout>
+                                <Label Text="{Binding ItemDescription}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
                 </StackLayout>
                 <StackLayout>
                     <StackLayout.BackgroundColor>
@@ -41,56 +51,38 @@
                 </StackLayout>
                 
                 <StackLayout VerticalOptions="FillAndExpand">
+                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
                     <StackLayout>
-                        <Label Text="Chart Color"></Label>
-                        <ContentView>
-                            <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
-                                <StackLayout Orientation="Horizontal">
-                                    <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
-                                             WidthRequest="50"
-                                             HeightRequest="50">
-                                    </BoxView>
-                                    <StackLayout>
-                                        <Label Text="{Binding ColorCode, Converter={StaticResource nameCvt}}"
-                                               FontSize="22"
-                                               VerticalOptions="StartAndExpand" />
-                                        <Label Text="{Binding ColorCode, Converter={StaticResource codeCvt}, StringFormat='Hex = {0}'}"
-                                               FontSize="16"
-                                               VerticalOptions="CenterAndExpand" />
-                                    </StackLayout>
-                                </StackLayout>
-                            </Frame>
-                        </ContentView>
-                    </StackLayout>
-                    
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Category" FontAttributes="Bold"></Label>
-                        <Label Text="{Binding CategoryName}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Description" FontAttributes="Bold"></Label>
-                        <Label Text="{Binding ItemDescription}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Notation" FontAttributes="Bold"></Label>
-                        <Label Text="{Binding ItemNotation}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                        <Label Text="{Binding BudgetedAmount, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Recurring" FontAttributes="Bold"></Label>
-                        <Label Text="{Binding IsRecurring}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Frequency" FontAttributes="Bold"></Label>
-                        <Label Text="{Binding ItemFrequency}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Start Date" FontAttributes="Bold"></Label>
-                        <Label Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
-                    </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Category" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding CategoryName}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Description" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding ItemDescription}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Notation" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding ItemNotation}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding BudgetedAmount, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Recurring" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding IsRecurring}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Frequency" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding ItemFrequency}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Start Date" FontAttributes="Bold"></Label>
+                            <Label Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
+                        </StackLayout>
+                        </StackLayout>
+                    </Frame>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

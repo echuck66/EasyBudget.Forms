@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EasyBudget.Business;
 using EasyBudget.Business.ViewModels;
+using EasyBudget.Forms.Utility;
 using EasyBudget.Models;
 using Xamarin.Forms;
 
@@ -25,6 +26,9 @@ namespace EasyBudget.Forms.Pages
             vm.SelectedBankAccount = null;
             this.BindingContext = vm;
 
+            //chartAccountBalances
+            var provider = new MicrochartsProvider<BankAccountsViewModel>();
+            chartAccountBalances.Chart = await provider.GetChartAsync(vm, 0, false);
         }
 
         protected override void OnDisappearing()
@@ -47,15 +51,21 @@ namespace EasyBudget.Forms.Pages
             vm.SelectedBankAccount = btn.BindingContext as BankAccountViewModel;
             if (vm.SelectedBankAccount.AccountType == BankAccountType.Checking)
             {
-                CheckingAccountEditTabs editor = new CheckingAccountEditTabs();
+                //CheckingAccountEditTabs editor = new CheckingAccountEditTabs();
+                //editor.BindingContext = btn.BindingContext;
+                //await Navigation.PushModalAsync(editor);
+                CheckingAccountEdit editor = new CheckingAccountEdit();
                 editor.BindingContext = btn.BindingContext;
-                await Navigation.PushModalAsync(editor);
+                await Navigation.PushAsync(editor);
             }
             else
             {
-                SavingsAccountEditTabs editor = new SavingsAccountEditTabs();
+                //SavingsAccountEditTabs editor = new SavingsAccountEditTabs();
+                //editor.BindingContext = btn.BindingContext;
+                //await Navigation.PushModalAsync(editor);
+                SavingsAccountEdit editor = new SavingsAccountEdit();
                 editor.BindingContext = btn.BindingContext;
-                await Navigation.PushModalAsync(editor);
+                await Navigation.PushAsync(editor);
             }
 
         }
@@ -87,14 +97,21 @@ namespace EasyBudget.Forms.Pages
             switch (accountViewModel.AccountType)
             {
                 case BankAccountType.Checking:
-                    CheckingAccountViewTabs checkingViewer = new CheckingAccountViewTabs();
+                    //CheckingAccountViewTabs checkingViewer = new CheckingAccountViewTabs();
+                    //checkingViewer.BindingContext = accountViewModel;
+                    //await Navigation.PushModalAsync(checkingViewer);
+                    CheckingAccountView checkingViewer = new CheckingAccountView();
                     checkingViewer.BindingContext = accountViewModel;
-                    await Navigation.PushModalAsync(checkingViewer);
+                    await Navigation.PushAsync(checkingViewer);
+
                     break;
                 case BankAccountType.Savings:
-                    SavingsAccountViewTabs savingsViewer = new SavingsAccountViewTabs();
+                    //SavingsAccountViewTabs savingsViewer = new SavingsAccountViewTabs();
+                    //savingsViewer.BindingContext = accountViewModel;
+                    //await Navigation.PushModalAsync(savingsViewer);
+                    SavingsAccountView savingsViewer = new SavingsAccountView();
                     savingsViewer.BindingContext = accountViewModel;
-                    await Navigation.PushModalAsync(savingsViewer);
+                    await Navigation.PushAsync(savingsViewer);
                     break;
             }
         }
@@ -107,15 +124,21 @@ namespace EasyBudget.Forms.Pages
             {
                 case "Checking":
                     await vm.AddCheckingAccountAsync();
-                    CheckingAccountEditTabs checkingEditor = new CheckingAccountEditTabs();
+                    //CheckingAccountEditTabs checkingEditor = new CheckingAccountEditTabs();
+                    //checkingEditor.BindingContext = vm.SelectedBankAccount;
+                    //await Navigation.PushModalAsync(checkingEditor);
+                    CheckingAccountEdit checkingEditor = new CheckingAccountEdit();
                     checkingEditor.BindingContext = vm.SelectedBankAccount;
-                    await Navigation.PushModalAsync(checkingEditor);
+                    await Navigation.PushAsync(checkingEditor);
                     break;
                 case "Savings":
                     await vm.AddsavingsAccountAsync();
-                    SavingsAccountEditTabs savingsEditor = new SavingsAccountEditTabs();
+                    //SavingsAccountEditTabs savingsEditor = new SavingsAccountEditTabs();
+                    //savingsEditor.BindingContext = vm.SelectedBankAccount;
+                    //await Navigation.PushModalAsync(savingsEditor);
+                    SavingsAccountEdit savingsEditor = new SavingsAccountEdit();
                     savingsEditor.BindingContext = vm.SelectedBankAccount;
-                    await Navigation.PushModalAsync(savingsEditor);
+                    await Navigation.PushAsync(savingsEditor);
                     break;
             }
         }

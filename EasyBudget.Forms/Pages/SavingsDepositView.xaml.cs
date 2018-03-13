@@ -14,7 +14,7 @@ namespace EasyBudget.Forms.Pages
 
         public async void OnBackClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
     }
 }

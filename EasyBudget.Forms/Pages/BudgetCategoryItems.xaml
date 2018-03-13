@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 x:Class="EasyBudget.Forms.Pages.BudgetCategoryItems" Title="Budget Items"
@@ -16,7 +16,7 @@
     
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,0,0" />
+            <On Platform="iOS" Value="10,10,0,0" />
             <On Platform="Android" Value="10,0,0,0" />
         </OnPlatform>
     </ContentPage.Padding>   
@@ -44,12 +44,6 @@
                                         </StackLayout>
                                     </ContentView>
                                 </ViewCell>
-                            <!--<TextCell Text="{Binding ItemDescription}" Detail="{Binding BudgetedAmount, StringFormat='{0:C}'}">
-                                <TextCell.ContextActions>
-                                    <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
-                                    <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                                 </TextCell.ContextActions>
-                            </TextCell>-->
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
