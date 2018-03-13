@@ -28,8 +28,8 @@ namespace EasyBudget.Forms.Pages
             vm = await ds.GetStatusVM();
 
             var provider = new MicrochartsProvider<EasyBudgetStatusViewModel>();
-            chartIncome.Chart = await provider.GetChartAsync(vm, 0, true);
-            chartExpenses.Chart = await provider.GetChartAsync(vm, 1, true);
+            chartIncome.Chart = await provider.GetChartAsync(vm, 0, false);
+            chartExpenses.Chart = await provider.GetChartAsync(vm, 1, false);
         }
 
         protected override void OnDisappearing()

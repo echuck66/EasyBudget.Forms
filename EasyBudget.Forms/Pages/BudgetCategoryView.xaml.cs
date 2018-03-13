@@ -27,7 +27,7 @@ namespace EasyBudget.Forms.Pages
             //this.chartBudget.Chart = await ChartUtility.Instance.GetChartAsync(vm);
 
             var provider = new MicrochartsProvider<BudgetCategoryViewModel>();
-            chartCategory.Chart = await provider.GetChartAsync(vm, 0, true);
+            chartCategory.Chart = await provider.GetChartAsync(vm, 0, false);
         }
 
         //public async void OnBackClicked(object sender, EventArgs e)

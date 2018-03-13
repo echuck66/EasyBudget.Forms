@@ -163,7 +163,7 @@ namespace EasyBudget.Business.ViewModels
             set
             {
                 _SelectedBudgetItem = value;
-                this.BudgetItemId = value.id;
+                //this.BudgetItemId = value != null ? value.id : 0;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 if (value != null)
@@ -463,7 +463,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public async Task OnCategorySelected()
+        public async Task CategorySelected()
         {
             if (this.SelectedCategory != null)
             {
@@ -472,7 +472,6 @@ namespace EasyBudget.Business.ViewModels
                     for (int i = this.BudgetItems.Count - 1; i >= 0; i--)
                     {
                         var itm = this.BudgetItems[i];
-
                         this.BudgetItems.Remove(itm);
                     }
                 }
@@ -483,12 +482,17 @@ namespace EasyBudget.Business.ViewModels
                     var _results = await uow.GetCategoryExpenseItemsAsync(this.SelectedCategory);
                     if (_results.Successful)
                     {
+                        //this.BudgetItems = new System.Collections.ObjectModel.ObservableCollection<BudgetItem>();
                         foreach (var itm in _results.Results)
                         {
                             this.BudgetItems.Add(itm);
                             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         }
                         //this.SelectedBudgetItem = null;
+                        if (this.BudgetItemId > 0 && this.BudgetItems.Any(i => i.id == this.BudgetItemId))
+                        {
+                            this.SelectedBudgetItem = this.BudgetItems.FirstOrDefault(i => i.id == this.BudgetItemId);
+                        }
                     }
                     else
                     {

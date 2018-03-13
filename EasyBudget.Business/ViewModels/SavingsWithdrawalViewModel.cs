@@ -146,7 +146,7 @@ namespace EasyBudget.Business.ViewModels
             set
             {
                 _SelectedBudgetItem = value;
-                this.BudgetItemId = value.id;
+                //this.BudgetItemId = value.id;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 if (value != null)
@@ -421,7 +421,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public async Task OnCategorySelected()
+        public async Task CategorySelected()
         {
             if (this.SelectedCategory != null)
             {
@@ -446,7 +446,11 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetItems.Add(itm);
                             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         }
-                        this.SelectedBudgetItem = null;
+                        //this.SelectedBudgetItem = null;
+                        if (this.BudgetItemId > 0 && this.BudgetItems.Any(i => i.id == this.BudgetItemId))
+                        {
+                            this.SelectedBudgetItem = this.BudgetItems.FirstOrDefault(i => i.id == this.BudgetItemId);
+                        }
                     }
                     else
                     {

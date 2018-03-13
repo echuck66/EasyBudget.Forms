@@ -412,7 +412,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
     
-        public async Task OnCategorySelected()
+        public async Task CategorySelected()
         {
             if (this.SelectedCategory != null)
             {
@@ -421,7 +421,6 @@ namespace EasyBudget.Business.ViewModels
                     for (int i = this.BudgetItems.Count - 1; i >= 0; i--)
                     {
                         var itm = this.BudgetItems[i];
-
                         this.BudgetItems.Remove(itm);
                     }
                 }
@@ -437,7 +436,11 @@ namespace EasyBudget.Business.ViewModels
                             this.BudgetItems.Add(itm);
                             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         }
-                        this.SelectedBudgetItem = null;
+                        //this.SelectedBudgetItem = null;
+                        if (this.BudgetItemId > 0 && this.BudgetItems.Any(i => i.id == this.BudgetItemId))
+                        {
+                            this.SelectedBudgetItem = this.BudgetItems.FirstOrDefault(i => i.id == this.BudgetItemId);
+                        }
                     }
                     else
                     {

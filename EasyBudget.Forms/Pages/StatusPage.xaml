@@ -6,7 +6,7 @@
     
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,40,10,10" />
+            <On Platform="iOS" Value="10,10,10,10" />
             <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding> 
@@ -16,7 +16,7 @@
             <StackLayout Spacing="10">
                 <StackLayout>
                     <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
-                        <Label Text="Budget Status" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="Budget Status" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
                     </Frame>
                 </StackLayout>
                 <StackLayout>

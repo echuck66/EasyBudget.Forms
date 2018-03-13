@@ -36,7 +36,7 @@ namespace EasyBudget.Forms.Pages
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            await (BindingContext as SavingsWithdrawalViewModel).OnCategorySelected();
+            await (BindingContext as SavingsWithdrawalViewModel).CategorySelected();
         }
     }
 }
