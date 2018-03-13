@@ -42,29 +42,29 @@
             <StackLayout VerticalOptions="FillAndExpand">
                 <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
                     <StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="Date" FontAttributes="Bold"></Label>
-                            <Label Text="{Binding TransactionDate, StringFormat='{0:MM/dd/yyyy}'}"></Label>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Date" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding TransactionDate, StringFormat='{0:MM/dd/yyyy}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="Amount" FontAttributes="Bold"></Label>
-                            <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}"></Label>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="Description" FontAttributes="Bold"></Label>
-                            <Label Text="{Binding Description}"></Label>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Description" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding Description}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="Note" FontAttributes="Bold"></Label>
-                            <Label Text="{Binding Notation}"></Label>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Note" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding Notation}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="Category" FontAttributes="Bold"></Label>
-                            <Label Text="{Binding SelectedCategory.categoryName}" ></Label>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Category" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding SelectedCategory.categoryName}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End" ></Label>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="Budget Item" FontAttributes="Bold"></Label>
-                            <Label Text="{Binding SelectedBudgetItem.description}"></Label>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                            <Label Text="Budget Item" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding SelectedBudgetItem.description}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
                     </StackLayout>
                 </Frame>

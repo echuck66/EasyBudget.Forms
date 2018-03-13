@@ -167,6 +167,15 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
+            }
+        }
+
+        public string SelectedCategoryName
+        {
+            get
+            {
+                return this.SelectedCategory?.categoryName;
             }
         }
 

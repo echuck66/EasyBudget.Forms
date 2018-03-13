@@ -44,32 +44,32 @@
                     <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                         <StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="Date" FontAttributes="Bold"></Label>  
-                                <Label Text="{Binding TransactionDate, StringFormat='{0:MM/dd/yyyy}'}"></Label>
+                                <Label Text="Date" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>  
+                                <Label Text="{Binding TransactionDate, StringFormat='{0:MM/dd/yyyy}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="Check Number" FontAttributes="Bold"></Label>
-                                <Label Text="{Binding CheckNumber}"></Label>  
+                                <Label Text="Check Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding CheckNumber}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>  
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="Amount" FontAttributes="Bold"></Label>
-                                <Label Text="{Binding TransactionAmount}"></Label>
+                                <Label Text="Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding TransactionAmount}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="Pay to Order of" FontAttributes="Bold"></Label>
-                                <Label Text="{Binding PayToTheOrderOf}"></Label>
+                                <Label Text="Pay to Order of" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding PayToTheOrderOf}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="Memo" FontAttributes="Bold"></Label>
-                                <Label Text="{Binding Memo}"></Label>
+                                <Label Text="Memo" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding Memo}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                <Label Text="Category" FontAttributes="Bold"></Label>
-                                <Label Text="{Binding SelectedBudgetCategory.categoryName}"></Label>
+                                <Label Text="Category" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                                <Label Text="{Binding SelectedCategory.categoryName}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                               <Label Text="Budget Item" FontAttributes="Bold"></Label>
-                                <Label Text="{Binding SelectedBudgetItem.description}"></Label>
+                               <Label Text="Budget Item" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                               <Label Text="{Binding SelectedBudgetItem.description}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
                         </StackLayout>
                     </Frame>
