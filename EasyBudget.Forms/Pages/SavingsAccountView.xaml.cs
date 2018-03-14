@@ -140,5 +140,25 @@ namespace EasyBudget.Forms.Pages
                     break;
             }
         }
+        protected void OnShowMoreTapped(object sender, TappedEventArgs e)
+        {
+            stackRoutingNumber.IsVisible = !stackRoutingNumber.IsVisible;
+            stackAccountNumber.IsVisible = !stackAccountNumber.IsVisible;
+            if (lblShowMoreLess.Text == "Show More")
+            {
+                lblShowMoreLess.Text = "Show Less";
+            }
+            else
+            {
+                lblShowMoreLess.Text = "Show More";
+            }
+        }
+
+        protected async void OnAccountEditTapped(object sender, TappedEventArgs e)
+        {
+            SavingsAccountEdit editor = new SavingsAccountEdit();
+            editor.BindingContext = vm;
+            await Navigation.PushAsync(editor);
+        }
     }
 }

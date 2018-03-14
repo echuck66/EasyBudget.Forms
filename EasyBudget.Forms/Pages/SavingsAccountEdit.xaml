@@ -36,8 +36,8 @@
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-                
-                <StackLayout>
+
+                <!--<StackLayout>
                     <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                         <Frame.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
@@ -52,6 +52,31 @@
                             <Label Text="Balance History" HorizontalOptions="FillAndExpand"></Label>
                         </StackLayout>
                     </Frame>
+                </StackLayout>-->
+
+                <StackLayout>
+                    <Label Text="Chart Color"></Label>
+                    <ContentView>
+                        <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
+                            <StackLayout Orientation="Horizontal">
+                                <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
+                                         WidthRequest="50"
+                                         HeightRequest="50">
+                                    <!--<BoxView.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnItemColorTapped"></TapGestureRecognizer>
+                                    </BoxView.GestureRecognizers>-->
+                                </BoxView>
+                                <StackLayout>
+                                    <Label Text="{Binding ColorCode, Converter={StaticResource nameCvt}}"
+                                           FontSize="22"
+                                           VerticalOptions="StartAndExpand" />
+                                    <Label Text="{Binding ColorCode, Converter={StaticResource codeCvt}, StringFormat='Hex = {0}'}"
+                                           FontSize="16"
+                                           VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </ContentView>
                 </StackLayout>
                 
                 <StackLayout VerticalOptions="FillAndExpand">

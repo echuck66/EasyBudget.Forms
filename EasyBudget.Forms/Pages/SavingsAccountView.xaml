@@ -29,9 +29,15 @@
                                      WidthRequest="25"
                                      HeightRequest="25">
                             </BoxView>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Savings: " VerticalOptions="CenterAndExpand"></Label> <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
-                            </StackLayout>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="Savings: " VerticalOptions="CenterAndExpand" HorizontalOptions="Start"></Label> 
+                                <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill"></Label>
+                                <Label Text="Edit" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnAccountEditTapped"></TapGestureRecognizer>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                        </StackLayout>
                         </StackLayout>
                     </Frame>
                 </StackLayout>
@@ -58,11 +64,11 @@
                                 <Label Text="Bank Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                                 <Label Text="{Binding BankName}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
-                            <StackLayout Orientation="Horizontal">
+                            <StackLayout x:Name="stackRoutingNumber" Orientation="Horizontal" IsVisible="false">
                                 <Label Text="Routing Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                                 <Label Text="{Binding RoutingNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
-                            <StackLayout Orientation="Horizontal">
+                            <StackLayout x:Name="stackAccountNumber" Orientation="Horizontal" IsVisible="false">
                                 <Label Text="Account Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                                 <Label Text="{Binding AccountNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
@@ -78,6 +84,12 @@
                                 <Label Text="Current Balance" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                                 <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
+
+                            <Label x:Name="lblShowMoreLess" Text="Show More" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnShowMoreTapped"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
                         </StackLayout>
                     </Frame>
                     <ListView   ItemsSource="{Binding AccountRegisterGrouped}" 
