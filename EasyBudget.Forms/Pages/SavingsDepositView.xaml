@@ -33,7 +33,7 @@
                                  HeightRequest="25">
                         </BoxView>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                            <Label Text="Withdrawal: " VerticalOptions="CenterAndExpand" HorizontalOptions="Start"></Label> 
+                            <Label Text="Deposit: " VerticalOptions="CenterAndExpand" HorizontalOptions="Start"></Label> 
                             <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill"></Label>
                             <Label Text="Edit" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand">
                                 <Label.GestureRecognizers>

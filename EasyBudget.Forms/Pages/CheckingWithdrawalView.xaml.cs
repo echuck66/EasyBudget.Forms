@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using EasyBudget.Business.ViewModels;
 using Xamarin.Forms;
 
 namespace EasyBudget.Forms.Pages
 {
     public partial class CheckingWithdrawalView : ContentPage
     {
-        CheckingWithdrawalEdit vm;
+        CheckingWithdrawalViewModel vm;
 
         public CheckingWithdrawalView()
         {
@@ -17,7 +17,7 @@ namespace EasyBudget.Forms.Pages
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-            vm = this.BindingContext as CheckingWithdrawalEdit;
+            vm = this.BindingContext as CheckingWithdrawalViewModel;
 		}
 
 		public async void OnBackClicked(object sender, EventArgs e)
@@ -28,6 +28,7 @@ namespace EasyBudget.Forms.Pages
         protected async void OnWithdrawalEditTapped(object sender, TappedEventArgs e)
         {
             CheckingWithdrawalEdit editor = new CheckingWithdrawalEdit();
+            await vm.LoadBudgetData();
             editor.BindingContext = vm;
             await Navigation.PushAsync(editor);
         }

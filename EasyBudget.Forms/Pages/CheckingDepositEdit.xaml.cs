@@ -8,16 +8,20 @@ namespace EasyBudget.Forms.Pages
     public partial class CheckingDepositEdit : ContentPage
     {
         CheckingDepositViewModel vm;
+
         public CheckingDepositEdit()
         {
             InitializeComponent();
         }
 
-		protected override void OnAppearing()
+		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
+
             vm = this.BindingContext as CheckingDepositViewModel;
+            await vm.LoadBudgetData();
 		}
+
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             bool itemSaved = await vm.SaveChangesAsync();
@@ -41,6 +45,7 @@ namespace EasyBudget.Forms.Pages
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
             await vm.CategorySelected();
+
         }
     }
 }

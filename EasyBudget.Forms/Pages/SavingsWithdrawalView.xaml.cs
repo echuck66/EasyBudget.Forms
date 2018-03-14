@@ -25,9 +25,11 @@ namespace EasyBudget.Forms.Pages
             await Navigation.PopAsync();
         }
 
-        protected async void OnDepositEditTapped(object sender, TappedEventArgs e)
+        protected async void OnWithdrawalEditTapped(object sender, TappedEventArgs e)
         {
             SavingsWithdrawalEdit editor = new SavingsWithdrawalEdit();
+            await vm.LoadBudgetData();
+
             editor.BindingContext = vm;
             await Navigation.PushAsync(editor);
         }

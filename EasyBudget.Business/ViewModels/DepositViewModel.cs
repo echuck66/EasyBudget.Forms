@@ -84,6 +84,8 @@ namespace EasyBudget.Business.ViewModels
         public abstract Task<bool> SaveChangesAsync();
 
         public abstract Task<bool> DeleteAsync();
+
+        public abstract Task<bool> LoadBudgetData();
     }
 
 }

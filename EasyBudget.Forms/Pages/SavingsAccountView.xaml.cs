@@ -20,7 +20,7 @@ namespace EasyBudget.Forms.Pages
         protected async override void OnAppearing()
         {
             base.OnAppearing();
-            vm = (this.BindingContext as BankAccountViewModel);
+            vm = this.BindingContext as BankAccountViewModel;
             vm.SelectedRegisterItem = null;
 
             var chart = await ChartUtility.Instance.GetChartAsync(vm);
@@ -73,17 +73,24 @@ namespace EasyBudget.Forms.Pages
         {
             var btn = sender as MenuItem;
             var regItem = btn.BindingContext as AccountRegisterItemViewModel;
+
             vm.SelectedRegisterItem = regItem;
             switch (regItem.ItemType)
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
                     SavingsDepositEdit depEditor = new SavingsDepositEdit();
-                    depEditor.BindingContext = regItem as SavingsDepositViewModel;
+                    SavingsDepositViewModel _vmDep = regItem as SavingsDepositViewModel;
+                    await _vmDep.LoadBudgetData();
+
+                    depEditor.BindingContext = _vmDep;
                     await Navigation.PushAsync(depEditor);
                     break;
                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
                     SavingsWithdrawalEdit witEditor = new SavingsWithdrawalEdit();
-                    witEditor.BindingContext = regItem as SavingsWithdrawalViewModel;
+                    SavingsWithdrawalViewModel _vmWithdrawal = regItem as SavingsWithdrawalViewModel;
+                    await _vmWithdrawal.LoadBudgetData();
+
+                    witEditor.BindingContext = _vmWithdrawal;
                     await Navigation.PushAsync(witEditor);
                     break;
             }
@@ -130,12 +137,18 @@ namespace EasyBudget.Forms.Pages
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
                     SavingsDepositView depositViewer = new SavingsDepositView();
-                    depositViewer.BindingContext = itemVM as SavingsDepositViewModel;
+                    var _vmDep = itemVM as SavingsDepositViewModel;
+                    await _vmDep.LoadBudgetData();
+
+                    depositViewer.BindingContext = _vmDep;
                     await Navigation.PushAsync(depositViewer);
                     break;
                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
-                    SavingsDepositView withdrawalViewer = new SavingsDepositView();
-                    withdrawalViewer.BindingContext = itemVM as SavingsWithdrawalViewModel;
+                    SavingsWithdrawalView withdrawalViewer = new SavingsWithdrawalView();
+                    var _vmWithdrawal = itemVM as SavingsWithdrawalViewModel;
+                    await _vmWithdrawal.LoadBudgetData();
+
+                    withdrawalViewer.BindingContext = _vmWithdrawal;
                     await Navigation.PushAsync(withdrawalViewer);
                     break;
             }

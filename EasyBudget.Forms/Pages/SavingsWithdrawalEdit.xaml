@@ -2,7 +2,7 @@
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 x:Class="EasyBudget.Forms.Pages.SavingsWithdrawalEdit" 
-                Title="Edit Withdrawal"
+                Title="Edit"
                 xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
                 xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
 
@@ -35,7 +35,7 @@
                                          HeightRequest="25">
                                 </BoxView>
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="Checking Withdrawal: " VerticalOptions="CenterAndExpand"></Label> 
+                                    <Label Text="Withdrawal: " VerticalOptions="CenterAndExpand"></Label> 
                                     <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
                                 </StackLayout>
                             </StackLayout>

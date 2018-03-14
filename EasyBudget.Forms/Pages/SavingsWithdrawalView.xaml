@@ -38,7 +38,7 @@
                             <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill"></Label>
                             <Label Text="Edit" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand">
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnDepositEditTapped"></TapGestureRecognizer>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnWithdrawalEditTapped"></TapGestureRecognizer>
                                 </Label.GestureRecognizers>
                             </Label>
                         </StackLayout>

@@ -8,6 +8,7 @@ namespace EasyBudget.Forms.Pages
     public partial class SavingsWithdrawalEdit : ContentPage
     {
         SavingsWithdrawalViewModel vm;
+
         public SavingsWithdrawalEdit()
         {
             InitializeComponent();
@@ -17,8 +18,9 @@ namespace EasyBudget.Forms.Pages
 		{
 			base.OnAppearing();
             vm = this.BindingContext as SavingsWithdrawalViewModel;
-
+            //await vm.LoadBudgetData();
 		}
+
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             //await (this.BindingContext as SavingsWithdrawalViewModel).SaveChangesAsync();
@@ -42,6 +44,7 @@ namespace EasyBudget.Forms.Pages
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
             await vm.CategorySelected();
         }
     }

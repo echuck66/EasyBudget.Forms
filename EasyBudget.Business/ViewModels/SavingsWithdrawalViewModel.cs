@@ -65,7 +65,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
-        public string notation
+        public string Notation
         {
             get
             {
@@ -77,7 +77,7 @@ namespace EasyBudget.Business.ViewModels
                 {
                     model.notation = value;
                     this.IsDirty = true;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(notation)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Notation)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
@@ -258,70 +258,72 @@ namespace EasyBudget.Business.ViewModels
 
             this.BudgetItemId = model.budgetExpenseId;
 
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            {
-                var _results = await uow.GetAllBudgetCategoriesAsync();
-                if (_results.Successful)
-                {
-                    foreach (BudgetCategory category in _results.Results)
-                    {
-                        var _resultsItemCountCheck = await uow.GetCategoryExpenseItemsAsync(category);
-                        if (_resultsItemCountCheck.Successful && _resultsItemCountCheck.Results.Count > 0)
-                        {
-                            if (category.categoryType == Models.BudgetCategoryType.Expense)
-                            {
-                                this.BudgetCategories.Add(category);
-                                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
-                            }
-                        }
-                    }
+            //await this.LoadBudgetData();
 
-                    if (this.BudgetItemId > 0)
-                    {
-                        var _resultsGetBudgetItem = await uow.GetExpenseItemAsync(this.BudgetItemId);
-                        if (_resultsGetBudgetItem.Successful)
-                        {
-                            var selectedItem = _resultsGetBudgetItem.Results;
-                            if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
-                            {
-                                this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
-                                this.SelectedBudgetItem = selectedItem;
-                            }
-                        }
-                        else
-                        {
-                            if (_resultsGetBudgetItem.WorkException != null)
-                            {
-                                WriteErrorCondition(_resultsGetBudgetItem.WorkException);
-                            }
-                            else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
-                            {
-                                WriteErrorCondition(_resultsGetBudgetItem.Message);
-                            }
-                            else
-                            {
-                                WriteErrorCondition("An unknown error has occurred populating withdrawal record");
-                            }
-                        }
-                    }
+            //using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            //{
+            //    var _results = await uow.GetAllBudgetCategoriesAsync();
+            //    if (_results.Successful)
+            //    {
+            //        foreach (BudgetCategory category in _results.Results)
+            //        {
+            //            var _resultsItemCountCheck = await uow.GetCategoryExpenseItemsAsync(category);
+            //            if (_resultsItemCountCheck.Successful && _resultsItemCountCheck.Results.Count > 0)
+            //            {
+            //                if (category.categoryType == Models.BudgetCategoryType.Expense)
+            //                {
+            //                    this.BudgetCategories.Add(category);
+            //                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
+            //                }
+            //            }
+            //        }
 
-                }
-                else
-                {
-                    if (_results.WorkException != null)
-                    {
-                        WriteErrorCondition(_results.WorkException);
-                    }
-                    else if (!string.IsNullOrEmpty(_results.Message))
-                    {
-                        WriteErrorCondition(_results.Message);
-                    }
-                    else
-                    {
-                        WriteErrorCondition("An unknown error has occurred getting category records");
-                    }
-                }
-            }
+            //        if (this.BudgetItemId > 0)
+            //        {
+            //            var _resultsGetBudgetItem = await uow.GetExpenseItemAsync(this.BudgetItemId);
+            //            if (_resultsGetBudgetItem.Successful)
+            //            {
+            //                var selectedItem = _resultsGetBudgetItem.Results;
+            //                if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
+            //                {
+            //                    this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+            //                    this.SelectedBudgetItem = selectedItem;
+            //                }
+            //            }
+            //            else
+            //            {
+            //                if (_resultsGetBudgetItem.WorkException != null)
+            //                {
+            //                    WriteErrorCondition(_resultsGetBudgetItem.WorkException);
+            //                }
+            //                else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
+            //                {
+            //                    WriteErrorCondition(_resultsGetBudgetItem.Message);
+            //                }
+            //                else
+            //                {
+            //                    WriteErrorCondition("An unknown error has occurred populating withdrawal record");
+            //                }
+            //            }
+            //        }
+
+            //    }
+            //    else
+            //    {
+            //        if (_results.WorkException != null)
+            //        {
+            //            WriteErrorCondition(_results.WorkException);
+            //        }
+            //        else if (!string.IsNullOrEmpty(_results.Message))
+            //        {
+            //            WriteErrorCondition(_results.Message);
+            //        }
+            //        else
+            //        {
+            //            WriteErrorCondition("An unknown error has occurred getting category records");
+            //        }
+            //    }
+            //}
         }
 
         public async override Task<bool> SaveChangesAsync()
@@ -440,11 +442,12 @@ namespace EasyBudget.Business.ViewModels
 
         public async Task CategorySelected()
         {
+            
             if (this.SelectedCategory != null)
             {
-                if (this.BudgetItems.Count > 0)
+                if (this.BudgetItems.Count() > 0)
                 {
-                    for (int i = this.BudgetItems.Count - 1; i >= 0; i--)
+                    for (int i = this.BudgetItems.Count() - 1; i >= 0; i--)
                     {
                         var itm = this.BudgetItems[i];
 
@@ -485,6 +488,78 @@ namespace EasyBudget.Business.ViewModels
                         }
                     }
                 }
+            }
+        }
+
+        public async override Task<bool> LoadBudgetData()
+        {
+            bool _loaded = false;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetAllBudgetCategoriesAsync();
+                if (_results.Successful)
+                {
+                    foreach (BudgetCategory category in _results.Results)
+                    {
+                        var _resultsItemCountCheck = await uow.GetCategoryExpenseItemsAsync(category);
+                        if (_resultsItemCountCheck.Successful && _resultsItemCountCheck.Results.Count > 0)
+                        {
+                            if (category.categoryType == Models.BudgetCategoryType.Expense)
+                            {
+                                this.BudgetCategories.Add(category);
+                                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
+                            }
+                        }
+                    }
+
+                    if (this.BudgetItemId > 0)
+                    {
+                        var _resultsGetBudgetItem = await uow.GetExpenseItemAsync(this.BudgetItemId);
+                        if (_resultsGetBudgetItem.Successful)
+                        {
+                            var selectedItem = _resultsGetBudgetItem.Results;
+                            if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
+                            {
+                                this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+                                await this.CategorySelected();
+                                //this.SelectedBudgetItem = selectedItem;
+                            }
+                        }
+                        else
+                        {
+                            if (_resultsGetBudgetItem.WorkException != null)
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.WorkException);
+                            }
+                            else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.Message);
+                            }
+                            else
+                            {
+                                WriteErrorCondition("An unknown error has occurred populating withdrawal record");
+                            }
+                        }
+                    }
+                    _loaded = true;
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred getting category records");
+                    }
+                }
+                return _loaded;
             }
         }
     }
