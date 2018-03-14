@@ -130,6 +130,15 @@ namespace EasyBudget.Business.ViewModels
                 _SelectedCategory = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
+            }
+        }
+
+        public string SelectedCategoryName
+        {
+            get
+            {
+                return this.SelectedCategory?.categoryName;
             }
         }
 
@@ -146,10 +155,19 @@ namespace EasyBudget.Business.ViewModels
                 //this.BudgetItemId = value.id;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItem)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItemName)));
                 if (value != null)
                 {
                     this.BudgetItemId = value.id;
                 }
+            }
+        }
+
+        public string SelectedBudgetItemName
+        {
+            get
+            {
+                return this.SelectedBudgetItem?.description;
             }
         }
 

@@ -48,7 +48,7 @@
                     <Label Text="Note" FontAttributes="Bold"></Label>
                     <Entry Text="{Binding Notation}"></Entry>
                     <Label Text="Category" FontAttributes="Bold"></Label>
-                    <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" IsEnabled="{Binding CategorySelectEnabled}" SelectedItem="{Binding SelectedCategory}" SelectedIndexChanged="CategoryTypes_SelectedIndexChanged"></Picker>
+                    <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" IsEnabled="{Binding CategorySelectEnabled}" SelectedItem="{Binding SelectedCategory}"></Picker>
                     <Label Text="Budget Item" FontAttributes="Bold"></Label>
                     <Picker x:Name="pickerBudgetItems" ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" IsEnabled="{Binding BudgetItemSelectEnabled}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
                 </StackLayout>

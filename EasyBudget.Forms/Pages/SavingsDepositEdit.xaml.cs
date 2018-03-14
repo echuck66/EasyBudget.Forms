@@ -22,7 +22,6 @@ namespace EasyBudget.Forms.Pages
 
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
-            //await (this.BindingContext as SavingsDepositViewModel).SaveChangesAsync();
             bool itemSaved = await vm.SaveChangesAsync();
             if (itemSaved)
             {
@@ -43,7 +42,7 @@ namespace EasyBudget.Forms.Pages
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            await (BindingContext as SavingsDepositViewModel).CategorySelected();
+            await vm.CategorySelected();
         }
     }
 }
