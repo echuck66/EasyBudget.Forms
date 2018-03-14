@@ -125,10 +125,11 @@ namespace EasyBudget.Business.ViewModels
             string incomeBudgetColor = "#4CAF50";
             string incomeActualColor = "#81C784";
 
-            //if (fltIncomeActual <= fltIncome)
-                //incomeActualColor = "#E57373";
+            //if (fltIncomeActual >= fltIncome)
+                //incomeActualColor = "#E0E0E0";
 
             float fltIncomeValue = fltIncome > fltIncomeActual ? fltIncome - fltIncomeActual : 0;
+
             var budgetIncomeEntry = new ChartDataEntry()
             {
                 FltValue = fltIncomeValue,
@@ -160,11 +161,13 @@ namespace EasyBudget.Business.ViewModels
                                                  .Sum(bk => bk.AccountRegister
                                                       .Where(ar => ar.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals)
                                                       .Sum(d => d.ItemAmount));
-            string expenseBudgetColor = "#F44336";
+            //string expenseBudgetColor = "#F44336";
+            string expenseBudgetColor = "#F48FB1";
             string expenseActualColor = "#81C784";
 
             if (fltExpenseActual >= fltExpenses)
-                expenseActualColor = "#E57373";
+                expenseActualColor = "#F44336";
+                //expenseActualColor = "#E57373";
 
             float fltExpenseValue = fltExpenses > fltExpenseActual ? fltExpenses - fltExpenseActual : 0;
             var budgetExpenseEntry = new ChartDataEntry()

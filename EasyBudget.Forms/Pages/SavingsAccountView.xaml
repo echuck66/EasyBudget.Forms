@@ -86,7 +86,7 @@
                                 GroupDisplayBinding="{Binding Key}" 
                                 SeparatorColor="#90C0C0C0" 
                                 ItemTapped="OnItemTapped" 
-                                SelectedItem="{Binding SelectedRegisterItem}">
+                                SelectedItem="{Binding SelectedRegisterItem, Mode=TwoWay}">
                 
                         <ListView.ItemTemplate>
                             <DataTemplate>

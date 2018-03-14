@@ -98,7 +98,8 @@
                             GroupDisplayBinding="{Binding Key}" 
                             SeparatorColor="#90C0C0C0" 
                             ItemTapped="OnItemTapped" 
-                            SelectedItem="{Binding SelectedRegisterItem}">
+                            SelectedItem="{Binding SelectedRegisterItem, Mode=TwoWay}"
+                            x:Name="listViewAccountRegister">
             
                     <ListView.ItemTemplate>
                         <DataTemplate>
