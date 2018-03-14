@@ -4,6 +4,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using Xamarin.Forms.Xaml;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -32,6 +35,9 @@ namespace EasyBudget.Forms
         protected override void OnStart()
         {
             // Handle when your app starts
+            AppCenter.Start("android=425d2198-e1e0-4ba5-94d3-5ef8e8563568;" +
+                            "ios=b338cbfd-ce78-4164-aa9b-ea14f86e9913",
+                            typeof(Analytics), typeof(Crashes));
         }
 
         protected override void OnSleep()

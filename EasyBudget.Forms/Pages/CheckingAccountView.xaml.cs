@@ -21,8 +21,9 @@ namespace EasyBudget.Forms.Pages
         {
             base.OnAppearing();
             vm = (this.BindingContext as BankAccountViewModel);
-            chartAccountSummary.Chart = await ChartUtility.Instance.GetChartAsync(vm);
             vm.SelectedRegisterItem = null;
+
+            chartAccountSummary.Chart = await ChartUtility.Instance.GetChartAsync(vm);
         }
 
         public async void OnBackClicked(object sender, EventArgs e)
