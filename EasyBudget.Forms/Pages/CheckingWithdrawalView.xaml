@@ -33,9 +33,14 @@
                                      WidthRequest="25"
                                      HeightRequest="25">
                             </BoxView>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Checking Withdrawal: " VerticalOptions="CenterAndExpand"></Label> 
-                                <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                <Label Text="Withdrawal: " VerticalOptions="CenterAndExpand" HorizontalOptions="Start" HorizontalTextAlignment="Start"></Label> 
+                                <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" HorizontalTextAlignment="Start"></Label>
+                                <Label Text="Edit" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnWithdrawalEditTapped"></TapGestureRecognizer>
+                                    </Label.GestureRecognizers>
+                                </Label>
                             </StackLayout>
                         </StackLayout>
                     </Frame>

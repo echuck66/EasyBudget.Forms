@@ -32,7 +32,7 @@
                         </BoxView>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                             <Label Text="Checking: " VerticalOptions="CenterAndExpand"></Label> <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
-                            <Label Text="Edit" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End">
+                            <Label Text="Edit" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnAccountEditTapped"></TapGestureRecognizer>
                                 </Label.GestureRecognizers>
@@ -65,11 +65,11 @@
                             <Label Text="Bank Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                             <Label Text="{Binding BankName}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal" x:Name="stackRoutingNumber" IsVisible="false">
+                        <StackLayout x:Name="stackRoutingNumber" Orientation="Horizontal" IsVisible="false">
                             <Label Text="Routing Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                             <Label Text="{Binding RoutingNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal" x:Name="stackAccountNumber" IsVisible="false">
+                        <StackLayout x:Name="stackAccountNumber" Orientation="Horizontal" IsVisible="false">
                             <Label Text="Account Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                             <Label Text="{Binding AccountNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
