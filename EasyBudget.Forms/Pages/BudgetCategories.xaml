@@ -28,36 +28,36 @@
         <StackLayout>
             <StackLayout>
                 <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
-                    <Label Text="Budget Totals" VerticalOptions="CenterAndExpand"></Label>
+                    <Label Text="Budget Categories"></Label>
                 </Frame>
             </StackLayout>
             <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
-                <Frame.HeightRequest>
-                    <OnPlatform x:TypeArguments="x:Double">
-                            <On Platform="iOS" Value="100" />
-                            <On Platform="Android" Value="100" />
-                            <On Platform="UWP" Value="100" />
-                        </OnPlatform>
-                </Frame.HeightRequest>  
-                <StackLayout Orientation="Horizontal">   
-                    <charts:ChartView x:Name="chartExpenses" Opacity="0.9" HorizontalOptions="FillAndExpand">
-                        <charts:ChartView.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="100" />
-                                <On Platform="Android" Value="100" />
-                                <On Platform="UWP" Value="100" />
-                        </OnPlatform>
-                        </charts:ChartView.HeightRequest>
-                    </charts:ChartView>
-                    <charts:ChartView x:Name="chartIncome" Opacity="0.9" HorizontalOptions="FillAndExpand">
-                        <charts:ChartView.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="iOS" Value="100" />
-                                <On Platform="Android" Value="100" />
-                                <On Platform="UWP" Value="100" />
+                <StackLayout>
+                    <Label Text="Budget Totals"></Label>
+                    <StackLayout Orientation="Horizontal">   
+                        <charts:ChartView x:Name="chartExpenses" Opacity="0.9" HorizontalOptions="FillAndExpand">
+                            <charts:ChartView.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS" Value="100" />
+                                    <On Platform="Android" Value="100" />
+                                    <On Platform="UWP" Value="100" />
                             </OnPlatform>
-                        </charts:ChartView.HeightRequest>
-                    </charts:ChartView>
+                            </charts:ChartView.HeightRequest>
+                        </charts:ChartView>
+                        <charts:ChartView x:Name="chartIncome" Opacity="0.9" HorizontalOptions="FillAndExpand">
+                            <charts:ChartView.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS" Value="100" />
+                                    <On Platform="Android" Value="100" />
+                                    <On Platform="UWP" Value="100" />
+                                </OnPlatform>
+                            </charts:ChartView.HeightRequest>
+                        </charts:ChartView>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <Label Text="Income" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+                        <Label Text="Expenses" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
+                    </StackLayout>
                 </StackLayout>
             </Frame>
             <StackLayout HorizontalOptions="FillAndExpand">
@@ -87,10 +87,10 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                            <ViewCell.ContextActions>
-                                <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
-                                <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
-                            </ViewCell.ContextActions>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                    <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                                </ViewCell.ContextActions>
                                 <ContentView Padding="1">
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                         <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"

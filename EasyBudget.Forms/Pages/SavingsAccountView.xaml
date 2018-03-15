@@ -53,7 +53,7 @@
                         <StackLayout>
                             <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                             </charts:ChartView>
-                            <Label Text="Balance History" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="Deposits and Withdrawals By Category" HorizontalOptions="FillAndExpand"></Label>
                         </StackLayout>
                     </Frame>
                 </StackLayout>
@@ -102,15 +102,35 @@
                 
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextCell Text="{Binding ItemDescription}" Detail="{Binding TransactionAmount, StringFormat='{0:C}'}">
+                                <!--<TextCell Text="{Binding ItemDescription}" Detail="{Binding TransactionAmount, StringFormat='{0:C}'}">
                                     <TextCell.ContextActions>
                                         <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
                                         <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
                                     </TextCell.ContextActions>
-                                </TextCell>
+                                </TextCell>-->
+                                <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Clicked="OnItemEdit" CommandParameter="{Binding .}" Text="Edit" IsEnabled="{Binding CanEdit}" />
+                                    <MenuItem Clicked="OnItemDelete" CommandParameter="{Binding .}" Text="Delete" IsDestructive="True" IsEnabled="{Binding CanDelete}" />
+                                </ViewCell.ContextActions>
+                                <ContentView Padding="1">
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                        <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
+                                                 WidthRequest="25"
+                                                 HeightRequest="25" VerticalOptions="Center" />
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                            <Label Text="{Binding TransactionDate, StringFormat='{0:MM/dd/yy}'}" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Start"/>
+                                            <Label Text="{Binding ItemDescription}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                                            <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" VerticalOptions="CenterAndExpand" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ContentView>
+                            </ViewCell>
+                            
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                     <Button x:Name="btnNewDeposit" Text="Deposit" HorizontalOptions="FillAndExpand" Clicked="btnNewDeposit_Clicked" IsEnabled="{Binding CanAddItems}"></Button>

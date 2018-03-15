@@ -148,6 +148,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 if (model.ColorCode != value)
                 {
+                    this.ObjectColorCode = value;
                     model.ColorCode = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorCode)));
@@ -166,7 +167,11 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 if (value != null)
+                {
+                    this.ColorCode = value.ColorCode;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorCode)));
                     LoadBudgetItems();
+                }
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
@@ -307,6 +312,7 @@ namespace EasyBudget.Business.ViewModels
             this.TransactionDate = model.transactionDate > DateTime.MinValue ? model.transactionDate : DateTime.Now;
             this.ItemDate = this.TransactionDate;
             this.TransactionAmount = model.transactionAmount;
+            this.ObjectColorCode = this.model.ColorCode;
 
             this.BudgetItemId = model.budgetExpenseId;
 

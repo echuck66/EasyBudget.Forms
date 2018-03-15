@@ -15,49 +15,57 @@
         <ScrollView>
             <StackLayout Spacing="10">
                 <StackLayout>
-                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
-                        <Label Text="Budget Status" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
-                    </Frame>
-                </StackLayout>
-                <StackLayout>
-                        <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
-                    <StackLayout Orientation="Horizontal">
-                            <Frame.HeightRequest>
-                                <OnPlatform x:TypeArguments="x:Double">
-                                        <On Platform="iOS" Value="150" />
-                                        <On Platform="Android" Value="150" />
-                                        <On Platform="UWP" Value="150" />
-                                    </OnPlatform>
-                            </Frame.HeightRequest>
-
-                            <charts:ChartView x:Name="chartIncome" Opacity="0.75" HorizontalOptions="FillAndExpand">
-                                <charts:ChartView.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="iOS" Value="150" />
-                                            <On Platform="Android" Value="150" />
-                                            <On Platform="UWP" Value="150" />
-                                    </OnPlatform>
+                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                        <StackLayout>
+                            <Label Text="Budget Status" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
+                            <StackLayout Orientation="Horizontal">
+                                <charts:ChartView x:Name="chartIncome" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                                    <charts:ChartView.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS" Value="150" />
+                                                <On Platform="Android" Value="150" />
+                                                <On Platform="UWP" Value="150" />
+                                        </OnPlatform>
                                     </charts:ChartView.HeightRequest>
-                            </charts:ChartView>
-                            <charts:ChartView x:Name="chartExpenses" Opacity="0.75" HorizontalOptions="FillAndExpand">
-                                <charts:ChartView.HeightRequest>
+                                </charts:ChartView>
+                                <charts:ChartView x:Name="chartExpenses" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                                    <charts:ChartView.HeightRequest>
                                         <OnPlatform x:TypeArguments="x:Double">
                                             <On Platform="iOS" Value="200" />
                                             <On Platform="Android" Value="100" />
                                             <On Platform="UWP" Value="200" />
-                                    </OnPlatform>
+                                        </OnPlatform>
                                     </charts:ChartView.HeightRequest>
-                            </charts:ChartView>
-                    </StackLayout>
-                        </Frame>
-                    <StackLayout Orientation="Horizontal">
-                        <Label HorizontalOptions="CenterAndExpand" Text="Income"></Label>
-                        <Label HorizontalOptions="CenterAndExpand" Text="Expenses"></Label>
-                    </StackLayout>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <Button x:Name="btnCategories" Text="Budget" Clicked="btnBudgetCategries_Clicked" HorizontalOptions="CenterAndExpand"></Button>
-                    <Button x:Name="btnBankAccounts" Text="Banking" Clicked="btnBankAccounts_Clicked" HorizontalOptions="CenterAndExpand"></Button>
+                                </charts:ChartView>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label HorizontalOptions="CenterAndExpand" Text="Income"></Label>
+                                <Label HorizontalOptions="CenterAndExpand" Text="Expenses"></Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    <Button x:Name="btnCategories" Text="Budgeting" Clicked="btnBudgetCategries_Clicked" HorizontalOptions="FillAndExpand"></Button>
+                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                        <StackLayout>
+                            <Label Text="Account Transactions" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
+                            <StackLayout Orientation="Horizontal">
+                                <charts:ChartView x:Name="chartAccountTransactions" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                                    <charts:ChartView.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="iOS" Value="150" />
+                                                <On Platform="Android" Value="150" />
+                                                <On Platform="UWP" Value="150" />
+                                        </OnPlatform>
+                                    </charts:ChartView.HeightRequest>
+                                </charts:ChartView>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label HorizontalOptions="CenterAndExpand" Text="By Category"></Label>
+                                
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    <Button x:Name="btnBankAccounts" Text="Banking" Clicked="btnBankAccounts_Clicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
 
             </StackLayout>      

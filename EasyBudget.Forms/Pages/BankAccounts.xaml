@@ -1,19 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="EasyBudget.Forms.Pages.BankAccounts" 
-             Title="Accounts"
-             xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" >
+<ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                x:Class="EasyBudget.Forms.Pages.BankAccounts" 
+                Title="Accounts"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters" >
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <cvt:ColorConverter x:Key="colorCvt"/> 
+            <cvt:ColorCodeConverter x:Key="codeCvt"/>
+            <cvt:ColorNameConverter x:Key="nameCvt"/>>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Name="NewBankAccount" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
-    </ContentPage.ToolbarItems> 
+    </ContentPage.ToolbarItems>--> 
     
     <ContentPage.Content>
         <StackLayout Spacing="10">
             <StackLayout>
-                <charts:ChartView x:Name="chartAccountBalances" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                <StackLayout>
+                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Bank Accounts" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Deposits and WIthdrawals" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">   
+                            <charts:ChartView x:Name="chartAllCategories" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                                <charts:ChartView.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS" Value="150" />
+                                        <On Platform="Android" Value="150" />
+                                        <On Platform="UWP" Value="150" />
+                                    </OnPlatform>
+                                </charts:ChartView.HeightRequest>
+                            </charts:ChartView>  
+                            <!--<charts:ChartView x:Name="chartWithdrawals" Opacity="0.75" HorizontalOptions="FillAndExpand">
+                                <charts:ChartView.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS" Value="150" />
+                                        <On Platform="Android" Value="150" />
+                                        <On Platform="UWP" Value="150" />
+                                    </OnPlatform>
+                                </charts:ChartView.HeightRequest>
+                            </charts:ChartView>-->
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="By Category" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"></Label>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <!--<charts:ChartView x:Name="chartAccountBalances" Opacity="0.75" HorizontalOptions="FillAndExpand">
                     <charts:ChartView.HeightRequest>
                         <OnPlatform x:TypeArguments="x:Double">
                             <On Platform="iOS" Value="150" />
@@ -21,7 +66,7 @@
                             <On Platform="UWP" Value="150" />
                         </OnPlatform>
                     </charts:ChartView.HeightRequest>
-                </charts:ChartView>
+                </charts:ChartView>-->
             </StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
                 <ListView   ItemsSource="{Binding BankAccountsGrouped}" 
@@ -41,6 +86,10 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Button x:Name="btnNewBankAccount" Text="New Bank Account" HorizontalOptions="FillAndExpand" Clicked="btnNewBankAccount_Clicked"></Button>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

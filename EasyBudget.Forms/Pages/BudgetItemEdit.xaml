@@ -36,7 +36,7 @@
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-                <StackLayout>
+                <!--<StackLayout>
                     <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                         <Frame.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
@@ -50,7 +50,7 @@
                             </charts:ChartView>
                         </StackLayout>
                     </Frame>
-                </StackLayout>
+                </StackLayout>-->
                 <StackLayout VerticalOptions="FillAndExpand">
                     <StackLayout>
                         <Label Text="Chart Color"></Label>

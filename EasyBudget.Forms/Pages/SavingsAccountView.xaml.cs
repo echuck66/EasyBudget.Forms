@@ -23,8 +23,10 @@ namespace EasyBudget.Forms.Pages
             vm = this.BindingContext as BankAccountViewModel;
             vm.SelectedRegisterItem = null;
 
-            var chart = await ChartUtility.Instance.GetChartAsync(vm);
-            chartAccountSummary.Chart = chart;
+            //var chart = await ChartUtility.Instance.GetChartAsync(vm);
+            //chartAccountSummary.Chart = chart;
+            var provider = new MicrochartsProvider<BankAccountViewModel>();
+            chartAccountSummary.Chart = await provider.GetChartAsync(vm, 0, false);
         }
 
         public async void OnBackClicked(object sender, EventArgs e)

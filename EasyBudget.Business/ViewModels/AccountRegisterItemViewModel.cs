@@ -24,6 +24,7 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+
         string _ItemDescription;
         public string ItemDescription
         {
@@ -108,6 +109,24 @@ namespace EasyBudget.Business.ViewModels
                 }
             }
         }
+
+        string _ObjectColorCode;
+        public string ObjectColorCode
+        {
+            get
+            {
+                return _ObjectColorCode;
+            }
+            set
+            {
+                if (_ObjectColorCode != value)
+                {
+                    _ObjectColorCode = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ObjectColorCode)));
+                }
+            }
+        }
+
 
         public AccountRegisterItemViewModel(string dbFilePath)
             : base(dbFilePath)
