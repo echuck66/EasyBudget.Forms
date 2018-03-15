@@ -149,7 +149,11 @@ namespace EasyBudget.Business.ViewModels
             {
                 _SelectedCategory = value;
                 if (value != null)
+                {
+                    this.ColorCode = value.ColorCode;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorCode)));
                     LoadBudgetItems();
+                }
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
             }
