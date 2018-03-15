@@ -39,7 +39,7 @@
                     </StackLayout>
                 </Frame>
             </StackLayout>
-            <StackLayout>
+            <!--<StackLayout>
                 <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                     <Frame.HeightRequest>
                         <OnPlatform x:TypeArguments="x:Double">
@@ -51,46 +51,46 @@
                     <charts:ChartView x:Name="chartCategory" HeightRequest="150" WidthRequest="150" Opacity="0.75" HorizontalOptions="EndAndExpand">
                     </charts:ChartView>
                 </Frame>
-            </StackLayout>
-                    <StackLayout VerticalOptions="FillAndExpand">
-                        <StackLayout>
-                            <Label Text="Chart Color"></Label>
-                            <ContentView>
-                                <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
-                                    <StackLayout Orientation="Horizontal">
-                                        <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
-                                                 WidthRequest="50"
-                                                 HeightRequest="50">
-                                            <BoxView.GestureRecognizers>
-                                                <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnItemColorTapped"></TapGestureRecognizer>
-                                            </BoxView.GestureRecognizers>
-                                        </BoxView>
-                                        <StackLayout>
-                                            <Label Text="{Binding ColorCode, Converter={StaticResource nameCvt}}"
-                                                   FontSize="22"
-                                                   VerticalOptions="StartAndExpand" />
-                                            <Label Text="{Binding ColorCode, Converter={StaticResource codeCvt}, StringFormat='Hex = {0}'}"
-                                                   FontSize="16"
-                                                   VerticalOptions="CenterAndExpand" />
-                                        </StackLayout>
-                                    </StackLayout>
-                                </Frame>
-                            </ContentView>
-                        </StackLayout>
-                        <Label Text="Name" FontAttributes="Bold"></Label>
-                        <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
-                        <Label Text="Description" FontAttributes="Bold"></Label>
-                        <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
-                        <Label Text="Type" FontAttributes="Bold"></Label>
-                        <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}" IsEnabled="{Binding IsNew}"></Picker>
-                        <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
-                        <Label Text="{Binding Amount, StringFormat='{0:C}'}"></Label>
-                    </StackLayout>
-
-                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" HorizontalOptions="FillAndExpand"></Button>
-                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>-->
+            <StackLayout VerticalOptions="FillAndExpand">
+                <StackLayout>
+                    <Label Text="Chart Color"></Label>
+                    <ContentView>
+                        <Frame OutlineColor="Accent" Padding="10" HeightRequest="60">
+                            <StackLayout Orientation="Horizontal">
+                                <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}"
+                                         WidthRequest="50"
+                                         HeightRequest="50">
+                                    <BoxView.GestureRecognizers>
+                                        <TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnItemColorTapped"></TapGestureRecognizer>
+                                    </BoxView.GestureRecognizers>
+                                </BoxView>
+                                <StackLayout>
+                                    <Label Text="{Binding ColorCode, Converter={StaticResource nameCvt}}"
+                                           FontSize="22"
+                                           VerticalOptions="StartAndExpand" />
+                                    <Label Text="{Binding ColorCode, Converter={StaticResource codeCvt}, StringFormat='Hex = {0}'}"
+                                           FontSize="16"
+                                           VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </ContentView>
                 </StackLayout>
+                <Label Text="Name" FontAttributes="Bold"></Label>
+                <Entry x:Name="txtCategoryName" Text="{Binding Name, Mode=TwoWay}"></Entry>
+                <Label Text="Description" FontAttributes="Bold"></Label>
+                <Entry x:Name="txtDescription" Text="{Binding Description, Mode=TwoWay}"></Entry>
+                <Label Text="Type" FontAttributes="Bold"></Label>
+                <Picker ItemsSource="{Binding CategoryTypes}" SelectedItem="{Binding CategoryType}" IsEnabled="{Binding IsNew}"></Picker>
+                <Label Text="Budgeted Amount" FontAttributes="Bold"></Label>
+                <Label Text="{Binding Amount, StringFormat='{0:C}'}"></Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand">
+                <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" HorizontalOptions="FillAndExpand"></Button>
+                <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
             </StackLayout>
         </ScrollView>
 	</ContentPage.Content>

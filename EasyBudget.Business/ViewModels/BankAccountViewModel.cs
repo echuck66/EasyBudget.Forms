@@ -959,7 +959,122 @@ namespace EasyBudget.Business.ViewModels
 
         public override IChartDataPack GetChartData()
         {
-            throw new NotImplementedException();
+            ChartDataPack chartPack = new ChartDataPack();
+
+            ChartDataGroup allCategorizedGroup = new ChartDataGroup();
+            allCategorizedGroup.ChartDisplayOrder = 0;
+            allCategorizedGroup.ChartDisplayType = ChartType.Bar;
+
+            List<List<AccountRegisterItemViewModel>> _registerVMsByCategory = new List<List<AccountRegisterItemViewModel>>();
+            List<AccountRegisterItemViewModel> _allDepositTransactions = new List<AccountRegisterItemViewModel>();
+            List<AccountRegisterItemViewModel> _allWithdrawalTransactions = new List<AccountRegisterItemViewModel>();
+
+            decimal _depositSum = _allDepositTransactions.Sum(t => t.ItemAmount);
+            decimal _withdrawalSum = _allWithdrawalTransactions.Sum(t => t.ItemAmount);
+
+             _allDepositTransactions.AddRange(this.AccountRegister.Where(r => r.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits));
+             _allWithdrawalTransactions.AddRange(this.AccountRegister.Where(r => r.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals));
+
+
+
+            string _colorCode = string.Empty;
+            List<AccountRegisterItemViewModel> _tempVMList = new List<AccountRegisterItemViewModel>();
+            // Start with Deposits
+            _registerVMsByCategory = new List<List<AccountRegisterItemViewModel>>();
+            foreach (var _regVM in _allDepositTransactions.OrderBy(t => t.ObjectColorCode))
+            {
+                if (_regVM.ObjectColorCode != _colorCode)
+                {
+                    if (_tempVMList.Count > 0)
+                    {
+                        _registerVMsByCategory.Add(_tempVMList);
+                    }
+                    _colorCode = _regVM.ObjectColorCode;
+                    _tempVMList = new List<AccountRegisterItemViewModel>();
+                }
+                _tempVMList.Add(_regVM);
+            }
+            if (_tempVMList.Count > 0)
+            {
+                _registerVMsByCategory.Add(_tempVMList);
+            }
+            foreach (var _list in _registerVMsByCategory)
+            {
+                decimal _catValue = _list.Sum(r => r.ItemAmount);
+                ChartDataEntry _entry = new ChartDataEntry();
+                _entry.FltValue = (float)_catValue;
+                _entry.Label = "Category Total";
+                _entry.ColorCode = _list.First().ObjectColorCode;
+                //incomeCategorizedGroup.ChartDataItems.Add(_entry);
+                allCategorizedGroup.ChartDataItems.Add(_entry);
+            }
+
+            // and Withdrawals
+            _registerVMsByCategory = new List<List<AccountRegisterItemViewModel>>();
+            foreach (var _regVM in _allWithdrawalTransactions.OrderBy(t => t.ObjectColorCode))
+            {
+                if (_regVM.ObjectColorCode != _colorCode)
+                {
+                    if (_tempVMList.Count > 0)
+                    {
+                        _registerVMsByCategory.Add(_tempVMList);
+                    }
+                    _colorCode = _regVM.ObjectColorCode;
+                    _tempVMList = new List<AccountRegisterItemViewModel>();
+                }
+                _tempVMList.Add(_regVM);
+            }
+            if (_tempVMList.Count > 0)
+            {
+                _registerVMsByCategory.Add(_tempVMList);
+            }
+            foreach (var _list in _registerVMsByCategory)
+            {
+                decimal _catValue = _list.Sum(r => r.ItemAmount);
+                ChartDataEntry _entry = new ChartDataEntry();
+                _entry.FltValue = (float)(-1 * _catValue);
+                _entry.Label = "Category Total";
+                _entry.ColorCode = _list.First().ObjectColorCode;
+                //spendingCategorizedGroup.ChartDataItems.Add(_entry);
+                allCategorizedGroup.ChartDataItems.Add(_entry);
+            }
+
+            chartPack.Charts.Add(allCategorizedGroup);
+
+            //List<List<AccountRegisterItemViewModel>> _registerVMsByCategory = new List<List<AccountRegisterItemViewModel>>();
+
+            //string _colorCode = string.Empty;
+            //List<AccountRegisterItemViewModel> _tempVMList = new List<AccountRegisterItemViewModel>();
+            //foreach (var _regVM in this.AccountRegister.OrderBy(t => t.ObjectColorCode))
+            //{
+            //    if (_regVM.ObjectColorCode != _colorCode)
+            //    {
+            //        if (_tempVMList.Count > 0)
+            //        {
+            //            _registerVMsByCategory.Add(_tempVMList);
+            //        }
+            //        _colorCode = _regVM.ObjectColorCode;
+            //        _tempVMList = new List<AccountRegisterItemViewModel>();
+            //    }
+            //    _tempVMList.Add(_regVM);
+            //}
+            //if (_tempVMList.Count > 0)
+            //{
+            //    _registerVMsByCategory.Add(_tempVMList);
+            //}
+            //foreach (var _list in _registerVMsByCategory)
+            //{
+            //    decimal _catValue = _list.Sum(r => r.ItemAmount);
+            //    ChartDataEntry _entry = new ChartDataEntry();
+            //    _entry.FltValue = (float)_catValue;
+            //    _entry.Label = "Category Total";
+            //    _entry.ColorCode = _list.First().ObjectColorCode;
+            //    chartByCategoryGroup.ChartDataItems.Add(_entry);
+            //}
+
+            //chartPack.Charts.Add(chartByCategoryGroup);
+
+            return chartPack;
         }
     }
 

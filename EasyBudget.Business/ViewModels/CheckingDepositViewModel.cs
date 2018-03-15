@@ -167,6 +167,7 @@ namespace EasyBudget.Business.ViewModels
             {
                 if (model.ColorCode != value)
                 {
+                    this.ObjectColorCode = value;
                     model.ColorCode = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ColorCode)));
@@ -279,7 +280,7 @@ namespace EasyBudget.Business.ViewModels
             this.TransactionDate = deposit.transactionDate > DateTime.MinValue ? deposit.transactionDate : DateTime.Now;
             this.ItemDate = this.TransactionDate;
             this.TransactionAmount = model.transactionAmount;
-
+            this.ObjectColorCode = this.model.ColorCode;
             this.BudgetItemId = model.budgetIncomeId;
 
             //await LoadBudgetData();

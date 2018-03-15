@@ -28,7 +28,9 @@ namespace EasyBudget.Forms.Pages
 
             //chartAccountBalances
             var provider = new MicrochartsProvider<BankAccountsViewModel>();
-            chartAccountBalances.Chart = await provider.GetChartAsync(vm, 0, false);
+            //chartAccountBalances.Chart = await provider.GetChartAsync(vm, 0, false);
+            chartAllCategories.Chart = await provider.GetChartAsync(vm, 0, false);
+            //chartWithdrawals.Chart = await provider.GetChartAsync(vm, 1, false);
         }
 
         protected override void OnDisappearing()
@@ -117,6 +119,33 @@ namespace EasyBudget.Forms.Pages
         }
 
         public async void OnNewItemClicked(object sender, EventArgs e)
+        {
+            var action = await DisplayActionSheet("New Account Type", "Cancel", null, "Checking", "Savings");
+
+            switch (action)
+            {
+                case "Checking":
+                    await vm.AddCheckingAccountAsync();
+                    //CheckingAccountEditTabs checkingEditor = new CheckingAccountEditTabs();
+                    //checkingEditor.BindingContext = vm.SelectedBankAccount;
+                    //await Navigation.PushModalAsync(checkingEditor);
+                    CheckingAccountEdit checkingEditor = new CheckingAccountEdit();
+                    checkingEditor.BindingContext = vm.SelectedBankAccount;
+                    await Navigation.PushAsync(checkingEditor);
+                    break;
+                case "Savings":
+                    await vm.AddsavingsAccountAsync();
+                    //SavingsAccountEditTabs savingsEditor = new SavingsAccountEditTabs();
+                    //savingsEditor.BindingContext = vm.SelectedBankAccount;
+                    //await Navigation.PushModalAsync(savingsEditor);
+                    SavingsAccountEdit savingsEditor = new SavingsAccountEdit();
+                    savingsEditor.BindingContext = vm.SelectedBankAccount;
+                    await Navigation.PushAsync(savingsEditor);
+                    break;
+            }
+        }
+
+        public async void btnNewBankAccount_Clicked(object sender, EventArgs e)
         {
             var action = await DisplayActionSheet("New Account Type", "Cancel", null, "Checking", "Savings");
 

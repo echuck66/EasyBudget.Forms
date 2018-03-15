@@ -54,7 +54,7 @@
                     <StackLayout>
                         <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                         </charts:ChartView>
-                        <Label Text="Balance History" HorizontalOptions="FillAndExpand"></Label>
+                        <Label Text="Deposits and Withdrawals By Category" HorizontalOptions="FillAndExpand"></Label>
                     </StackLayout>
                 </Frame>
             </StackLayout>

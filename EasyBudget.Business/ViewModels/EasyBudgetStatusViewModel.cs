@@ -110,85 +110,93 @@ namespace EasyBudget.Business.ViewModels
         {
             var dataPack = new ChartDataPack();
             // Income Group Chart Data
-            var budgetIncomeGroup = new ChartDataGroup();
-            budgetIncomeGroup.ChartDisplayType = ChartType.Pie;
-            budgetIncomeGroup.ChartDisplayOrder = 0;
-            // Construct and build the data points
-            // Collect the income values
-            var fltIncome = (float)this.vmCategories.BudgetCategories
-                                          .Where(c => c.CategoryType == BudgetCategoryType.Income)
-                                          .Sum(c => c.Amount);
-            var fltIncomeActual = (float)this.vmAccounts.BankAccounts
-                                                .Sum(bk => bk.AccountRegister
-                                                     .Where(ar => ar.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits)
-                                                     .Sum(d => d.ItemAmount));
-            string incomeBudgetColor = "#4CAF50";
-            string incomeActualColor = "#81C784";
+            //var budgetIncomeGroup = new ChartDataGroup();
+            //budgetIncomeGroup.ChartDisplayType = ChartType.Pie;
+            //budgetIncomeGroup.ChartDisplayOrder = 0;
+            //// Construct and build the data points
+            //// Collect the income values
+            //var fltIncome = (float)this.vmCategories.BudgetCategories
+            //                              .Where(c => c.CategoryType == BudgetCategoryType.Income)
+            //                              .Sum(c => c.Amount);
+            //var fltIncomeActual = (float)this.vmAccounts.BankAccounts
+            //                                    .Sum(bk => bk.AccountRegister
+            //                                         .Where(ar => ar.ItemType == AccountRegisterItemViewModel.AccountItemType.Deposits)
+            //                                         .Sum(d => d.ItemAmount));
+            //string incomeBudgetColor = "#4CAF50";
+            //string incomeActualColor = "#81C784";
 
-            //if (fltIncomeActual >= fltIncome)
-                //incomeActualColor = "#E0E0E0";
+            ////if (fltIncomeActual >= fltIncome)
+            //    //incomeActualColor = "#E0E0E0";
 
-            float fltIncomeValue = fltIncome > fltIncomeActual ? fltIncome - fltIncomeActual : 0;
+            //float fltIncomeValue = fltIncome > fltIncomeActual ? fltIncome - fltIncomeActual : 0;
 
-            var budgetIncomeEntry = new ChartDataEntry()
+            //var budgetIncomeEntry = new ChartDataEntry()
+            //{
+            //    FltValue = fltIncomeValue,
+            //    Label = "Budgeted",
+            //    ValueLabel = fltIncome.ToString("C"),
+            //    ColorCode = incomeBudgetColor
+            //};
+            //var actualIncomeEntry = new ChartDataEntry()
+            //{
+            //    FltValue = fltIncomeActual,
+            //    Label = "Actual",
+            //    ValueLabel = fltIncomeActual.ToString("C"),
+            //    ColorCode = incomeActualColor
+            //};
+            //budgetIncomeGroup.ChartDataItems.Add(actualIncomeEntry);
+            //budgetIncomeGroup.ChartDataItems.Add(budgetIncomeEntry);
+
+            //// Expense Group Chart Data
+            //var budgetExpenseGroup = new ChartDataGroup();
+            //budgetExpenseGroup.ChartDataItems = new List<ChartDataEntry>();
+            //budgetExpenseGroup.ChartDisplayType = ChartType.Pie;
+            //budgetExpenseGroup.ChartDisplayOrder = 1;
+            //// Construct and build the data points
+            //// Collect the expense values
+            //var fltExpenses = (float)this.vmCategories.BudgetCategories
+            //                                .Where(c => c.CategoryType == Models.BudgetCategoryType.Expense)
+            //                                .Sum(c => c.Amount);
+            //var fltExpenseActual = (float)this.vmAccounts.BankAccounts
+            //                                     .Sum(bk => bk.AccountRegister
+            //                                          .Where(ar => ar.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals)
+            //                                          .Sum(d => d.ItemAmount));
+            ////string expenseBudgetColor = "#F44336";
+            //string expenseBudgetColor = "#F48FB1";
+            //string expenseActualColor = "#81C784";
+
+            //if (fltExpenseActual >= fltExpenses)
+            //    expenseActualColor = "#F44336";
+            //    //expenseActualColor = "#E57373";
+
+            //float fltExpenseValue = fltExpenses > fltExpenseActual ? fltExpenses - fltExpenseActual : 0;
+            //var budgetExpenseEntry = new ChartDataEntry()
+            //{
+            //    FltValue = fltExpenseValue,
+            //    Label = "Budgeted",
+            //    ValueLabel = fltExpenses.ToString("C"),
+            //    ColorCode = expenseBudgetColor
+            //};
+            //var actualExpenseEntry = new ChartDataEntry()
+            //{
+            //    FltValue = fltExpenseActual,
+            //    Label = "Actual",
+            //    ValueLabel = fltExpenseActual.ToString("C"),
+            //    ColorCode = expenseActualColor
+            //};
+            //budgetExpenseGroup.ChartDataItems.Add(actualExpenseEntry);
+            //budgetExpenseGroup.ChartDataItems.Add(budgetExpenseEntry);
+
+            //dataPack.Charts.Add(budgetIncomeGroup);
+            //dataPack.Charts.Add(budgetExpenseGroup);
+            var budgetCategoriesDataPack = this.vmCategories.ChartDataPack;
+            foreach(ChartDataGroup _grp in budgetCategoriesDataPack.Charts)
             {
-                FltValue = fltIncomeValue,
-                Label = "Budgeted",
-                ValueLabel = fltIncome.ToString("C"),
-                ColorCode = incomeBudgetColor
-            };
-            var actualIncomeEntry = new ChartDataEntry()
-            {
-                FltValue = fltIncomeActual,
-                Label = "Actual",
-                ValueLabel = fltIncomeActual.ToString("C"),
-                ColorCode = incomeActualColor
-            };
-            budgetIncomeGroup.ChartDataItems.Add(actualIncomeEntry);
-            budgetIncomeGroup.ChartDataItems.Add(budgetIncomeEntry);
+                dataPack.Charts.Add(_grp);
+            }
 
-            // Expense Group Chart Data
-            var budgetExpenseGroup = new ChartDataGroup();
-            budgetExpenseGroup.ChartDataItems = new List<ChartDataEntry>();
-            budgetExpenseGroup.ChartDisplayType = ChartType.Pie;
-            budgetExpenseGroup.ChartDisplayOrder = 1;
-            // Construct and build the data points
-            // Collect the expense values
-            var fltExpenses = (float)this.vmCategories.BudgetCategories
-                                            .Where(c => c.CategoryType == Models.BudgetCategoryType.Expense)
-                                            .Sum(c => c.Amount);
-            var fltExpenseActual = (float)this.vmAccounts.BankAccounts
-                                                 .Sum(bk => bk.AccountRegister
-                                                      .Where(ar => ar.ItemType == AccountRegisterItemViewModel.AccountItemType.Withdrawals)
-                                                      .Sum(d => d.ItemAmount));
-            //string expenseBudgetColor = "#F44336";
-            string expenseBudgetColor = "#F48FB1";
-            string expenseActualColor = "#81C784";
-
-            if (fltExpenseActual >= fltExpenses)
-                expenseActualColor = "#F44336";
-                //expenseActualColor = "#E57373";
-
-            float fltExpenseValue = fltExpenses > fltExpenseActual ? fltExpenses - fltExpenseActual : 0;
-            var budgetExpenseEntry = new ChartDataEntry()
-            {
-                FltValue = fltExpenseValue,
-                Label = "Budgeted",
-                ValueLabel = fltExpenses.ToString("C"),
-                ColorCode = expenseBudgetColor
-            };
-            var actualExpenseEntry = new ChartDataEntry()
-            {
-                FltValue = fltExpenseActual,
-                Label = "Actual",
-                ValueLabel = fltExpenseActual.ToString("C"),
-                ColorCode = expenseActualColor
-            };
-            budgetExpenseGroup.ChartDataItems.Add(actualExpenseEntry);
-            budgetExpenseGroup.ChartDataItems.Add(budgetExpenseEntry);
-
-            dataPack.Charts.Add(budgetIncomeGroup);
-            dataPack.Charts.Add(budgetExpenseGroup);
+            var accountsDataPack = this.vmAccounts.ChartDataPack;
+            dataPack.Charts.Add(accountsDataPack.Charts.First());
 
             //var accountsStatusGroup = new ChartDataGroup();
             //accountsStatusGroup.ChartDataItems = new List<ChartDataEntry>();
