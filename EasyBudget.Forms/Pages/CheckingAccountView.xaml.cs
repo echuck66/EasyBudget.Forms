@@ -161,6 +161,9 @@ namespace EasyBudget.Forms.Pages
         {
             stackRoutingNumber.IsVisible = !stackRoutingNumber.IsVisible;
             stackAccountNumber.IsVisible = !stackAccountNumber.IsVisible;
+            stackTotalDeposits.IsVisible = !stackTotalDeposits.IsVisible;
+            stackTotalWithdrawals.IsVisible = !stackTotalWithdrawals.IsVisible;
+
             if (lblShowMoreLess.Text == "Show More")
             {
                 lblShowMoreLess.Text = "Show Less";

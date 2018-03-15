@@ -981,17 +981,17 @@ namespace EasyBudget.Business.ViewModels
             List<AccountRegisterItemViewModel> _tempVMList = new List<AccountRegisterItemViewModel>();
             // Start with Deposits
             _registerVMsByCategory = new List<List<AccountRegisterItemViewModel>>();
-            foreach (var _regVM in _allDepositTransactions.OrderBy(t => t.ObjectColorCode))
+            foreach (var _regVM in _allDepositTransactions.OrderBy(t => t.ItemDate))
             {
-                if (_regVM.ObjectColorCode != _colorCode)
-                {
-                    if (_tempVMList.Count > 0)
-                    {
-                        _registerVMsByCategory.Add(_tempVMList);
-                    }
-                    _colorCode = _regVM.ObjectColorCode;
-                    _tempVMList = new List<AccountRegisterItemViewModel>();
-                }
+                //if (_regVM.ObjectColorCode != _colorCode)
+                //{
+                //    if (_tempVMList.Count > 0)
+                //    {
+                //        _registerVMsByCategory.Add(_tempVMList);
+                //    }
+                //    _colorCode = _regVM.ObjectColorCode;
+                //    _tempVMList = new List<AccountRegisterItemViewModel>();
+                //}
                 _tempVMList.Add(_regVM);
             }
             if (_tempVMList.Count > 0)
@@ -1000,28 +1000,39 @@ namespace EasyBudget.Business.ViewModels
             }
             foreach (var _list in _registerVMsByCategory)
             {
-                decimal _catValue = _list.Sum(r => r.ItemAmount);
-                ChartDataEntry _entry = new ChartDataEntry();
-                _entry.FltValue = (float)_catValue;
-                _entry.Label = "Category Total";
-                _entry.ColorCode = _list.First().ObjectColorCode;
-                //incomeCategorizedGroup.ChartDataItems.Add(_entry);
-                allCategorizedGroup.ChartDataItems.Add(_entry);
+                foreach (var _listItm in _list)
+                {
+                    decimal _itmValue = _listItm.ItemAmount;
+                    ChartDataEntry _entry = new ChartDataEntry();
+                    _entry.FltValue = (float)(_itmValue);
+                    _entry.Label = "Item Value";
+                    _entry.ValueLabel = _itmValue.ToString("C");
+                    _entry.ColorCode = _listItm.ObjectColorCode;
+                    allCategorizedGroup.ChartDataItems.Add(_entry);
+                }
+                //decimal _catValue = _list.Sum(r => r.ItemAmount);
+                //ChartDataEntry _entry = new ChartDataEntry();
+                //_entry.FltValue = (float)_catValue;
+                //_entry.Label = "Deposit Value";
+                //_entry.ValueLabel = _catValue.ToString("C");
+                //_entry.ColorCode = _list.First().ObjectColorCode;
+                ////incomeCategorizedGroup.ChartDataItems.Add(_entry);
+                //allCategorizedGroup.ChartDataItems.Add(_entry);
             }
 
             // and Withdrawals
             _registerVMsByCategory = new List<List<AccountRegisterItemViewModel>>();
             foreach (var _regVM in _allWithdrawalTransactions.OrderBy(t => t.ObjectColorCode))
             {
-                if (_regVM.ObjectColorCode != _colorCode)
-                {
-                    if (_tempVMList.Count > 0)
-                    {
-                        _registerVMsByCategory.Add(_tempVMList);
-                    }
-                    _colorCode = _regVM.ObjectColorCode;
-                    _tempVMList = new List<AccountRegisterItemViewModel>();
-                }
+                //if (_regVM.ObjectColorCode != _colorCode)
+                //{
+                //    if (_tempVMList.Count > 0)
+                //    {
+                //        _registerVMsByCategory.Add(_tempVMList);
+                //    }
+                //    _colorCode = _regVM.ObjectColorCode;
+                //    _tempVMList = new List<AccountRegisterItemViewModel>();
+                //}
                 _tempVMList.Add(_regVM);
             }
             if (_tempVMList.Count > 0)
@@ -1030,13 +1041,24 @@ namespace EasyBudget.Business.ViewModels
             }
             foreach (var _list in _registerVMsByCategory)
             {
-                decimal _catValue = _list.Sum(r => r.ItemAmount);
-                ChartDataEntry _entry = new ChartDataEntry();
-                _entry.FltValue = (float)(-1 * _catValue);
-                _entry.Label = "Category Total";
-                _entry.ColorCode = _list.First().ObjectColorCode;
-                //spendingCategorizedGroup.ChartDataItems.Add(_entry);
-                allCategorizedGroup.ChartDataItems.Add(_entry);
+                foreach(var _listItm in _list)
+                {
+                    decimal _itmValue = _listItm.ItemAmount;
+                    ChartDataEntry _entry = new ChartDataEntry();
+                    _entry.FltValue = (float)(-1 * _itmValue);
+                    _entry.Label = "Item Value";
+                    _entry.ValueLabel = _itmValue.ToString("C");
+                    _entry.ColorCode = _listItm.ObjectColorCode;
+                    allCategorizedGroup.ChartDataItems.Add(_entry);
+                }
+                //decimal _catValue = _list.Sum(r => r.ItemAmount);
+                //ChartDataEntry _entry = new ChartDataEntry();
+                //_entry.FltValue = (float)(-1 * _catValue);
+                //_entry.Label = "Category Value";
+                //_entry.ValueLabel = 
+                //_entry.ColorCode = _list.First().ObjectColorCode;
+                ////spendingCategorizedGroup.ChartDataItems.Add(_entry);
+                //allCategorizedGroup.ChartDataItems.Add(_entry);
             }
 
             chartPack.Charts.Add(allCategorizedGroup);
