@@ -113,8 +113,8 @@
                     </ListView>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                    <Button x:Name="btnNewDeposit" Text="New Deposit" HorizontalOptions="FillAndExpand" Clicked="btnNewDeposit_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
-                    <Button x:Name="btnNewWithdrawal" Text="New Withdrawal" HorizontalOptions="FillAndExpand" Clicked="btnNewWithdrawal_Clicked" IsEnabled="{Binding CanAddItems}"></Button> 
+                    <Button x:Name="btnNewDeposit" Text="Deposit" HorizontalOptions="FillAndExpand" Clicked="btnNewDeposit_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
+                    <Button x:Name="btnNewWithdrawal" Text="Withdrawal" HorizontalOptions="FillAndExpand" Clicked="btnNewWithdrawal_Clicked" IsEnabled="{Binding CanAddItems}"></Button> 
                 </StackLayout>
             </StackLayout>
 	</ContentPage.Content>

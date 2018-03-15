@@ -117,6 +117,8 @@ namespace EasyBudget.Business.ViewModels
             set
             {
                 _SelectedCategory = value;
+                if (value != null) 
+                    LoadBudgetItems();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
@@ -218,11 +220,19 @@ namespace EasyBudget.Business.ViewModels
             }
         }
 
+        int budgetItemCount = 0;
         public bool BudgetItemSelectEnabled
         {
             get
             {
-                return this.BudgetItems.Count > 0;
+                bool hasItems = this.BudgetItems.Any();
+                if (this.BudgetItems.Count() != budgetItemCount)
+                {
+                    budgetItemCount = this.BudgetItems.Count();
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
+                }
+
+                return hasItems;
             }
         }
 
@@ -268,71 +278,7 @@ namespace EasyBudget.Business.ViewModels
 
             this.BudgetItemId = model.budgetIncomeId;
 
-            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
-            {
-                var _results = await uow.GetAllBudgetCategoriesAsync();
-                if (_results.Successful)
-                {
-                    foreach(BudgetCategory category in _results.Results)
-                    {
-                        var _resultsItemCountCheck = await uow.GetCategoryIncomeItemsAsync(category);
-                        if (_resultsItemCountCheck.Successful && _resultsItemCountCheck.Results.Count > 0)
-                        {
-                            if (category.categoryType == Models.BudgetCategoryType.Income)
-                            {
-                                this.BudgetCategories.Add(category);
-                                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
-                            }
-                        }
-                    }
-
-                    if (this.BudgetItemId > 0)
-                    {
-                        var _resultsGetBudgetItem = await uow.GetIncomeItemAsync(this.BudgetItemId);
-                        if (_resultsGetBudgetItem.Successful)
-                        {
-                            var selectedItem = _resultsGetBudgetItem.Results;
-                            if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
-                            {
-                                this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
-                                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
-                                this.SelectedBudgetItem = selectedItem;
-                                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItemName)));
-                            }
-                        }
-                        else
-                        {
-                            if (_resultsGetBudgetItem.WorkException != null)
-                            {
-                                WriteErrorCondition(_resultsGetBudgetItem.WorkException);
-                            }
-                            else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
-                            {
-                                WriteErrorCondition(_resultsGetBudgetItem.Message);
-                            }
-                            else
-                            {
-                                WriteErrorCondition("An unknown error has occurred populating deposit record");
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (_results.WorkException != null)
-                    {
-                        WriteErrorCondition(_results.WorkException);
-                    }
-                    else if (!string.IsNullOrEmpty(_results.Message))
-                    {
-                        WriteErrorCondition(_results.Message);
-                    }
-                    else
-                    {
-                        WriteErrorCondition("An unknown error has occurred getting category records");
-                    }
-                }
-            }
+            //await LoadBudgetData();
         }
     
         public async override Task<bool> SaveChangesAsync()
@@ -471,8 +417,8 @@ namespace EasyBudget.Business.ViewModels
                         foreach(var itm in _results.Results)
                         {
                             this.BudgetItems.Add(itm);
-                            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         }
+                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                         //this.SelectedBudgetItem = null;
                         if (this.BudgetItemId > 0 && this.BudgetItems.Any(i => i.id == this.BudgetItemId))
                         {
@@ -496,6 +442,134 @@ namespace EasyBudget.Business.ViewModels
                     }
                 }
             }
+        }
+
+        public async override Task<bool> LoadBudgetData()
+        {
+            bool _loaded = false;
+
+            using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+            {
+                var _results = await uow.GetAllBudgetCategoriesAsync();
+                if (_results.Successful)
+                {
+                    foreach (BudgetCategory category in _results.Results)
+                    {
+                        var _resultsItemCountCheck = await uow.GetCategoryIncomeItemsAsync(category);
+                        if (_resultsItemCountCheck.Successful && _resultsItemCountCheck.Results.Count > 0)
+                        {
+                            if (category.categoryType == Models.BudgetCategoryType.Income)
+                            {
+                                this.BudgetCategories.Add(category);
+                                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CategorySelectEnabled)));
+                            }
+                        }
+                    }
+
+                    if (this.BudgetItemId > 0)
+                    {
+                        var _resultsGetBudgetItem = await uow.GetIncomeItemAsync(this.BudgetItemId);
+                        if (_resultsGetBudgetItem.Successful)
+                        {
+                            var selectedItem = _resultsGetBudgetItem.Results;
+                            if (this.BudgetCategories.Any(c => c.id == selectedItem.budgetCategoryId))
+                            {
+                                this.SelectedCategory = this.BudgetCategories.FirstOrDefault(c => c.id == selectedItem.budgetCategoryId);
+                                await this.CategorySelected();
+
+                                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
+                                //this.SelectedBudgetItem = selectedItem;
+                                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedBudgetItemName)));
+                            }
+                        }
+                        else
+                        {
+                            if (_resultsGetBudgetItem.WorkException != null)
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.WorkException);
+                            }
+                            else if (!string.IsNullOrEmpty(_resultsGetBudgetItem.Message))
+                            {
+                                WriteErrorCondition(_resultsGetBudgetItem.Message);
+                            }
+                            else
+                            {
+                                WriteErrorCondition("An unknown error has occurred populating deposit record");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (this.SelectedCategory != null)
+                            await this.CategorySelected();
+                    }
+
+                    _loaded = true;
+                }
+                else
+                {
+                    if (_results.WorkException != null)
+                    {
+                        WriteErrorCondition(_results.WorkException);
+                    }
+                    else if (!string.IsNullOrEmpty(_results.Message))
+                    {
+                        WriteErrorCondition(_results.Message);
+                    }
+                    else
+                    {
+                        WriteErrorCondition("An unknown error has occurred getting category records");
+                    }
+                }
+            }
+            return _loaded;
+        }
+    
+        bool LoadBudgetItems()
+        {
+            bool _loaded = false;
+
+            if (this.SelectedCategory != null)
+            {
+                this.SelectedBudgetItem = null;
+
+                using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+                {
+                    if (this.BudgetItems.Count > 0)
+                    {
+                        for (int i = this.BudgetItems.Count - 1; i >= 0; i--)
+                        {
+                            this.BudgetItems.RemoveAt(i);
+                        }
+                    }
+                    var _resultsIncome = Task.Run(() => uow.GetCategoryIncomeItemsAsync(this.SelectedCategory)).Result;
+                    if (_resultsIncome.Successful)
+                    {
+                        foreach(var bi in _resultsIncome.Results)
+                        {
+                            this.BudgetItems.Add(bi);
+                            if (bi.id == this.BudgetItemId)
+                                this.SelectedBudgetItem = bi;
+                        }
+                        _loaded = true;
+                    }
+                    var _resultsExpenses = Task.Run(() => uow.GetCategoryExpenseItemsAsync(this.SelectedCategory)).Result;
+                    if (_resultsExpenses.Successful)
+                    {
+                        foreach(var bx in _resultsExpenses.Results)
+                        {
+                            this.BudgetItems.Add(bx);
+                            if (bx.id == this.BudgetItemId)
+                                this.SelectedBudgetItem = bx;
+                        }
+                        _loaded = true;
+                    }
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItems)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
+                }
+            }
+
+            return _loaded;
         }
     }
 }

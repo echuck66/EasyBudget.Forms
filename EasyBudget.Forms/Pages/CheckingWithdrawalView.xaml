@@ -58,7 +58,7 @@
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding TransactionAmount}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
+                                <Label Text="{Binding TransactionAmount, StringFormat='{0:C}'}" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                 <Label Text="Pay to Order of" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>

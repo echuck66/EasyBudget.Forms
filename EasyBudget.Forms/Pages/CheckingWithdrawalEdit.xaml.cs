@@ -7,12 +7,20 @@ namespace EasyBudget.Forms.Pages
 {
     public partial class CheckingWithdrawalEdit : ContentPage
     {
+        CheckingWithdrawalViewModel vm;
+
         public CheckingWithdrawalEdit()
         {
             InitializeComponent();
         }
 
-        protected async void OnSaveClicked(object sender, EventArgs e)
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+            vm = this.BindingContext as CheckingWithdrawalViewModel;
+		}
+
+		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             bool itemSaved = await (this.BindingContext as CheckingWithdrawalViewModel).SaveChangesAsync();
             if (itemSaved)
@@ -34,7 +42,12 @@ namespace EasyBudget.Forms.Pages
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            await (BindingContext as CheckingWithdrawalViewModel).CategorySelected();
+            //await vm.CategorySelected();
+        }
+
+        protected async void BudgetItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //await vm.LoadBudgetData();
         }
     }
 }

@@ -1,20 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using EasyBudget.Business.ViewModels;
+using Microsoft.AppCenter.Crashes;
 using Xamarin.Forms;
 
 namespace EasyBudget.Forms.Pages
 {
     public partial class CheckingDepositEdit : ContentPage
     {
+        CheckingDepositViewModel vm;
+
         public CheckingDepositEdit()
         {
             InitializeComponent();
         }
 
-        protected async void OnSaveClicked(object sender, EventArgs e)
+		protected async override void OnAppearing()
+		{
+			base.OnAppearing();
+
+            vm = this.BindingContext as CheckingDepositViewModel;
+            await vm.LoadBudgetData();
+		}
+
+		protected async void OnSaveClicked(object sender, EventArgs e)
         {
-            bool itemSaved = await (this.BindingContext as CheckingDepositViewModel).SaveChangesAsync();
+            bool itemSaved = await vm.SaveChangesAsync();
             if (itemSaved)
             {
                 await Navigation.PopAsync();
@@ -34,7 +45,15 @@ namespace EasyBudget.Forms.Pages
 
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            await (BindingContext as CheckingDepositViewModel).CategorySelected();
+
+
+            //await vm.CategorySelected();
+
+        }
+
+        protected async void BudgetItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //await vm.LoadBudgetData();
         }
     }
 }

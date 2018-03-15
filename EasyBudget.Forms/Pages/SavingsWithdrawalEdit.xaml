@@ -2,7 +2,7 @@
 <ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 x:Class="EasyBudget.Forms.Pages.SavingsWithdrawalEdit" 
-                Title="Edit Withdrawal"
+                Title="Edit"
                 xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
                 xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
 
@@ -14,10 +14,10 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     
-	<ContentPage.Padding>
+    <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,10,0,0" />
-            <On Platform="Android" Value="10,0,0,0" />
+            <On Platform="iOS" Value="10,10,10,10" />
+            <On Platform="Android" Value="10,10,10,10" />
         </OnPlatform>
     </ContentPage.Padding> 
     
@@ -35,23 +35,32 @@
                                          HeightRequest="25">
                                 </BoxView>
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="Checking Withdrawal: " VerticalOptions="CenterAndExpand"></Label> 
+                                    <Label Text="Withdrawal: " VerticalOptions="CenterAndExpand"></Label> 
                                     <Label Text="{Binding BankName}" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
                                 </StackLayout>
                             </StackLayout>
                         </Frame>
                     </StackLayout>
+
+                    <Label Text="Date" FontAttributes="Bold"></Label>
+                    <DatePicker Date="{Binding TransactionDate}" MinimumDate="{Binding MinTransactionDate}" MaximumDate="{Binding MaxTransactionDate}"></DatePicker>
+                    <Label Text="Amount" FontAttributes="Bold"></Label>
+                    <Entry Text="{Binding TransactionAmount}"></Entry>
+                    <Label Text="Description" FontAttributes="Bold"></Label>
+                    <Entry Text="{Binding Description}"></Entry>
+                    <Label Text="Note" FontAttributes="Bold"></Label>
+                    <Entry Text="{Binding Notation}"></Entry>
                     
                     <Label Text="Category" FontAttributes="Bold"></Label>
-                    <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" SelectedItem="{Binding SelectedCategory}" SelectedIndexChanged="CategoryTypes_SelectedIndexChanged"></Picker>
+                    <Picker ItemsSource="{Binding BudgetCategories}" ItemDisplayBinding="{Binding categoryName}" SelectedItem="{Binding SelectedCategory}"></Picker>
                     <Label Text="Budget Item" FontAttributes="Bold"></Label>
                     <Picker ItemsSource="{Binding BudgetItems}" ItemDisplayBinding="{Binding description}" SelectedItem="{Binding SelectedBudgetItem}"></Picker>
                     <!--<Label Text="Reconciled" FontAttributes="Bold"></Label>
                     <Switch Toggled="{Binding reconciled}"></Switch>-->
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked"></Button>
-                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked"></Button>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <Button x:Name="SaveEdits" Text="Save" Clicked="OnSaveClicked" HorizontalOptions="FillAndExpand"></Button>
+                    <Button x:Name="CancelEdits" Text="Cancel" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
 
             </StackLayout>

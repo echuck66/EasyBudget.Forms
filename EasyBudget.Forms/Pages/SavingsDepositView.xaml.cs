@@ -28,6 +28,8 @@ namespace EasyBudget.Forms.Pages
         protected async void OnDepositEditTapped(object sender, TappedEventArgs e)
         {
             SavingsDepositEdit editor = new SavingsDepositEdit();
+            await vm.LoadBudgetData();
+
             editor.BindingContext = vm;
             await Navigation.PushAsync(editor);
         }

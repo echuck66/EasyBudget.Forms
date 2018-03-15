@@ -55,11 +55,15 @@ namespace EasyBudget.Forms.Pages
                 vm = this.BindingContext as BankAccountViewModel;
             }
             var withdrawalVM = await vm.AddWithdrawalAsync();
-            vm.SelectedRegisterItem = withdrawalVM;
-            if (withdrawalVM != null)
+
+            var _vmWithdrawal = withdrawalVM as CheckingWithdrawalViewModel;
+            await _vmWithdrawal.LoadBudgetData();
+
+            vm.SelectedRegisterItem = _vmWithdrawal;
+            if (_vmWithdrawal != null)
             {
                 CheckingWithdrawalEdit withdrawalViewer = new CheckingWithdrawalEdit();
-                withdrawalViewer.BindingContext = withdrawalVM as CheckingWithdrawalViewModel;
+                withdrawalViewer.BindingContext = _vmWithdrawal;
                 await Navigation.PushAsync(withdrawalViewer);
             }
         }
@@ -79,12 +83,16 @@ namespace EasyBudget.Forms.Pages
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
                     CheckingDepositEdit depEditor = new CheckingDepositEdit();
-                    depEditor.BindingContext = regItem;
+                    CheckingDepositViewModel _vmDep = regItem as CheckingDepositViewModel;
+                    await _vmDep.LoadBudgetData();
+                    depEditor.BindingContext = _vmDep;
                     await Navigation.PushAsync(depEditor);
                     break;
                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
                     CheckingWithdrawalEdit witEditor = new CheckingWithdrawalEdit();
-                    witEditor.BindingContext = regItem as CheckingWithdrawalViewModel;
+                    CheckingWithdrawalViewModel _vmWithdrawal = regItem as CheckingWithdrawalViewModel;
+                    await _vmWithdrawal.LoadBudgetData();
+                    witEditor.BindingContext = _vmWithdrawal;
                     await Navigation.PushAsync(witEditor);
                     break;
             }
@@ -131,12 +139,16 @@ namespace EasyBudget.Forms.Pages
             {
                 case AccountRegisterItemViewModel.AccountItemType.Deposits:
                     CheckingDepositView depositViewer = new CheckingDepositView();
-                    depositViewer.BindingContext = itemVM as CheckingDepositViewModel;
+                    CheckingDepositViewModel _vmDep = itemVM as CheckingDepositViewModel;
+                    await _vmDep.LoadBudgetData();
+                    depositViewer.BindingContext = _vmDep;
                     await Navigation.PushAsync(depositViewer);
                     break;
                 case AccountRegisterItemViewModel.AccountItemType.Withdrawals:
                     CheckingWithdrawalView withdrawalViewer = new CheckingWithdrawalView();
-                    withdrawalViewer.BindingContext = itemVM as CheckingWithdrawalViewModel;
+                    CheckingWithdrawalViewModel _vmWithdrawal = itemVM as CheckingWithdrawalViewModel;
+                    await _vmWithdrawal.LoadBudgetData();
+                    withdrawalViewer.BindingContext = _vmWithdrawal;
                     await Navigation.PushAsync(withdrawalViewer);
                     break;
             }

@@ -21,6 +21,7 @@ using EasyBudget.Data;
 using EasyBudget.Models;
 using EasyBudget.Models.DataModels;
 using EasyBudget.Business.UoWResults;
+using Microsoft.AppCenter.Crashes;
 
 namespace EasyBudget.Business
 {
@@ -247,6 +248,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.Results = false;
                 _results.WorkException = ex;
@@ -271,6 +274,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -294,6 +299,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -319,6 +326,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -344,6 +353,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -375,6 +386,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = false;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -400,6 +413,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -425,6 +440,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -451,6 +468,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -474,6 +493,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -498,6 +519,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -534,6 +557,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -570,6 +595,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -617,6 +644,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -657,6 +686,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -693,6 +724,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -733,6 +766,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -762,6 +797,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -787,6 +824,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -827,6 +866,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -852,6 +893,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -889,6 +932,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -927,6 +972,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -966,6 +1013,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1005,6 +1054,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1028,6 +1079,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1049,6 +1102,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1070,6 +1125,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1091,6 +1148,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1136,6 +1195,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1181,6 +1242,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1226,6 +1289,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1271,6 +1336,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1299,6 +1366,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1325,6 +1394,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = false;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1364,6 +1435,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = false;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1402,6 +1475,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = false;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1440,6 +1515,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = false;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1478,6 +1555,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = false;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1522,6 +1601,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.WorkException = ex;
                 _results.Successful = false;
             }
@@ -1565,6 +1646,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.WorkException = ex;
                 _results.Successful = false;
             }
@@ -1594,6 +1677,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Successful = false;
                 _results.WorkException = ex;
             }
@@ -1619,6 +1704,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1657,6 +1744,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1682,6 +1771,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1707,6 +1798,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = null;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1732,6 +1825,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.Results = false;
                 _results.Successful = false;
                 _results.WorkException = ex;
@@ -1773,6 +1868,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.WorkException = ex;
                 _results.Successful = false;
             }
@@ -1813,6 +1910,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.WorkException = ex;
                 _results.Successful = false;
             }
@@ -1925,6 +2024,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.WorkException = ex;
                 _results.Successful = false;
             }
@@ -2033,6 +2134,8 @@ namespace EasyBudget.Business
             }
             catch (Exception ex)
             {
+                Crashes.TrackError(ex);
+
                 _results.WorkException = ex;
                 _results.Successful = false;
             }

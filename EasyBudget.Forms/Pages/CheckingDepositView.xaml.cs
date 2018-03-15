@@ -14,10 +14,11 @@ namespace EasyBudget.Forms.Pages
             InitializeComponent();
         }
 
-		protected override void OnAppearing()
+		protected async override void OnAppearing()
 		{
 			base.OnAppearing();
             vm = this.BindingContext as CheckingDepositViewModel;
+            await vm.LoadBudgetData();
 		}
 
 		public async void OnBackClicked(object sender, EventArgs e)
@@ -28,6 +29,8 @@ namespace EasyBudget.Forms.Pages
         protected async void OnDepositEditTapped(object sender, TappedEventArgs e)
         {
             CheckingDepositEdit editor = new CheckingDepositEdit();
+            await vm.LoadBudgetData();
+
             editor.BindingContext = vm;
             await Navigation.PushAsync(editor);
         }

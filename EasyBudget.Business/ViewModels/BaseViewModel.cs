@@ -16,6 +16,7 @@ using System;
 using System.ComponentModel;
 using System.Text;
 using EasyBudget.Business.ChartModels;
+using Microsoft.AppCenter.Crashes;
 
 namespace EasyBudget.Business.ViewModels
 {
@@ -130,6 +131,8 @@ namespace EasyBudget.Business.ViewModels
 
         internal void WriteErrorCondition(Exception ex)
         {
+            Crashes.TrackError(ex);
+
             sbErrorBuilder.AppendLine(ex.Message);
 
             if (ex.InnerException != null)
