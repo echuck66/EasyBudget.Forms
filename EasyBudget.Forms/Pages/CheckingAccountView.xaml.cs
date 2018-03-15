@@ -55,11 +55,15 @@ namespace EasyBudget.Forms.Pages
                 vm = this.BindingContext as BankAccountViewModel;
             }
             var withdrawalVM = await vm.AddWithdrawalAsync();
-            vm.SelectedRegisterItem = withdrawalVM;
-            if (withdrawalVM != null)
+
+            var _vmWithdrawal = withdrawalVM as CheckingWithdrawalViewModel;
+            await _vmWithdrawal.LoadBudgetData();
+
+            vm.SelectedRegisterItem = _vmWithdrawal;
+            if (_vmWithdrawal != null)
             {
                 CheckingWithdrawalEdit withdrawalViewer = new CheckingWithdrawalEdit();
-                withdrawalViewer.BindingContext = withdrawalVM as CheckingWithdrawalViewModel;
+                withdrawalViewer.BindingContext = _vmWithdrawal;
                 await Navigation.PushAsync(withdrawalViewer);
             }
         }

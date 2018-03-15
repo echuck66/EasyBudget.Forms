@@ -26,6 +26,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemDate = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionDate)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -44,6 +45,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemAmount = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TransactionAmount)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -62,6 +64,7 @@ namespace EasyBudget.Business.ViewModels
                     this.ItemDescription = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -79,6 +82,7 @@ namespace EasyBudget.Business.ViewModels
                     model.notation = value;
                     this.IsDirty = true;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Notation)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 }
             }
         }
@@ -128,6 +132,8 @@ namespace EasyBudget.Business.ViewModels
             set
             {
                 _SelectedCategory = value;
+                if (value != null)
+                    LoadBudgetItems();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategory)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CanSave)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCategoryName)));
@@ -479,6 +485,11 @@ namespace EasyBudget.Business.ViewModels
                             }
                         }
                     }
+                    else
+                    {
+                        if (this.SelectedCategory != null)
+                            await this.CategorySelected();
+                    }
                     _loaded = true;
                 }
                 else
@@ -495,6 +506,55 @@ namespace EasyBudget.Business.ViewModels
                     {
                         WriteErrorCondition("An unknown error has occurred getting category records");
                     }
+                }
+            }
+
+            return _loaded;
+        }
+    
+
+
+        bool LoadBudgetItems()
+        {
+            bool _loaded = false;
+
+            if (this.SelectedCategory != null)
+            {
+                this.SelectedBudgetItem = null;
+
+                using (UnitOfWork uow = new UnitOfWork(this.dbFilePath))
+                {
+                    if (this.BudgetItems.Count > 0)
+                    {
+                        for (int i = this.BudgetItems.Count - 1; i >= 0; i--)
+                        {
+                            this.BudgetItems.RemoveAt(i);
+                        }
+                    }
+                    var _resultsIncome = Task.Run(() => uow.GetCategoryIncomeItemsAsync(this.SelectedCategory)).Result;
+                    if (_resultsIncome.Successful)
+                    {
+                        foreach (var bi in _resultsIncome.Results)
+                        {
+                            this.BudgetItems.Add(bi);
+                            if (bi.id == this.BudgetItemId)
+                                this.SelectedBudgetItem = bi;
+                        }
+                        _loaded = true;
+                    }
+                    var _resultsExpenses = Task.Run(() => uow.GetCategoryExpenseItemsAsync(this.SelectedCategory)).Result;
+                    if (_resultsExpenses.Successful)
+                    {
+                        foreach (var bx in _resultsExpenses.Results)
+                        {
+                            this.BudgetItems.Add(bx);
+                            if (bx.id == this.BudgetItemId)
+                                this.SelectedBudgetItem = bx;
+                        }
+                        _loaded = true;
+                    }
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItems)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BudgetItemSelectEnabled)));
                 }
             }
 

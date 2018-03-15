@@ -45,7 +45,12 @@ namespace EasyBudget.Forms.Pages
         protected async void CategoryTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-            await vm.CategorySelected();
+            //await vm.CategorySelected();
+        }
+
+        protected async void BudgetItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //await vm.LoadBudgetData();
         }
     }
 }

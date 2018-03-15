@@ -39,11 +39,14 @@ namespace EasyBudget.Forms.Pages
                 vm = this.BindingContext as BankAccountViewModel;
             }
             var depositVM = await vm.AddDepositAsync();
-            vm.SelectedRegisterItem = depositVM;
+            var _vmDeposit = depositVM as SavingsDepositViewModel;
+            await _vmDeposit.LoadBudgetData();
+
+            vm.SelectedRegisterItem = _vmDeposit;
             if (depositVM != null)
             {
                 SavingsDepositEdit depositViewer = new SavingsDepositEdit();
-                depositViewer.BindingContext = depositVM as SavingsDepositViewModel;
+                depositViewer.BindingContext = _vmDeposit;
                 await Navigation.PushAsync(depositViewer);
             }
         }
@@ -55,11 +58,14 @@ namespace EasyBudget.Forms.Pages
                 vm = this.BindingContext as BankAccountViewModel;
             }
             var withdrawalVM = await vm.AddWithdrawalAsync();
-            vm.SelectedRegisterItem = withdrawalVM;
+            var _vmWithdrawal = withdrawalVM as SavingsWithdrawalViewModel;
+            await _vmWithdrawal.LoadBudgetData();
+
+            vm.SelectedRegisterItem = _vmWithdrawal;
             if (withdrawalVM != null)
             {
                 SavingsWithdrawalEdit withdrawalViewer = new SavingsWithdrawalEdit();
-                withdrawalViewer.BindingContext = withdrawalVM as SavingsWithdrawalViewModel;
+                withdrawalViewer.BindingContext = _vmWithdrawal;
                 await Navigation.PushAsync(withdrawalViewer);
             }
         }
