@@ -21,9 +21,14 @@ namespace EasyBudget.Forms.Pages
 		{
 			base.OnAppearing();
             vm = this.BindingContext as BudgetItemViewModel;
-
-
 		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            vm = null;
+		}
+
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             await (this.BindingContext as BudgetItemViewModel).SaveChangesAsync();

@@ -278,13 +278,23 @@ namespace EasyBudget.Business.ViewModels
             }
             foreach(var _list in _registerVMsByCategory)
             {
-                decimal _catValue = _list.Sum(r => r.ItemAmount);
-                ChartDataEntry _entry = new ChartDataEntry();
-                _entry.FltValue = (float)_catValue;
-                _entry.Label = "Category Total";
-                _entry.ColorCode = _list.First().ObjectColorCode;
-                //incomeCategorizedGroup.ChartDataItems.Add(_entry);
-                allCategorizedGroup.ChartDataItems.Add(_entry);
+                foreach (var _listItm in _list)
+                {
+                    decimal _itmValue = _listItm.ItemAmount;
+                    ChartDataEntry _entry = new ChartDataEntry();
+                    _entry.FltValue = (float)(_itmValue);
+                    _entry.Label = "Item Value";
+                    _entry.ValueLabel = _itmValue.ToString("C");
+                    _entry.ColorCode = _listItm.ObjectColorCode;
+                    allCategorizedGroup.ChartDataItems.Add(_entry);
+                }
+                //decimal _catValue = _list.Sum(r => r.ItemAmount);
+                //ChartDataEntry _entry = new ChartDataEntry();
+                //_entry.FltValue = (float)_catValue;
+                //_entry.Label = "Category Total";
+                //_entry.ColorCode = _list.First().ObjectColorCode;
+                ////incomeCategorizedGroup.ChartDataItems.Add(_entry);
+                //allCategorizedGroup.ChartDataItems.Add(_entry);
             }
 
             // and Withdrawals
@@ -308,13 +318,23 @@ namespace EasyBudget.Business.ViewModels
             }
             foreach (var _list in _registerVMsByCategory)
             {
-                decimal _catValue = _list.Sum(r => r.ItemAmount);
-                ChartDataEntry _entry = new ChartDataEntry();
-                _entry.FltValue = (float)(-1 * _catValue);
-                _entry.Label = "Category Total";
-                _entry.ColorCode = _list.First().ObjectColorCode;
-                //spendingCategorizedGroup.ChartDataItems.Add(_entry);
-                allCategorizedGroup.ChartDataItems.Add(_entry);
+                foreach (var _listItm in _list)
+                {
+                    decimal _itmValue = _listItm.ItemAmount;
+                    ChartDataEntry _entry = new ChartDataEntry();
+                    _entry.FltValue = (float)(-1 * _itmValue);
+                    _entry.Label = "Item Value";
+                    _entry.ValueLabel = _itmValue.ToString("C");
+                    _entry.ColorCode = _listItm.ObjectColorCode;
+                    allCategorizedGroup.ChartDataItems.Add(_entry);
+                }
+                //decimal _catValue = _list.Sum(r => r.ItemAmount);
+                //ChartDataEntry _entry = new ChartDataEntry();
+                //_entry.FltValue = (float)(-1 * _catValue);
+                //_entry.Label = "Category Total";
+                //_entry.ColorCode = _list.First().ObjectColorCode;
+                ////spendingCategorizedGroup.ChartDataItems.Add(_entry);
+                //allCategorizedGroup.ChartDataItems.Add(_entry);
             }
 
             chartPack.Charts.Add(allCategorizedGroup);

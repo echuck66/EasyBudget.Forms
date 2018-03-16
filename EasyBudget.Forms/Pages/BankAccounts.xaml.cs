@@ -38,6 +38,7 @@ namespace EasyBudget.Forms.Pages
             base.OnDisappearing();
             vm?.Dispose();
             vm = null;
+            chartAllCategories.Chart = null;
         }
 
 

@@ -41,6 +41,8 @@ namespace EasyBudget.Forms.Pages
             base.OnDisappearing();
             vm?.Dispose();
             vm = null;
+            chartIncome.Chart = null;
+            chartExpenses.Chart = null;
         }
 
         protected void OnItemSelected(object sender, SelectedItemChangedEventArgs e)

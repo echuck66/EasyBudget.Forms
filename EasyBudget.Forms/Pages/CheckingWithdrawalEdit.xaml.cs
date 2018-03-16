@@ -20,6 +20,12 @@ namespace EasyBudget.Forms.Pages
             vm = this.BindingContext as CheckingWithdrawalViewModel;
 		}
 
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            vm = null;
+		}
+
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             bool itemSaved = await (this.BindingContext as CheckingWithdrawalViewModel).SaveChangesAsync();

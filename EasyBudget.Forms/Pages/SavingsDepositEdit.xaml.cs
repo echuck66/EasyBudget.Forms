@@ -20,6 +20,12 @@ namespace EasyBudget.Forms.Pages
             vm = this.BindingContext as SavingsDepositViewModel;
 		}
 
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            vm = null;
+		}
+
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             bool itemSaved = await vm.SaveChangesAsync();

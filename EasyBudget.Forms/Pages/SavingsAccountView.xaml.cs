@@ -29,7 +29,14 @@ namespace EasyBudget.Forms.Pages
             chartAccountSummary.Chart = await provider.GetChartAsync(vm, 0, false);
         }
 
-        public async void OnBackClicked(object sender, EventArgs e)
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            vm = null;
+            chartAccountSummary.Chart = null;
+		}
+
+		public async void OnBackClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
         }
@@ -165,6 +172,9 @@ namespace EasyBudget.Forms.Pages
         {
             stackRoutingNumber.IsVisible = !stackRoutingNumber.IsVisible;
             stackAccountNumber.IsVisible = !stackAccountNumber.IsVisible;
+            stackTotalDeposits.IsVisible = !stackTotalDeposits.IsVisible;
+            stackTotalWithdrawals.IsVisible = !stackTotalWithdrawals.IsVisible;
+
             if (lblShowMoreLess.Text == "Show More")
             {
                 lblShowMoreLess.Text = "Show Less";

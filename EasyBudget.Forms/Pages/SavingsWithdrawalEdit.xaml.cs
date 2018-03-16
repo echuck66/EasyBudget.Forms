@@ -21,6 +21,12 @@ namespace EasyBudget.Forms.Pages
             //await vm.LoadBudgetData();
 		}
 
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            vm = null;
+		}
+
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             //await (this.BindingContext as SavingsWithdrawalViewModel).SaveChangesAsync();
