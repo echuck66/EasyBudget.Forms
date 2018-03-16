@@ -20,6 +20,12 @@ namespace EasyBudget.Forms.Pages
             vm = this.BindingContext as SavingsDepositViewModel;
 		}
 
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            vm = null;
+		}
+
 		public async void OnBackClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();

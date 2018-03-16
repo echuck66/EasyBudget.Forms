@@ -45,9 +45,9 @@
                     <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                         <Frame.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
-                                    <On Platform="iOS" Value="150" />
-                                    <On Platform="Android" Value="150" />
-                                    <On Platform="UWP" Value="150" />
+                                    <On Platform="iOS" Value="180" />
+                                    <On Platform="Android" Value="180" />
+                                    <On Platform="UWP" Value="180" />
                                 </OnPlatform>
                         </Frame.HeightRequest>
                         <StackLayout>
@@ -72,11 +72,11 @@
                                 <Label Text="Account Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                                 <Label Text="{Binding AccountNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                             </StackLayout>
-                            <StackLayout Orientation="Horizontal">
+                            <StackLayout x:Name="stackTotalDeposits" Orientation="Horizontal" IsVisible="false">
                                 <Label Text="Total Deposits" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
                                 <Label Text="{Binding TotalDeposits, StringFormat='{0:C}'}" TextColor="Green" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
                             </StackLayout>
-                            <StackLayout Orientation="Horizontal">
+                            <StackLayout x:Name="stackTotalWithdrawals" Orientation="Horizontal" IsVisible="false">
                                 <Label Text="Total Withdrawals" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
                                 <Label Text="{Binding TotalWithdrawals, StringFormat='({0:C})'}" TextColor="Red" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
                             </StackLayout>

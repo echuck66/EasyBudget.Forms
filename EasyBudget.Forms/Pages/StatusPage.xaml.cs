@@ -37,6 +37,10 @@ namespace EasyBudget.Forms.Pages
         {
             base.OnDisappearing();
             vm = null;
+
+            chartIncome.Chart = null;
+            chartExpenses.Chart = null;
+            chartAccountTransactions.Chart = null;
         }
 
         protected async void btnBudgetCategries_Clicked(object sender, EventArgs e)

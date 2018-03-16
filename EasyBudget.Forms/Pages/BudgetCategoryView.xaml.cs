@@ -30,13 +30,19 @@ namespace EasyBudget.Forms.Pages
             chartCategory.Chart = await provider.GetChartAsync(vm, 0, false);
         }
 
-        //public async void OnBackClicked(object sender, EventArgs e)
-        //{
-        //    await Navigation.PopModalAsync();
-        //}
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            vm = null;
+		}
+
+		//public async void OnBackClicked(object sender, EventArgs e)
+		//{
+		//    await Navigation.PopModalAsync();
+		//}
 
 
-        public async void btnNewBudgetItem_Clicked(object sender, EventArgs eventArgs)
+		public async void btnNewBudgetItem_Clicked(object sender, EventArgs eventArgs)
         {
             if (vm == null)
             {

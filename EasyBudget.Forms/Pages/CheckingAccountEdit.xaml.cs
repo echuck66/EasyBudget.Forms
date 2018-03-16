@@ -24,6 +24,12 @@ namespace EasyBudget.Forms.Pages
             //chartAccountSummary.Chart = await ChartUtility.Instance.GetChartAsync(vm);
 		}
 
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+            vm = null;
+		}
+
 		protected async void OnSaveClicked(object sender, EventArgs e)
         {
             await (this.BindingContext as BankAccountViewModel).SaveChangesAsync();
