@@ -8,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using EasyBudget.Business;
+using Android.Gms.Ads;
 
 namespace EasyBudget.Droid
 {
@@ -28,6 +29,7 @@ namespace EasyBudget.Droid
             container.Register<IDataServiceHelper, DataServiceHelper>();
             container.Create<EasyBudgetDataService>();
 
+            MobileAds.Initialize(this, "ca-app-pub-6358883513529026~8829832354");
 
             LoadApplication(new App());
         }

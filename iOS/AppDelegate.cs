@@ -4,6 +4,7 @@ using System.Linq;
 using EasyBudget.Business;
 using EasyBudget.Forms;
 using Foundation;
+using Google.MobileAds;
 using UIKit;
 
 namespace EasyBudget.iOS
@@ -21,7 +22,8 @@ namespace EasyBudget.iOS
             container.Register<IDataServiceHelper, DataServiceHelper>();
             container.Create<EasyBudgetDataService>();
 
-
+            MobileAds.Configure("ca-app-pub-6358883513529026~4075666294");
+            //MobileAds.Configure("ca-app-pub-3940256099942544~3347511713");
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

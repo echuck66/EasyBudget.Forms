@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="EasyBudget.Forms.Pages.BudgetCategoryView" Title="Category" 
              xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-             xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters" >
+             xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters" 
+             xmlns:ads="clr-namespace:EasyBudget.Forms.Views">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -97,8 +98,9 @@
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                     <Button x:Name="btnNewBudgetItem" Text="New Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
-                </StackLayout>
-            </StackLayout>
 
+                </StackLayout>
+
+            </StackLayout>
     </ContentPage.Content>
 </ContentPage>
