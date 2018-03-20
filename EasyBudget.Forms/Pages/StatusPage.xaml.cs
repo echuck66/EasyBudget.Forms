@@ -51,6 +51,8 @@ namespace EasyBudget.Forms.Pages
 
         protected async void btnBankAccounts_Clicked(object sender, EventArgs e)
         {
+            //Utility.ColorUtility.ColorPicker picker = new Utility.ColorUtility.ColorPicker();
+            //await Navigation.PushAsync(picker);
             await Navigation.PushAsync(new BankAccounts());
         }
     }

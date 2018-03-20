@@ -25,7 +25,7 @@ namespace EasyBudget.iOS.Renderers
                 adView = new BannerView(AdSizeCons.SmartBannerPortrait)
                 {
                     //AdUnitID = "ca-app-pub-6358883513529026/4028398988",
-                    //AdUnitID = "ca-app-pub-3940256099942544/6300978111",
+
                     // Test Ad Unit
                     AdUnitID = "ca-app-pub-3940256099942544/6300978111",
                     RootViewController = GetRootViewController()

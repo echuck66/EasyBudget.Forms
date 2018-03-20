@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="EasyBudget.Forms.Pages.SavingsAccountView" Title="Account"
                 xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters"
+                xmlns:ads="clr-namespace:EasyBudget.Forms.Views">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -13,17 +14,13 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,10,10,10" />
-            <On Platform="Android" Value="10,10,10,10" />
-        </OnPlatform>
-    </ContentPage.Padding> 
-    
 	<ContentPage.Content>
-            <StackLayout Spacing="10">
+            <StackLayout>
+                <StackLayout MinimumHeightRequest="50">
+                    <ads:AdMobView />
+                </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <Frame Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
                             <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
                                      WidthRequest="25"
@@ -42,56 +39,45 @@
                     </Frame>
                 </StackLayout>
                 <StackLayout>
-                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
-                        <Frame.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                    <On Platform="iOS" Value="180" />
-                                    <On Platform="Android" Value="180" />
-                                    <On Platform="UWP" Value="180" />
-                                </OnPlatform>
-                        </Frame.HeightRequest>
-                        <StackLayout>
-                            <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            </charts:ChartView>
-                            <Label Text="Deposits and Withdrawals By Category" HorizontalOptions="FillAndExpand"></Label>
-                        </StackLayout>
-                    </Frame>
+                    <StackLayout HeightRequest="180" Padding="5">
+                        <charts:ChartView x:Name="chartAccountSummary" Opacity="0.75" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        </charts:ChartView>
+                        <Label Text="Deposits and Withdrawals By Category" HorizontalOptions="FillAndExpand"></Label>
+                    </StackLayout>
                 </StackLayout>
-                <StackLayout VerticalOptions="FillAndExpand">
-                    <Frame OutlineColor="Accent" Padding="5" BackgroundColor="White">
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Bank Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding BankName}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout x:Name="stackRoutingNumber" Orientation="Horizontal" IsVisible="false">
-                                <Label Text="Routing Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding RoutingNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout x:Name="stackAccountNumber" Orientation="Horizontal" IsVisible="false">
-                                <Label Text="Account Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding AccountNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout x:Name="stackTotalDeposits" Orientation="Horizontal" IsVisible="false">
-                                <Label Text="Total Deposits" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
-                                <Label Text="{Binding TotalDeposits, StringFormat='{0:C}'}" TextColor="Green" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
-                            </StackLayout>
-                            <StackLayout x:Name="stackTotalWithdrawals" Orientation="Horizontal" IsVisible="false">
-                                <Label Text="Total Withdrawals" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
-                                <Label Text="{Binding TotalWithdrawals, StringFormat='({0:C})'}" TextColor="Red" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Current Balance" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-
-                            <Label x:Name="lblShowMoreLess" Text="Show More" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnShowMoreTapped"></TapGestureRecognizer>
-                                </Label.GestureRecognizers>
-                            </Label>
+                <StackLayout VerticalOptions="FillAndExpand" Padding="5" Spacing="5">
+                    <StackLayout Spacing="5">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Bank Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding BankName}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
-                    </Frame>
+                        <StackLayout x:Name="stackRoutingNumber" Orientation="Horizontal" IsVisible="false">
+                            <Label Text="Routing Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding RoutingNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout x:Name="stackAccountNumber" Orientation="Horizontal" IsVisible="false">
+                            <Label Text="Account Number" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding AccountNumber}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout x:Name="stackTotalDeposits" Orientation="Horizontal" IsVisible="false">
+                            <Label Text="Total Deposits" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
+                            <Label Text="{Binding TotalDeposits, StringFormat='{0:C}'}" TextColor="Green" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
+                        </StackLayout>
+                        <StackLayout x:Name="stackTotalWithdrawals" Orientation="Horizontal" IsVisible="false">
+                            <Label Text="Total Withdrawals" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"></Label> 
+                            <Label Text="{Binding TotalWithdrawals, StringFormat='({0:C})'}" TextColor="Red" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label> 
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Current Balance" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding CurrentBalance, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+
+                        <Label x:Name="lblShowMoreLess" Text="Show More" TextColor="Blue" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="End">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="OnShowMoreTapped"></TapGestureRecognizer>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
                     <ListView   ItemsSource="{Binding AccountRegisterGrouped}" 
                                 ItemSelected="OnItemSelected" 
                                 IsGroupingEnabled="true" 

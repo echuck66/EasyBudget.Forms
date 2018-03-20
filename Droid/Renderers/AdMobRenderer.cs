@@ -33,6 +33,7 @@ namespace EasyBudget.Droid.Renderers
                 {
                     AdSize = AdSize.SmartBanner,
                     //AdUnitId = "ca-app-pub-6358883513529026/4369565362"
+
                     // Test Ad Unit
                     AdUnitId = "ca-app-pub-3940256099942544/6300978111"
                 };

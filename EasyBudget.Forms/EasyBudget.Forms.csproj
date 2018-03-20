@@ -25,6 +25,7 @@
     <Folder Include="Utility\" />
     <Folder Include="Views\" />
     <Folder Include="Utility\ColorUtility\" />
+    <Folder Include="Utility\Gestures\" />
   </ItemGroup>
     
   <ItemGroup>

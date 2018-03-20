@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="EasyBudget.Forms.Pages.StatusPage" Title="EasyBudget"
-    xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
-             xmlns:ads="clr-namespace:EasyBudget.Forms.Views">
+<ContentPage    xmlns="http://xamarin.com/schemas/2014/forms" 
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                x:Class="EasyBudget.Forms.Pages.StatusPage" Title="EasyBudget"
+                xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
+                xmlns:ads="clr-namespace:EasyBudget.Forms.Views">
     
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
@@ -12,14 +12,16 @@
         </OnPlatform>
     </ContentPage.Padding> 
     
-	<ContentPage.Content>
+    <ContentPage.Content>
+        
         <ScrollView>
-            <StackLayout Spacing="0">
+            <StackLayout>
                 <ads:AdMobView />
-                <StackLayout>
-                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                <StackLayout Padding="5" Spacing="5">
                         <StackLayout>
-                            <Label Text="Budget Status" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
+                            <Frame Padding="5" HorizontalOptions="FillAndExpand">
+                                <Label Text="Budget Status" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
+                            </Frame>
                             <StackLayout Orientation="Horizontal">
                                 <charts:ChartView x:Name="chartIncome" Opacity="0.75" HorizontalOptions="FillAndExpand">
                                     <charts:ChartView.HeightRequest>
@@ -45,18 +47,18 @@
                                 <Label HorizontalOptions="CenterAndExpand" Text="Expenses"></Label>
                             </StackLayout>
                         </StackLayout>
-                    </Frame>
                     <Button x:Name="btnCategories" Text="Budgeting" Clicked="btnBudgetCategries_Clicked" HorizontalOptions="FillAndExpand"></Button>
-                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                         <StackLayout>
-                            <Label Text="Account Transactions" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
+                            <Frame Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                                <Label Text="Account Transactions" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></Label>
+                            </Frame>
                             <StackLayout Orientation="Horizontal">
                                 <charts:ChartView x:Name="chartAccountTransactions" Opacity="0.75" HorizontalOptions="FillAndExpand">
                                     <charts:ChartView.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
-                                                <On Platform="iOS" Value="150" />
-                                                <On Platform="Android" Value="150" />
-                                                <On Platform="UWP" Value="150" />
+                                                <On Platform="iOS" Value="100" />
+                                                <On Platform="Android" Value="100" />
+                                                <On Platform="UWP" Value="100" />
                                         </OnPlatform>
                                     </charts:ChartView.HeightRequest>
                                 </charts:ChartView>
@@ -66,7 +68,6 @@
                                 
                             </StackLayout>
                         </StackLayout>
-                    </Frame>
                     <Button x:Name="btnBankAccounts" Text="Banking" Clicked="btnBankAccounts_Clicked" HorizontalOptions="FillAndExpand"></Button>
                 </StackLayout>
 

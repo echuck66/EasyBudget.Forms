@@ -4,13 +4,14 @@
                 x:Class="EasyBudget.Forms.Pages.BankAccounts" 
                 Title="Accounts"
                 xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters" >
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters" 
+                xmlns:ads="clr-namespace:EasyBudget.Forms.Views" >
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <cvt:ColorConverter x:Key="colorCvt"/> 
             <cvt:ColorCodeConverter x:Key="codeCvt"/>
-            <cvt:ColorNameConverter x:Key="nameCvt"/>>
+            <cvt:ColorNameConverter x:Key="nameCvt"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -19,29 +20,25 @@
     </ContentPage.ToolbarItems>--> 
     
     <ContentPage.Content>
-        <StackLayout Spacing="10">
+        <StackLayout>
             <StackLayout>
+                <StackLayout MinimumHeightRequest="50">
+                    <ads:AdMobView />
+                </StackLayout>
                 <StackLayout>
-                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <Frame Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
                             <Label Text="Bank Accounts" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"></Label>
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-                <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
-                    <StackLayout>
+                <!--<Frame Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">-->
+                    <StackLayout HeightRequest="180" Padding="5">
                         <StackLayout Orientation="Horizontal">
                             <Label Text="Deposits and WIthdrawals" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center"></Label>
                         </StackLayout>
                         <StackLayout Orientation="Horizontal">   
-                            <charts:ChartView x:Name="chartAllCategories" Opacity="0.75" HorizontalOptions="FillAndExpand">
-                                <charts:ChartView.HeightRequest>
-                                    <OnPlatform x:TypeArguments="x:Double">
-                                        <On Platform="iOS" Value="150" />
-                                        <On Platform="Android" Value="150" />
-                                        <On Platform="UWP" Value="150" />
-                                    </OnPlatform>
-                                </charts:ChartView.HeightRequest>
+                            <charts:ChartView x:Name="chartAllCategories" Opacity="0.75" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                             </charts:ChartView>  
                             <!--<charts:ChartView x:Name="chartWithdrawals" Opacity="0.75" HorizontalOptions="FillAndExpand">
                                 <charts:ChartView.HeightRequest>
@@ -57,7 +54,7 @@
                             <Label Text="By Category" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"></Label>
                         </StackLayout>
                     </StackLayout>
-                </Frame>
+                <!--</Frame>-->
                 <!--<charts:ChartView x:Name="chartAccountBalances" Opacity="0.75" HorizontalOptions="FillAndExpand">
                     <charts:ChartView.HeightRequest>
                         <OnPlatform x:TypeArguments="x:Double">

@@ -3,7 +3,8 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                 x:Class="EasyBudget.Forms.Pages.BudgetCategories" Title="Budget Categories"
                 xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
+                xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters"
+                xmlns:ads="clr-namespace:EasyBudget.Forms.Views">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -11,29 +12,20 @@
             <cvt:ColorCodeConverter x:Key="codeCvt"/>
             <cvt:ColorNameConverter x:Key="nameCvt"/>>
         </ResourceDictionary>
-    </ContentPage.Resources>
-    
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,10,10,10" />
-            <On Platform="Android" Value="10,10,10,10" />
-        </OnPlatform>
-    </ContentPage.Padding> 
-    
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Name="NewCategory" Order="Primary" Text="New" Clicked="OnNewItemClicked"></ToolbarItem>
-    </ContentPage.ToolbarItems>-->    
+    </ContentPage.Resources> 
     
     <ContentPage.Content>
         <StackLayout>
+            <StackLayout MinimumHeightRequest="50">
+                <ads:AdMobView />
+            </StackLayout>
             <StackLayout>
-                <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                <Frame Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                     <Label Text="Budget Categories"></Label>
                 </Frame>
             </StackLayout>
-            <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+            <!--<Frame Padding="0" HorizontalOptions="FillAndExpand" BackgroundColor="White">-->
                 <StackLayout>
-                    <Label Text="Budget Totals"></Label>
                     <StackLayout Orientation="Horizontal">   
                         <charts:ChartView x:Name="chartExpenses" Opacity="0.9" HorizontalOptions="FillAndExpand">
                             <charts:ChartView.HeightRequest>
@@ -59,10 +51,10 @@
                         <Label Text="Expenses" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Label>
                     </StackLayout>
                 </StackLayout>
-            </Frame>
-            <StackLayout HorizontalOptions="FillAndExpand">
-            <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
-                <StackLayout>
+            <!--</Frame>-->
+            <StackLayout HorizontalOptions="FillAndExpand" Padding="5">
+            <!--<Frame Padding="0" HorizontalOptions="FillAndExpand">-->
+                <StackLayout Spacing="5">
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Total Budgeted Income" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
                         <Label Text="{Binding TotalBudgetedIncome, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
@@ -72,9 +64,9 @@
                         <Label Text="{Binding TotalBudgetedExpenses, StringFormat='{0:C}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
                     </StackLayout>
                 </StackLayout>
-                </Frame>
+            <!--</Frame>-->
             </StackLayout>
-            <StackLayout VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand" Padding="5" Spacing="5">
                 <!--<Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                     <Label Text="Budget Categories"></Label>
                 </Frame>-->

@@ -26,7 +26,7 @@
         <StackLayout Spacing="10">
             <StackLayout VerticalOptions="FillAndExpand">
                 <StackLayout Orientation="Horizontal">
-                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <Frame Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                             <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
                                      WidthRequest="25"
@@ -44,7 +44,7 @@
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-                <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                <Frame Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                             <Label Text="Date" FontAttributes="Bold"></Label>

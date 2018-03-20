@@ -13,19 +13,16 @@
             <cvt:ColorNameConverter x:Key="nameCvt"/>>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,10,10,10" />
-            <On Platform="Android" Value="10,10,10,10" />
-        </OnPlatform>
-    </ContentPage.Padding>  
+     
 
     <ContentPage.Content>
 
-            <StackLayout Spacing="10">
+            <StackLayout>
+                <StackLayout MinimumHeightRequest="50">
+                    <ads:AdMobView />
+                </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <Frame Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
                             <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
                                      WidthRequest="25"
@@ -37,40 +34,41 @@
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-                <StackLayout>
-                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+                <StackLayout HeightRequest="100" HorizontalOptions="FillAndExpand">
+                    <!--<Frame Padding="5" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                         <Frame.HeightRequest>
                             <OnPlatform x:TypeArguments="x:Double">
                                     <On Platform="iOS" Value="100" />
                                     <On Platform="Android" Value="100" />
                                     <On Platform="UWP" Value="100" />
                                 </OnPlatform>
-                        </Frame.HeightRequest>
+                        </Frame.HeightRequest>-->
                         <charts:ChartView x:Name="chartCategory" Opacity="0.75" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                         </charts:ChartView>
-                    </Frame>
+                    <!--</Frame>-->
                 </StackLayout>
-                <StackLayout VerticalOptions="FillAndExpand">
-                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding Name}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Description" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding Description}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Type" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding CategoryType}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Budgeted Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
-                                <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
-                            </StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand" Padding="5">
+                    <!--<Frame Padding="5" HorizontalOptions="FillAndExpand">-->
+                    <StackLayout Spacing="5">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Name" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding Name}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
                         </StackLayout>
-                    </Frame>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Description" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding Description}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Type" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding CategoryType}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Budgeted Amount" FontAttributes="Bold" HorizontalOptions="FillAndExpand"></Label>
+                            <Label Text="{Binding Amount, StringFormat='{0:C}'}" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End"></Label>
+                        </StackLayout>
+                    </StackLayout>
+                    <!--</Frame>-->
+                    <BoxView Color="Gray" Opacity="0.5" HeightRequest="1" HorizontalOptions="FillAndExpand"></BoxView>
                     <ListView ItemsSource="{Binding BudgetItems}" ItemSelected="OnItemSelected" ItemTapped="OnItemTapped">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -98,7 +96,6 @@
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                     <Button x:Name="btnNewBudgetItem" Text="New Budget Item" HorizontalOptions="FillAndExpand" Clicked="btnNewBudgetItem_Clicked" IsEnabled="{Binding CanAddItems}"></Button>
-
                 </StackLayout>
 
             </StackLayout>

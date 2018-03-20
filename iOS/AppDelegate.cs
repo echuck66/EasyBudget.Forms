@@ -23,7 +23,6 @@ namespace EasyBudget.iOS
             container.Create<EasyBudgetDataService>();
 
             MobileAds.Configure("ca-app-pub-6358883513529026~4075666294");
-            //MobileAds.Configure("ca-app-pub-3940256099942544~3347511713");
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

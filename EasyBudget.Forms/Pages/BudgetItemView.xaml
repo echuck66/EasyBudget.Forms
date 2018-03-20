@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="EasyBudget.Forms.Pages.BudgetItemView" Title="Budget Item"
              xmlns:charts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-             xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters">
+             xmlns:cvt="clr-namespace:EasyBudget.Forms.Converters" 
+             xmlns:ads="clr-namespace:EasyBudget.Forms.Views">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -12,19 +13,16 @@
             <cvt:ColorNameConverter x:Key="nameCvt"/>>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
-    <ContentPage.Padding>
-        <OnPlatform x:TypeArguments="Thickness">
-            <On Platform="iOS" Value="10,10,10,10" />
-            <On Platform="Android" Value="10,10,10,10" />
-        </OnPlatform>
-    </ContentPage.Padding> 
+
     
 	<ContentPage.Content>
         <ScrollView>
-            <StackLayout Spacing="10">
+            <StackLayout>
+                <StackLayout MinimumHeightRequest="50">
+                    <ads:AdMobView />
+                </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Frame OutlineColor="Accent" Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
+                    <Frame Padding="5" HeightRequest="30" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal">
                             <BoxView Color="{Binding ColorCode, Converter={StaticResource colorCvt}}" HorizontalOptions="Start"
                                      WidthRequest="25"
@@ -50,9 +48,9 @@
                     </charts:ChartView>
                 </StackLayout>-->
                 
-                <StackLayout VerticalOptions="FillAndExpand">
-                    <Frame OutlineColor="Accent" Padding="5" HorizontalOptions="FillAndExpand">
-                    <StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand" Padding="5">
+                    <!--<Frame Padding="5" HorizontalOptions="FillAndExpand">-->
+                    <StackLayout Spacing="5">
                         <StackLayout Orientation="Horizontal">
                             <Label Text="Category" FontAttributes="Bold"></Label>
                             <Label Text="{Binding CategoryName}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
@@ -82,7 +80,7 @@
                             <Label Text="{Binding StartDate, StringFormat='{0:MM/dd/yyyy}'}" HorizontalTextAlignment="End" HorizontalOptions="EndAndExpand"></Label>
                         </StackLayout>
                         </StackLayout>
-                    </Frame>
+                    <!--</Frame>-->
                 </StackLayout>
             </StackLayout>
         </ScrollView>
